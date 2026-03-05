@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,13 +10,25 @@ public class GameManager : MonoBehaviour
     public bool Day = false;
     public bool Night = false;
 
+    [Header("텍스트")]
+    //낮인지 밤인지 적는 텍스트
+    public TMP_Text DayorNight;
+
+    //n일차
+    public int DayCount = 0;
+
     void Start()
+    {
+        BbangSetting();
+        Day = true;
+    }
+
+    void Update()
     {
 
     }
 
-
-    void Update()
+    private void BbangSetting()
     {
 
     }

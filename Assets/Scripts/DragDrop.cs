@@ -10,7 +10,7 @@ public class DragDrop : MonoBehaviour
 
     private Vector3 PrePos = Vector3.zero;
     private Vector3 BeforePosition;
-    private Vector3 Offset = new Vector3(0.0f, 1.0f, 0.0f);
+    private Vector3 Offset = new Vector3(0.0f, 0.0f, 0.0f);
 
     [SerializeField]
     private GameObject MoveObj;
@@ -18,7 +18,6 @@ public class DragDrop : MonoBehaviour
 
     void Update()
     {
-#if UNITY_EDITOR
         LastTouchPos = CurrentTouchPos;
         CurrentTouchPos = Input.mousePosition;
 
@@ -38,37 +37,11 @@ public class DragDrop : MonoBehaviour
                 TouchStayEvent();
             }
         }
-
         if (Input.GetMouseButtonUp(0))
         {
             TouchEndedEvent();
         }
-#else
-        if (Input.touchCount <= 0) return;
 
-        Touch touchInfo = Input.GetTouch(0);
-        LastTouchPos = CurrentTouchPos;
-        CurrentTouchPos = touchInfo.position;
-
-        switch (touchInfo.phase)
-            {
-                case TouchPhase.Began:
-                    TouchBeganEvent();
-                    break;
-
-                case TouchPhase.Moved:
-                    TouchMovedEvent();
-                    break;
-
-                case TouchPhase.Stationary:
-                    TouchStayEvent();
-                    break;
-
-                case TouchPhase.Ended:
-                    TouchEndedEvent();
-                    break;
-            }
-#endif
 
 #if UNITY_EDITOR
         // 캐릭터 Ray 확인용 
@@ -77,16 +50,37 @@ public class DragDrop : MonoBehaviour
             Ray ray = new Ray(MoveObj.transform.position, Camera.main.transform.forward);
             Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red);
         }
-    }
+        Vector3 TouchPos = new Vector3(0, 0, 0);
+#if UNITY_EDITOR
+        TouchPos = Input.mousePosition;
 #endif
+        Ray test_ray = Camera.main.ScreenPointToRay(TouchPos);
+
+        Debug.DrawRay(test_ray.origin, test_ray.direction * 1000, Color.blue);
+#endif
+    }
+
 
     private void TouchBeganEvent()
     {
-
+        MoveObj = OnClickObjTag(MoveObjTAG);
+        if (MoveObj != null)
+        {
+            BeforePosition = MoveObj.transform.position;
+        }
     }
     private void TouchMovedEvent()
     {
+        if (MoveObj != null)
+        {
+            Vector3 TouchPos = Vector3.zero;
 
+            TouchPos = Input.mousePosition;
+            float MoveObj_Z = Camera.main.WorldToScreenPoint(MoveObj.transform.position).z;
+            Vector3 WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(TouchPos.x, TouchPos.y, MoveObj_Z));
+
+            MoveObj.transform.position = Vector3.MoveTowards(MoveObj.transform.position, WorldPos, Time.deltaTime * 20f);
+        }
     }
     private void TouchStayEvent()
     {
@@ -94,27 +88,54 @@ public class DragDrop : MonoBehaviour
     }
     private void TouchEndedEvent()
     {
+        if (MoveObj != null)
+        {
+            Collider moveObjCollider = MoveObj.GetComponent<Collider>();
+            if (moveObjCollider != null)
+            {
+                moveObjCollider.enabled = false;
+            }
 
+            Ray ray = new Ray(MoveObj.transform.position, Camera.main.transform.forward);
+            RaycastHit HitInfo;
+
+            if (Physics.Raycast(ray, out HitInfo))
+            {
+                Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
+
+                Vector3 TargetPos = HitInfo.collider.gameObject.transform.position + Offset;
+                TargetPos.z = BeforePosition.z;
+
+                MoveObj.transform.position = TargetPos;
+            }
+            else
+            {
+                MoveObj.transform.position = BeforePosition;
+            }
+
+            if (moveObjCollider != null)
+            {
+                moveObjCollider.enabled = true;
+            }
+
+            MoveObj = null;
+        }
     }
 
     //클릭 했을때 오브젝트 태그 확인
     private GameObject OnClickObjTag(string tag)
     {
-        Vector3 touchPos = Vector3.zero;
+        Vector3 touchPos = new Vector3(0, 0, 0);
 
-#if UNITY_EDITOR
         touchPos = Input.mousePosition;
-#else
-        touchPos = Input.GetTouch(0).position;
-#endif
 
         Ray ray = Camera.main.ScreenPointToRay(touchPos);
-        RaycastHit hitInfo;
-        Physics.Raycast(ray, out hitInfo);
+        RaycastHit HitInfo;
+        Physics.Raycast(ray, out HitInfo);
 
-        if (hitInfo.collider != null)
+        if (HitInfo.collider != null)
         {
-            GameObject hitObject = hitInfo.collider.gameObject;
+            GameObject hitObject = HitInfo.collider.gameObject;
             if (hitObject != null)
             {
                 if (hitObject.gameObject.tag.Equals(tag))
