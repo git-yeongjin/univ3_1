@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DragDrop : MonoBehaviour
 {
-
     private Vector2 LastTouchPos = Vector2.zero;
     private Vector2 CurrentTouchPos = Vector2.zero;
 
@@ -14,7 +13,7 @@ public class DragDrop : MonoBehaviour
 
     [SerializeField]
     private GameObject MoveObj;
-    private const string MoveObjTAG = "Moveable";
+    private string[] MoveObjTAG = { "Moveable", "Dough", "BreadMaterial" };
 
     void Update()
     {
@@ -51,9 +50,9 @@ public class DragDrop : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red);
         }
         Vector3 TouchPos = new Vector3(0, 0, 0);
-#if UNITY_EDITOR
+
         TouchPos = Input.mousePosition;
-#endif
+
         Ray test_ray = Camera.main.ScreenPointToRay(TouchPos);
 
         Debug.DrawRay(test_ray.origin, test_ray.direction * 1000, Color.blue);
@@ -67,6 +66,11 @@ public class DragDrop : MonoBehaviour
         if (MoveObj != null)
         {
             BeforePosition = MoveObj.transform.position;
+            Collider moveObjCollider = MoveObj.GetComponent<Collider>();
+            if (moveObjCollider != null)
+            {
+                moveObjCollider.enabled = false;
+            }
         }
     }
     private void TouchMovedEvent()
@@ -93,7 +97,7 @@ public class DragDrop : MonoBehaviour
             Collider moveObjCollider = MoveObj.GetComponent<Collider>();
             if (moveObjCollider != null)
             {
-                moveObjCollider.enabled = false;
+                moveObjCollider.enabled = true;
             }
 
             Ray ray = new Ray(MoveObj.transform.position, Camera.main.transform.forward);
@@ -103,19 +107,52 @@ public class DragDrop : MonoBehaviour
             {
                 Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
 
-                Vector3 TargetPos = HitInfo.collider.gameObject.transform.position + Offset;
-                TargetPos.z = BeforePosition.z;
+                Oven targetOven = HitInfo.collider.GetComponent<Oven>();
+                Dough targetDough = HitInfo.collider.GetComponent<Dough>();
 
-                MoveObj.transform.position = TargetPos;
+                //반죽을 오븐에 넣을 때
+                if (targetOven != null && MoveObj.CompareTag("Dough"))
+                {
+                    Dough currentDough = MoveObj.GetComponent<Dough>();
+
+                    Vector3 TargetPos = HitInfo.collider.gameObject.transform.position + Offset;
+                    TargetPos.z = BeforePosition.z;
+
+                    MoveObj.transform.position = TargetPos;
+                    if (currentDough != null)
+                    {
+                        currentDough.FindRecipe();
+                        targetOven.StartBaking(currentDough.recipe);
+                    }
+                    else
+                    {
+                        Debug.LogError($"오븐에 넣은 오브젝트에 Dough 스크립트가 없습니다.");
+                    }
+                }
+                //재료를 반죽에 넣을 때
+                else if (targetDough != null && MoveObj.CompareTag("BreadMaterial"))
+                {
+                    BreadMaterial breadMaterial = MoveObj.GetComponent<BreadMaterial>();
+                    if (breadMaterial != null)
+                    {
+                        targetDough.AddMaterial(breadMaterial.GetMaterialName());
+
+                        Destroy(MoveObj);
+                    }
+                    else
+                    {
+                        MoveObj.transform.position = BeforePosition;
+                    }
+                }
+                else
+                {
+                    //없으면 원래 자리로 돌아가기
+                    MoveObj.transform.position = BeforePosition;
+                }
             }
             else
             {
                 MoveObj.transform.position = BeforePosition;
-            }
-
-            if (moveObjCollider != null)
-            {
-                moveObjCollider.enabled = true;
             }
 
             MoveObj = null;
@@ -123,11 +160,9 @@ public class DragDrop : MonoBehaviour
     }
 
     //클릭 했을때 오브젝트 태그 확인
-    private GameObject OnClickObjTag(string tag)
+    private GameObject OnClickObjTag(string[] targetTags)
     {
-        Vector3 touchPos = new Vector3(0, 0, 0);
-
-        touchPos = Input.mousePosition;
+        Vector3 touchPos = Input.mousePosition;
 
         Ray ray = Camera.main.ScreenPointToRay(touchPos);
         RaycastHit HitInfo;
@@ -136,9 +171,10 @@ public class DragDrop : MonoBehaviour
         if (HitInfo.collider != null)
         {
             GameObject hitObject = HitInfo.collider.gameObject;
-            if (hitObject != null)
+
+            foreach (string tag in targetTags)
             {
-                if (hitObject.gameObject.tag.Equals(tag))
+                if (hitObject.CompareTag(tag))
                 {
                     return hitObject;
                 }

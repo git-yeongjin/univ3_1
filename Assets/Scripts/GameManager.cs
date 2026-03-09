@@ -19,16 +19,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        BbangSetting();
         Day = true;
     }
 
     void Update()
-    {
-
-    }
-
-    private void BbangSetting()
     {
 
     }

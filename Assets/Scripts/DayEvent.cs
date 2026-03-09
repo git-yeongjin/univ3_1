@@ -5,23 +5,22 @@ public class DayEvent : MonoBehaviour
     private GameManager GM;
 
     [Header("낮 이벤트")]
-    //빵 레시피는 GameManager에서 BbangSetting에서 설정
     //낮 시간
     public int DayTime = 0;
     //손님 수
-    public int Sonnim = 0;
+    public int Customer = 0;
     //수익
     public int Money = 0;
     //영업종료 -> 밤으로 전환
     public bool DayEventFin = false;
 
     [Header("빵 이벤트")]
-    public bool BbangEvent = false;
+    public bool BreadEvent = false;
 
-    //빵 완성도
-    //public int BbangScore = 0;
+    //퍼펙트 빵 갯수 5당 손님 증가
+    public int PerfectBread = 0;
     //빵 판매갯수
-    public int BbangSellCount = 0;
+    public int BreadSellCount = 0;
 
     [Header("위생점검 이벤트")]
     //8일차에 활성화
@@ -46,15 +45,25 @@ public class DayEvent : MonoBehaviour
         }
     }
 
-    public void BbangBake()
-    {
-        //
-    }
-
     public void StartNight()
     {
         //밤 씬으로 이동하기
         //이동했으니 다시 false
         DayEventFin = false;
+    }
+
+    public void AddPerfectBread()
+    {
+        PerfectBread++;
+        Debug.Log($"현재 완벽한 빵 개수 : {PerfectBread}");
+        if (PerfectBread >= 5)
+        {
+            CustomerEvent();
+        }
+    }
+
+    private void CustomerEvent()
+    {
+        Debug.Log($"손님 증가");
     }
 }
