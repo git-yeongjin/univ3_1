@@ -27,6 +27,10 @@ public class DayEvent : MonoBehaviour
     public bool CleanDayEvent = false;
     //이벤트 통과 확인
     public bool CleanDayEvent_Clear = false;
+    public bool CleanDayEvent_Fail = false;
+    //제한 시간
+    public float CleanDayEvent_TimeLimit = 120.0f;
+    public int CleanDayEvent_Count = 0;
 
     void Start()
     {
@@ -42,6 +46,10 @@ public class DayEvent : MonoBehaviour
         if (DayEventFin)
         {
             //밤으로 넘어가는 UI가 뜨고 버튼 누르면 StartNight실행
+        }
+        if (!CleanDayEvent && GM.DayCount == 8)
+        {
+            StartCleanDayEvent();
         }
     }
 
@@ -59,6 +67,54 @@ public class DayEvent : MonoBehaviour
         if (PerfectBread >= 5)
         {
             CustomerEvent();
+        }
+    }
+
+    public void StartCleanDayEvent()
+    {
+        //Debug.Log("위생 관리 이벤트 발생");
+        if (!CleanDayEvent_Clear && !CleanDayEvent_Fail)
+        {
+            CleanDayEvent_TimeLimit -= Time.deltaTime;
+
+            //Debug.Log($"위생 관리 남은시간 : {CleanDayEvent_TimeLimit:F2}");
+        }
+        if (CleanDayEvent_TimeLimit <= 0f)
+        {
+            if (CleanDayEvent_Clear)
+            {
+                if (CleanDayEvent_Count == 7)
+                {
+                    Debug.Log("매우 우수");
+                    CustomerEvent();
+                }
+                else if (CleanDayEvent_Count < 7 && CleanDayEvent_Count >= 4)
+                {
+                    Debug.Log("우수");
+                }
+                else if (CleanDayEvent_Count < 4)
+                {
+                    Debug.Log("좋음");
+                }
+            }
+        }
+    }
+
+    public void IncreaseCount()
+    {
+        CleanDayEvent_Count++;
+    }
+
+    public void CheckCreatureTrace(bool trace)
+    {
+        if (trace)
+        {
+            Debug.Log("위생 검사에서 크리쳐 흔적이 발견되어 게임 끝");
+            CleanDayEvent_Fail = true;
+        }
+        else
+        {
+            CleanDayEvent_Clear = true;
         }
     }
 
