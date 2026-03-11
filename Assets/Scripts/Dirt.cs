@@ -25,15 +25,17 @@ public class Dirt : MonoBehaviour
 
     void Start()
     {
-        DE = gameObject.GetComponent<DayEvent>();
+        //DE = gameObject.GetComponent<DayEvent>();
     }
 
     void Update()
     {
+        /*
         if (DE.CleanDayEvent_TimeLimit <= 0)
         {
             DE.CheckCreatureTrace(CreatureTrace());
         }
+        */
     }
 
     void OnValidate()
@@ -59,7 +61,7 @@ public class Dirt : MonoBehaviour
     private void CleanUP()
     {
         Debug.Log($"{DirtName}청소 완료");
-        DE.IncreaseCount();
+        //DE.IncreaseCount();
 
         Destroy(gameObject);
     }
