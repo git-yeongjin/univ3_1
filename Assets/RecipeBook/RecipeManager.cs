@@ -13,7 +13,7 @@ public class RecipeManager : MonoBehaviour
         Instance = this;
     }
 
-    public RecipeData FindRecipe(List<string> dough)
+    public RecipeData FindRecipe(List<string> dough, Mold mold)
     {
         Debug.Log($"총 {recipeDataBook.AllRecipes.Count}개의 레시피가 있습니다.");
         foreach (RecipeData recipe in recipeDataBook.AllRecipes)
@@ -29,6 +29,11 @@ public class RecipeManager : MonoBehaviour
                     isMatch = false;
                     break;
                 }
+            }
+            if (mold != recipe.RequiredMold)
+            {
+                isMatch = false;
+                Debug.Log("반죽틀이 틀립니다.");
             }
 
             if (isMatch)

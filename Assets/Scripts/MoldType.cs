@@ -11,4 +11,9 @@ public enum Mold
 public class MoldType : MonoBehaviour
 {
     public Mold CurrentMold;
+
+    public Mold GetMoldName()
+    {
+        return CurrentMold;
+    }
 }

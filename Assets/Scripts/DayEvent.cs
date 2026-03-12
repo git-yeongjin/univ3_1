@@ -1,4 +1,6 @@
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DayEvent : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class DayEvent : MonoBehaviour
     public int DayTime = 0;
     //손님 수
     public int Customer = 0;
+    public int MaxCustomer = 10;
     //수익
     public int Money = 0;
     //영업종료 -> 밤으로 전환
@@ -47,9 +50,21 @@ public class DayEvent : MonoBehaviour
         {
             //밤으로 넘어가는 UI가 뜨고 버튼 누르면 StartNight실행
         }
+
         if (!CleanDayEvent && GM.DayCount == 8)
         {
             StartCleanDayEvent();
+            CleanDayEvent = true;
+        }
+
+        if (CleanDayEvent && !CleanDayEvent_Clear && !CleanDayEvent_Fail)
+        {
+            CleanDayEvent_TimeLimit -= Time.deltaTime;
+
+            if (CleanDayEvent_TimeLimit <= 0f)
+            {
+                CheckTimeOutCleanEvent();
+            }
         }
     }
 
@@ -72,31 +87,28 @@ public class DayEvent : MonoBehaviour
 
     public void StartCleanDayEvent()
     {
-        //Debug.Log("위생 관리 이벤트 발생");
-        if (!CleanDayEvent_Clear && !CleanDayEvent_Fail)
-        {
-            CleanDayEvent_TimeLimit -= Time.deltaTime;
+        SceneManager.LoadScene("CleanEventScene");
+        Debug.Log("위생 점검 이벤트로 이동");
+    }
 
-            //Debug.Log($"위생 관리 남은시간 : {CleanDayEvent_TimeLimit:F2}");
-        }
-        if (CleanDayEvent_TimeLimit <= 0f)
+    public void CheckTimeOutCleanEvent()
+    {
+        if (CleanDayEvent_Clear)
         {
-            if (CleanDayEvent_Clear)
+            if (CleanDayEvent_Count == 7)
             {
-                if (CleanDayEvent_Count == 7)
-                {
-                    Debug.Log("매우 우수");
-                    CustomerEvent();
-                }
-                else if (CleanDayEvent_Count < 7 && CleanDayEvent_Count >= 4)
-                {
-                    Debug.Log("우수");
-                }
-                else if (CleanDayEvent_Count < 4)
-                {
-                    Debug.Log("좋음");
-                }
+                Debug.Log("매우 우수");
+                CustomerEvent();
             }
+            else if (CleanDayEvent_Count < 7 && CleanDayEvent_Count >= 4)
+            {
+                Debug.Log("우수");
+            }
+            else if (CleanDayEvent_Count < 4)
+            {
+                Debug.Log("좋음");
+            }
+
         }
     }
 

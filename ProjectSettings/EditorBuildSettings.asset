@@ -9,6 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/MainMenuScene.unity
+    guid: a4511f8f6203bdf4a859a7f6aa28e7c2
+  - enabled: 1
+    path: Assets/Scenes/BakeEventScene.unity
+    guid: 7095133a4cca3b543853f130dd0d3c9f
+  - enabled: 1
+    path: Assets/Scenes/DayEventScene.unity
+    guid: 8db60bae08893d5489be64fe3e747d59
+  - enabled: 1
+    path: Assets/Scenes/NightEventScene.unity
+    guid: 24cb7403e1494264394a39799fffa2e2
+  - enabled: 1
     path: Assets/Scenes/CleanEventScene.unity
     guid: ef602576358e3194ab9daa78c25d7fa1
   m_configObjects:

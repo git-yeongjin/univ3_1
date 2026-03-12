@@ -1,9 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum MoldCategory
+{
+    None,
+    Cake,
+    Pudding,
+    Muffin
+}
+
 [CreateAssetMenu(fileName = "Bread Recipe", menuName = "Bakery/Recipe")]
 public class RecipeData : ScriptableObject
 {
+    public MoldCategory moldCategory;
     //빵 이름
     public string BreadName;
     //빵 재료

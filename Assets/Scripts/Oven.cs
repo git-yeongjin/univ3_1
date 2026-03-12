@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Oven : MonoBehaviour
@@ -6,6 +7,8 @@ public class Oven : MonoBehaviour
     private bool isBaking = false;
     private float CurrentBakeTime = 0f;
     private RecipeData CurrentRecipe;
+    public GameObject OvenUI;
+    public TMP_Text CurrentBakeTimeText;
 
     [SerializeField]
     private DayEvent dayEvent;
@@ -14,14 +17,16 @@ public class Oven : MonoBehaviour
     {
         if (dayEvent == null)
         {
-            Debug.LogError($"DayEvent가 연결되지 않았습니다.");
+            //Debug.LogError($"DayEvent가 연결되지 않았습니다.");
         }
+        OvenUI.SetActive(false);
     }
     void Update()
     {
         if (isBaking)
         {
             CurrentBakeTime += Time.deltaTime;
+            CurrentBakeTimeText.text = $"{CurrentBakeTime:F1}";
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -34,6 +39,7 @@ public class Oven : MonoBehaviour
         CurrentRecipe = recipe;
         CurrentBakeTime = 0f;
         isBaking = true;
+        OvenUI.SetActive(true);
         Debug.Log($"{CurrentRecipe.BreadName} 굽기 시작");
     }
 
@@ -41,6 +47,7 @@ public class Oven : MonoBehaviour
     {
         if (!isBaking) return;
         isBaking = false;
+        OvenUI.SetActive(false);
 
         Debug.Log($"{CurrentBakeTime:F1}초 만에 빵을 꺼냈습니다.");
         if (CurrentBakeTime >= CurrentRecipe.PerfectBakeTime - CurrentRecipe.ErrorMargin &&
