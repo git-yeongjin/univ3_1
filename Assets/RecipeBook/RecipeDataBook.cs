@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [CreateAssetMenu(fileName = "Bread RecipeBook", menuName = "Bakery/RecipeBook")]
 public class RecipeDataBook : ScriptableObject
