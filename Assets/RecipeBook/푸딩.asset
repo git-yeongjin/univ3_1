@@ -15,7 +15,8 @@ MonoBehaviour:
   moldCategory: 2
   BreadName: "\uD478\uB529"
   BreadMaterial:
-  - "\uC810\uC561"
-  RequiredMold: 0
-  PerfectBakeTime: 0
+  - "\uC2AC\uB77C\uC784 \uC824\uB77C\uD2F4"
+  - "\uB1CC\uBAA8\uC591 \uACFC\uC77C"
+  RequiredMold: 2
+  PerfectBakeTime: 5
   ErrorMargin: 1

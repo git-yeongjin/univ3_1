@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
 public enum MoldCategory
 {
     None,
@@ -8,7 +9,6 @@ public enum MoldCategory
     Pudding,
     Muffin
 }
-
 [CreateAssetMenu(fileName = "Bread Recipe", menuName = "Bakery/Recipe")]
 public class RecipeData : ScriptableObject
 {

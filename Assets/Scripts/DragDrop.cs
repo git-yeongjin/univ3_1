@@ -88,7 +88,6 @@ public class DragDrop : MonoBehaviour
     }
     private void TouchStayEvent()
     {
-
     }
     private void TouchEndedEvent()
     {
@@ -122,8 +121,19 @@ public class DragDrop : MonoBehaviour
                     MoveObj.transform.position = TargetPos;
                     if (currentDough != null)
                     {
-                        currentDough.FindRecipe();
-                        targetOven.StartBaking(currentDough.recipe);
+                        if (currentDough.isMold)
+                        {
+                            currentDough.FindRecipe();
+                            targetOven.StartBaking(currentDough.recipe);
+
+                            //Destroy(MoveObj);
+                        }
+                        else
+                        {
+                            Debug.Log("반죽을 섞고 틀에 넣어야 합니다.");
+
+                            MoveObj.transform.position = BeforePosition;
+                        }
                     }
                     else
                     {
@@ -137,8 +147,8 @@ public class DragDrop : MonoBehaviour
                     if (breadMaterial != null)
                     {
                         targetDough.AddMaterial(breadMaterial.GetMaterialName());
-
-                        Destroy(MoveObj);
+                        MoveObj.transform.position = BeforePosition;
+                        //Destroy(MoveObj);
                     }
                     else
                     {
@@ -152,6 +162,7 @@ public class DragDrop : MonoBehaviour
                     {
                         targetDough.AddMold(moldType.GetMoldName());
                     }
+                    MoveObj.transform.position = BeforePosition;
                 }
                 else
                 {

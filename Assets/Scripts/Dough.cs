@@ -10,6 +10,7 @@ public class Dough : MonoBehaviour
 
     [Header("반죽 상태")]
     public bool isReadyToBake = false;
+    public bool isMold = false;
 
     public Mold MoldName;
 
@@ -33,6 +34,7 @@ public class Dough : MonoBehaviour
             return;
         }
         MoldName = mold;
+        isMold = true;
         Debug.Log($"반죽을 {MoldName}에 넣었습니다.");
     }
 
@@ -41,4 +43,15 @@ public class Dough : MonoBehaviour
         Debug.Log("레시피 찾는 중");
         recipe = RecipeManager.Instance.FindRecipe(BreadMaterial, MoldName);
     }
+
+    void OnMouseUp()
+    {
+        if (!isReadyToBake)
+        {
+            Debug.Log("반죽을 섞었습니다.");
+            isReadyToBake = true;
+        }
+    }
+
+
 }

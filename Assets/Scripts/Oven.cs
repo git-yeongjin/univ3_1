@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Oven : MonoBehaviour
 {
@@ -8,7 +10,8 @@ public class Oven : MonoBehaviour
     private float CurrentBakeTime = 0f;
     private RecipeData CurrentRecipe;
     public GameObject OvenUI;
-    public TMP_Text CurrentBakeTimeText;
+    public TMP_Text CurrentBakeText;
+    public GameObject OpenSceneBT;
 
     [SerializeField]
     private DayEvent dayEvent;
@@ -20,13 +23,21 @@ public class Oven : MonoBehaviour
             //Debug.LogError($"DayEvent가 연결되지 않았습니다.");
         }
         OvenUI.SetActive(false);
+        OpenSceneBT.SetActive(false);
     }
     void Update()
     {
         if (isBaking)
         {
             CurrentBakeTime += Time.deltaTime;
-            CurrentBakeTimeText.text = $"{CurrentBakeTime:F1}";
+            CurrentBakeText.text = $"{CurrentBakeTime:F1}";
+
+            if (CurrentBakeTime >= CurrentRecipe.PerfectBakeTime)
+            {
+                CurrentBakeText.text = $"굽기 완료";
+                OpenSceneBT.SetActive(true);
+                isBaking = false;
+            }
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -40,15 +51,15 @@ public class Oven : MonoBehaviour
         CurrentBakeTime = 0f;
         isBaking = true;
         OvenUI.SetActive(true);
+        OpenSceneBT.SetActive(false);
         Debug.Log($"{CurrentRecipe.BreadName} 굽기 시작");
     }
 
     public void EndBaking()
     {
-        if (!isBaking) return;
-        isBaking = false;
         OvenUI.SetActive(false);
 
+        /*
         Debug.Log($"{CurrentBakeTime:F1}초 만에 빵을 꺼냈습니다.");
         if (CurrentBakeTime >= CurrentRecipe.PerfectBakeTime - CurrentRecipe.ErrorMargin &&
             CurrentBakeTime <= CurrentRecipe.PerfectBakeTime + CurrentRecipe.ErrorMargin)
@@ -67,5 +78,6 @@ public class Oven : MonoBehaviour
         {
             Debug.Log($"빵이 덜 익거나 탔습니다. 꺼낸 시간 : {CurrentBakeTime:F1}초 손님 수 증가 안됨");
         }
+        */
     }
 }

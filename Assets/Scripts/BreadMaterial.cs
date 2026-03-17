@@ -4,20 +4,24 @@ public class BreadMaterial : MonoBehaviour
 {
     public enum BreadMaterialName
     {
-        none,
-        Eye,
-        Jam,
+        None,
+
+        ButtonChocolate,
+        RibbonCandy,
+        CreamCotton,
+        NeedleSpringcle,
+
+        SporePowder,
+        MushroomCream,
+
+        SlimeGelatin,
+        BrainFruit
     }
 
-    public BreadMaterialName Name;
+    public BreadMaterialName Material;
 
     public string GetMaterialName()
     {
-        return Name.ToString();
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("dddd");
+        return Material.ToString();
     }
 }

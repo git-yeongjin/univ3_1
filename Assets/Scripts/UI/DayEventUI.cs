@@ -1,18 +1,26 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DayEventUI : MonoBehaviour
 {
     private DayEvent DE;
     private GameManager GM;
 
-    public TMP_Text DayCountText;
+    public Sprite[] DayCountSprites;
+    public Image DayCountImage;
+
     public TMP_Text CustomerCountText;
 
     void Start()
     {
         DE = FindAnyObjectByType<DayEvent>();
         GM = FindAnyObjectByType<GameManager>();
+
+        if (DayCountSprites != null && DayCountImage != null)
+        {
+            DayCountImage.sprite = DayCountSprites[0];
+        }
     }
 
 
@@ -25,24 +33,19 @@ public class DayEventUI : MonoBehaviour
     {
         if (DE != null && GM != null)
         {
-            string CurrentTime = "";
-            if (GM.Day)
-            {
-                CurrentTime = "낮";
-            }
-            else if (GM.Night)
-            {
-                CurrentTime = "밤";
-            }
-            if (DayCountText != null)
-            {
-                DayCountText.text = $"{CurrentTime} / {GM.DayCount}일 차";
-            }
-
             if (CustomerCountText != null)
             {
                 CustomerCountText.text = $"남은 손님 : {DE.MaxCustomer}명";
             }
+        }
+
+        if (DayCountImage != null && DayCountSprites.Length > 0)
+        {
+            int spriteIndex = GM.DayCount;
+
+            spriteIndex = Mathf.Clamp(spriteIndex, 0, DayCountSprites.Length - 1);
+
+            DayCountImage.sprite = DayCountSprites[spriteIndex];
         }
     }
 }

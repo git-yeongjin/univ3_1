@@ -15,8 +15,8 @@ MonoBehaviour:
   moldCategory: 3
   BreadName: "\uBA38\uD540"
   BreadMaterial:
-  - Eye
-  - Jam
-  RequiredMold: 0
-  PerfectBakeTime: 4
+  - "\uD3EC\uC790 \uAC00\uB8E8"
+  - "\uBC84\uC12F \uBA38\uB9AC\uD06C\uB9BC"
+  RequiredMold: 3
+  PerfectBakeTime: 10
   ErrorMargin: 1

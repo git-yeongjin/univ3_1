@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BakeEventUI : MonoBehaviour
 {
@@ -65,4 +66,9 @@ public class BakeEventUI : MonoBehaviour
     public void OnClickCakeRecipe() { LoadRecipeContent(MoldCategory.Cake); }
     public void OnClickPuddingRecipe() { LoadRecipeContent(MoldCategory.Pudding); }
     public void OnClickMuffinRecipe() { LoadRecipeContent(MoldCategory.Muffin); }
+
+    public void OpenDayEventScene()
+    {
+        SceneManager.LoadScene("DayEventScene");
+    }
 }

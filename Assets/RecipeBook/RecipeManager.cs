@@ -16,6 +16,7 @@ public class RecipeManager : MonoBehaviour
     public RecipeData FindRecipe(List<string> dough, Mold mold)
     {
         Debug.Log($"총 {recipeDataBook.AllRecipes.Count}개의 레시피가 있습니다.");
+
         foreach (RecipeData recipe in recipeDataBook.AllRecipes)
         {
             //도우에 들어간 재료와 레시피에 있는 재료개수가 같은지 확인

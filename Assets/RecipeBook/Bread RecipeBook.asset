@@ -14,9 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalBread: {fileID: 11400000, guid: b092b72f314ce324db948ba44eaa5227, type: 2}
   AllRecipes:
-  - {fileID: 11400000, guid: 7ea2247db02acf748af274f59a227561, type: 2}
-  - {fileID: 11400000, guid: e24c43407b1b640499060c2d234bc417, type: 2}
-  - {fileID: 11400000, guid: a6feee7acc1284049a431cc763a69b3e, type: 2}
-  - {fileID: 11400000, guid: 107100a20472ba94cbcff35197b2bcf1, type: 2}
-  - {fileID: 11400000, guid: 234a2a17af5e1c44ab814f129e0acac6, type: 2}
-  - {fileID: 11400000, guid: 0b49dc36ee2d64f47bdb95e9bc92452a, type: 2}
+  - {fileID: 11400000, guid: 990e9ba1f6a829448b694424ea5e32dc, type: 2}
+  - {fileID: 11400000, guid: 8c3940bfa77451542b6aa192821fae58, type: 2}
+  - {fileID: 11400000, guid: 91b485408c7f16446be75a36cbcff407, type: 2}

@@ -15,7 +15,10 @@ MonoBehaviour:
   moldCategory: 1
   BreadName: "\uCF00\uC774\uD06C"
   BreadMaterial:
-  - Eye
+  - "\uB2E8\uCD94 \uCD08\uCF5C\uB9BF"
+  - "\uB9AC\uBCF8 \uC0AC\uD0D5"
+  - "\uD06C\uB9BC \uC19C"
+  - "\uBC14\uB298 \uC2A4\uD06C\uB9C1\uD074"
   RequiredMold: 1
-  PerfectBakeTime: 0
+  PerfectBakeTime: 15
   ErrorMargin: 1
