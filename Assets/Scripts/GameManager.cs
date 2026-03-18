@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
     public bool Day = false;
     public bool Night = false;
 
+    [Header("빵 판매가능 여부")]
+    public bool DollCake = false;
+    public bool MushroomMuffin = false;
+    public bool SlimePudding = false;
+
     //n일차
     public int DayCount = 0;
 

@@ -91,92 +91,73 @@ public class DragDrop : MonoBehaviour
     }
     private void TouchEndedEvent()
     {
-        if (MoveObj != null)
+        if (MoveObj == null) return;
+
+
+        Collider moveObjCollider = MoveObj.GetComponent<Collider>();
+        if (moveObjCollider != null) moveObjCollider.enabled = true;
+
+        Ray ray = new Ray(MoveObj.transform.position, Camera.main.transform.forward);
+        RaycastHit HitInfo;
+
+        if (Physics.Raycast(ray, out HitInfo))
         {
-            Collider moveObjCollider = MoveObj.GetComponent<Collider>();
-            if (moveObjCollider != null)
+            Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
+
+            Oven targetOven = HitInfo.collider.GetComponent<Oven>();
+            Dough targetDough = HitInfo.collider.GetComponent<Dough>();
+
+
+            //반죽을 오븐에 넣을 때
+            if (targetOven != null && MoveObj.CompareTag("Dough"))
             {
-                moveObjCollider.enabled = true;
-            }
-
-            Ray ray = new Ray(MoveObj.transform.position, Camera.main.transform.forward);
-            RaycastHit HitInfo;
-
-            if (Physics.Raycast(ray, out HitInfo))
-            {
-                Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
-
-                Oven targetOven = HitInfo.collider.GetComponent<Oven>();
-                Dough targetDough = HitInfo.collider.GetComponent<Dough>();
-
-
-                //반죽을 오븐에 넣을 때
-                if (targetOven != null && MoveObj.CompareTag("Dough"))
+                Dough currentDough = MoveObj.GetComponent<Dough>();
+                if (currentDough != null)
                 {
-                    Dough currentDough = MoveObj.GetComponent<Dough>();
-
-                    Vector3 TargetPos = HitInfo.collider.gameObject.transform.position + Offset;
-                    TargetPos.z = BeforePosition.z;
-
-                    MoveObj.transform.position = TargetPos;
-                    if (currentDough != null)
+                    if (currentDough.isMold)
                     {
-                        if (currentDough.isMold)
-                        {
-                            currentDough.FindRecipe();
-                            targetOven.StartBaking(currentDough.recipe);
+                        currentDough.FindRecipe();
+                        targetOven.StartBaking(currentDough.recipe);
 
-                            //Destroy(MoveObj);
-                        }
-                        else
-                        {
-                            Debug.Log("반죽을 섞고 틀에 넣어야 합니다.");
-
-                            MoveObj.transform.position = BeforePosition;
-                        }
+                        //반죽을 오븐에 넣어서 반죽오브젝트 삭제
+                        Destroy(MoveObj);
+                        MoveObj = null;
+                        return;
                     }
                     else
                     {
-                        Debug.LogError($"오븐에 넣은 오브젝트에 Dough 스크립트가 없습니다.");
+                        Debug.Log("반죽을 섞고 틀에 넣어야 합니다.");
                     }
-                }
-                //재료를 반죽에 넣을 때
-                else if (targetDough != null && MoveObj.CompareTag("BreadMaterial"))
-                {
-                    BreadMaterial breadMaterial = MoveObj.GetComponent<BreadMaterial>();
-                    if (breadMaterial != null)
-                    {
-                        targetDough.AddMaterial(breadMaterial.GetMaterialName());
-                        MoveObj.transform.position = BeforePosition;
-                        //Destroy(MoveObj);
-                    }
-                    else
-                    {
-                        MoveObj.transform.position = BeforePosition;
-                    }
-                }
-                else if (targetDough != null && MoveObj.CompareTag("Mold"))
-                {
-                    MoldType moldType = MoveObj.GetComponent<MoldType>();
-                    if (moldType != null)
-                    {
-                        targetDough.AddMold(moldType.GetMoldName());
-                    }
-                    MoveObj.transform.position = BeforePosition;
                 }
                 else
                 {
-                    //없으면 원래 자리로 돌아가기
-                    MoveObj.transform.position = BeforePosition;
+                    Debug.LogError($"오븐에 넣은 오브젝트에 Dough 스크립트가 없습니다.");
                 }
             }
-            else
+
+            //재료를 반죽에 넣을 때
+            else if (targetDough != null && MoveObj.CompareTag("BreadMaterial"))
             {
-                MoveObj.transform.position = BeforePosition;
+                BreadMaterial breadMaterial = MoveObj.GetComponent<BreadMaterial>();
+                if (breadMaterial != null)
+                {
+                    targetDough.AddMaterial(breadMaterial.GetMaterialName());
+                }
             }
 
-            MoveObj = null;
+            //틀안에 반죽을 넣을 때
+            else if (targetDough != null && MoveObj.CompareTag("Mold"))
+            {
+                MoldType moldType = MoveObj.GetComponent<MoldType>();
+                if (moldType != null)
+                {
+                    targetDough.AddMold(moldType.GetMoldName());
+                }
+            }
         }
+
+        MoveObj.transform.position = BeforePosition;
+        MoveObj = null;
     }
 
     //클릭 했을때 오브젝트 태그 확인

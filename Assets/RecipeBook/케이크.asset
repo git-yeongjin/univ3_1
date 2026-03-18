@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: "\uCF00\uC774\uD06C"
   m_EditorClassIdentifier: 
   moldCategory: 1
+  Result: 1
   BreadName: "\uCF00\uC774\uD06C"
   BreadMaterial:
   - "\uB2E8\uCD94 \uCD08\uCF5C\uB9BF"

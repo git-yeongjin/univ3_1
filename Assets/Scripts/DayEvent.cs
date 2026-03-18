@@ -19,16 +19,11 @@ public class DayEvent : MonoBehaviour
 
     [Header("빵 이벤트")]
     public bool BreadEvent = false;
-
-    //퍼펙트 빵 갯수 5당 손님 증가
-    public int PerfectBread = 0;
     //빵 판매갯수
     public int BreadSellCount = 0;
+    public int PerfectBread = 0;
 
-    [Header("위생점검 이벤트")]
-    //8일차에 활성화
     public bool CleanDayEvent = false;
-    //이벤트 통과 확인
     public bool CleanDayEvent_Clear = false;
     public bool CleanDayEvent_Fail = false;
     //제한 시간

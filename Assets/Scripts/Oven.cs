@@ -14,13 +14,14 @@ public class Oven : MonoBehaviour
     public GameObject OpenSceneBT;
 
     [SerializeField]
-    private DayEvent dayEvent;
+    private GameManager GM;
 
     void Start()
     {
-        if (dayEvent == null)
+        GM = FindAnyObjectByType<GameManager>();
+        if (GM == null)
         {
-            //Debug.LogError($"DayEvent가 연결되지 않았습니다.");
+            Debug.LogError("GameManager을 찾지 못했습니다.");
         }
         OvenUI.SetActive(false);
         OpenSceneBT.SetActive(false);
@@ -50,34 +51,31 @@ public class Oven : MonoBehaviour
         CurrentRecipe = recipe;
         CurrentBakeTime = 0f;
         isBaking = true;
+
         OvenUI.SetActive(true);
         OpenSceneBT.SetActive(false);
         Debug.Log($"{CurrentRecipe.BreadName} 굽기 시작");
+
+        switch (CurrentRecipe.Result)
+        {
+            case ResultBread.DollCake:
+                if (!GM.DollCake) GM.DollCake = true;
+                Debug.Log($"{CurrentRecipe.Result}를 판매할 수 있습니다.");
+                break;
+            case ResultBread.MushroomMuffin:
+                if (!GM.DollCake) GM.MushroomMuffin = true;
+                Debug.Log($"{CurrentRecipe.Result}를 판매할 수 있습니다.");
+                break;
+            case ResultBread.SlimePudding:
+                if (!GM.DollCake) GM.SlimePudding = true;
+                Debug.Log($"{CurrentRecipe.Result}를 판매할 수 있습니다.");
+                break;
+        }
     }
 
     public void EndBaking()
     {
+        Debug.Log($"{CurrentRecipe.Result}제작 완료");
         OvenUI.SetActive(false);
-
-        /*
-        Debug.Log($"{CurrentBakeTime:F1}초 만에 빵을 꺼냈습니다.");
-        if (CurrentBakeTime >= CurrentRecipe.PerfectBakeTime - CurrentRecipe.ErrorMargin &&
-            CurrentBakeTime <= CurrentRecipe.PerfectBakeTime + CurrentRecipe.ErrorMargin)
-        {
-            if (dayEvent != null)
-            {
-                dayEvent.AddPerfectBread();
-            }
-            else
-            {
-                Debug.LogError($"DayEvent가 연결되지 않았습니다.");
-            }
-
-        }
-        else
-        {
-            Debug.Log($"빵이 덜 익거나 탔습니다. 꺼낸 시간 : {CurrentBakeTime:F1}초 손님 수 증가 안됨");
-        }
-        */
     }
 }

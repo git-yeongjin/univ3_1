@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: "\uBA38\uD540"
   m_EditorClassIdentifier: 
   moldCategory: 3
+  Result: 2
   BreadName: "\uBA38\uD540"
   BreadMaterial:
   - "\uD3EC\uC790 \uAC00\uB8E8"

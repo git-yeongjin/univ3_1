@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: "\uD478\uB529"
   m_EditorClassIdentifier: 
   moldCategory: 2
+  Result: 3
   BreadName: "\uD478\uB529"
   BreadMaterial:
-  - "\uC2AC\uB77C\uC784 \uC824\uB77C\uD2F4"
-  - "\uB1CC\uBAA8\uC591 \uACFC\uC77C"
+  - SlimeGelatin
+  - BrainFruit
   RequiredMold: 2
   PerfectBakeTime: 5
   ErrorMargin: 1

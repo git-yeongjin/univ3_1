@@ -9,10 +9,21 @@ public enum MoldCategory
     Pudding,
     Muffin
 }
+public enum ResultBread
+{
+    None,
+    DollCake,
+    MushroomMuffin,
+    SlimePudding,
+}
+
 [CreateAssetMenu(fileName = "Bread Recipe", menuName = "Bakery/Recipe")]
 public class RecipeData : ScriptableObject
 {
     public MoldCategory moldCategory;
+
+    public ResultBread Result;
+
     //빵 이름
     public string BreadName;
     //빵 재료
