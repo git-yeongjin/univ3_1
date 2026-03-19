@@ -16,24 +16,11 @@ public class ShowCase : MonoBehaviour
         if (GM == null)
         {
             Debug.LogError("GM을 찾지 못했습니다.");
+            return;
         }
 
-        if (!GM.DollCake)
-        {
-            Cake.SetActive(false);
-        }
-        if (!GM.MushroomMuffin)
-        {
-            Muffin.SetActive(false);
-        }
-        if (!GM.SlimePudding)
-        {
-            Pudding.SetActive(false);
-        }
-    }
-
-    void Update()
-    {
-
+        if (Cake != null) Cake.SetActive(GM.DollCake);
+        if (Muffin != null) Muffin.SetActive(GM.MushroomMuffin);
+        if (Pudding != null) Pudding.SetActive(GM.SlimePudding);
     }
 }

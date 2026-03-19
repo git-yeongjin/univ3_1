@@ -40,21 +40,22 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            ChangeDayNight();
-        }
+
     }
 
-    private void ChangeDayNight()
+    public void ChangeDayNight()
     {
         if (Day)
         {
+            Debug.Log($"낮에서 밤으로 이동합니다.");
+
             Day = false;
             Night = true;
         }
         else if (Night)
         {
+            Debug.Log($"밤에서 낮으로 이동하고 일차가 증가합니다.");
+
             Day = true;
             Night = false;
 

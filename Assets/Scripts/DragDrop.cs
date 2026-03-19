@@ -13,7 +13,7 @@ public class DragDrop : MonoBehaviour
 
     [SerializeField]
     private GameObject MoveObj;
-    private string[] MoveObjTAG = { "Moveable", "Dough", "BreadMaterial", "Mold" };
+    private string[] MoveObjTAG = { "Moveable", "Dough", "BreadMaterial", "Mold", "FinishedBread" };
 
     void Update()
     {
@@ -106,7 +106,7 @@ public class DragDrop : MonoBehaviour
 
             Oven targetOven = HitInfo.collider.GetComponent<Oven>();
             Dough targetDough = HitInfo.collider.GetComponent<Dough>();
-
+            PackagingStation targetStation = HitInfo.collider.GetComponent<PackagingStation>();
 
             //반죽을 오븐에 넣을 때
             if (targetOven != null && MoveObj.CompareTag("Dough"))
@@ -152,6 +152,16 @@ public class DragDrop : MonoBehaviour
                 if (moldType != null)
                 {
                     targetDough.AddMold(moldType.GetMoldName());
+                }
+            }
+
+            //빵을 포장대에 놓을 때
+            else if (targetStation != null && MoveObj.CompareTag("FinishedBread"))
+            {
+                FinishedBread bread = MoveObj.GetComponent<FinishedBread>();
+                if (bread != null)
+                {
+                    targetStation.AskPackaging(bread);
                 }
             }
         }

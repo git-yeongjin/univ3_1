@@ -1,6 +1,15 @@
-using UnityEditor.SearchService;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+public enum BreadType
+{
+    None,
+    DollCake,
+    MushroomMuffin,
+    SlimePudding
+}
 
 public class DayEvent : MonoBehaviour
 {
@@ -9,11 +18,14 @@ public class DayEvent : MonoBehaviour
     [Header("낮 이벤트")]
     //낮 시간
     public int DayTime = 0;
+    //손님 프리팹
+    public GameObject CustomerPrefab;
+    //손님 스폰 위치
+    public Transform CustomerSpawnPoint;
     //손님 수
     public int Customer = 0;
-    public int MaxCustomer = 10;
-    //수익
-    public int Money = 0;
+    public int MaxCustomer = 3;
+
     //영업종료 -> 밤으로 전환
     public bool DayEventFin = false;
 
@@ -41,9 +53,15 @@ public class DayEvent : MonoBehaviour
 
     void Update()
     {
-        if (DayEventFin)
+        if (Customer >= MaxCustomer)
         {
             //밤으로 넘어가는 UI가 뜨고 버튼 누르면 StartNight실행
+            DayEventUI dayEventUI = FindAnyObjectByType<DayEventUI>();
+            if (dayEventUI == null) return;
+
+            dayEventUI.DayFinUI.SetActive(true);
+
+            DayEventFin = true;
         }
 
         if (!CleanDayEvent && GM.DayCount == 8)
@@ -61,6 +79,49 @@ public class DayEvent : MonoBehaviour
                 CheckTimeOutCleanEvent();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            CustomerRandomOrder();
+        }
+    }
+
+    public void CustomerRandomOrder()
+    {
+        if (GM == null) return;
+
+        List<BreadType> SellableBreads = new List<BreadType>();
+
+        if (GM.DollCake) SellableBreads.Add(BreadType.DollCake);
+        if (GM.MushroomMuffin) SellableBreads.Add(BreadType.MushroomMuffin);
+        if (GM.SlimePudding) SellableBreads.Add(BreadType.SlimePudding);
+
+        if (SellableBreads.Count == 0)
+        {
+            Debug.LogWarning("판매 가능한 빵이 없습니다.");
+            return;
+        }
+
+        int randomIndex = Random.Range(0, SellableBreads.Count);
+        BreadType orderedBread = SellableBreads[randomIndex];
+
+        bool isPackaging = (Random.Range(0, 2) == 1);
+
+        Debug.Log($"주문한 빵 : {orderedBread}, 포장 : {isPackaging}");
+
+        //아래에 손님 소환 or 주문UI 코드짜기
+        GameObject newCustomer = Instantiate(CustomerPrefab, CustomerSpawnPoint.position, Quaternion.identity);
+        Customer customer = newCustomer.GetComponent<Customer>();
+
+        PackagingStation station = FindAnyObjectByType<PackagingStation>();
+        DayEventUI dayEvnetUI = FindAnyObjectByType<DayEventUI>();
+        if (dayEvnetUI == null || station == null) return;
+
+        station.FindCustomer(customer);
+
+        //주문UI 출력하기
+        dayEvnetUI.OrderedBread(orderedBread, isPackaging);
+        customer.SetOrder(orderedBread, isPackaging);
     }
 
     public void StartNight()
@@ -123,6 +184,11 @@ public class DayEvent : MonoBehaviour
         {
             CleanDayEvent_Clear = true;
         }
+    }
+
+    public void ResetCustomer()
+    {
+        Customer = 0;
     }
 
     private void CustomerEvent()
