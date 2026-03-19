@@ -22,9 +22,15 @@ public class DayEvent : MonoBehaviour
     public GameObject CustomerPrefab;
     //손님 스폰 위치
     public Transform CustomerSpawnPoint;
-    //손님 수
-    public int Customer = 0;
+    [Header("손님 및 카운트 정보")]
+    //현재까지 스폰 된 손님
+    public int ActualCustomer = 0;
+    //판매 완료한 손님
+    public int ProcessedCustomer = 0;
+    //총 손님 수
     public int MaxCustomer = 3;
+    //손님 카운트
+    public int CustomerScore = 0;
 
     //영업종료 -> 밤으로 전환
     public bool DayEventFin = false;
@@ -49,11 +55,15 @@ public class DayEvent : MonoBehaviour
         {
             Debug.LogError($"GM을 못찾음");
         }
+
+        //오늘 올 수 있는 최대 손님 계산
+        MaxCustomer = GM.CustomerToCreature;
+        MaxCustomer = Mathf.Min(MaxCustomer, 10);
     }
 
     void Update()
     {
-        if (Customer >= MaxCustomer)
+        if (ProcessedCustomer >= MaxCustomer)
         {
             //밤으로 넘어가는 UI가 뜨고 버튼 누르면 StartNight실행
             DayEventUI dayEventUI = FindAnyObjectByType<DayEventUI>();
@@ -86,9 +96,30 @@ public class DayEvent : MonoBehaviour
         }
     }
 
+    public void ResetDayEvent()
+    {
+        if (GM == null) return;
+
+        ActualCustomer = 0;
+        ProcessedCustomer = 0;
+        CustomerScore = 0;
+        DayEventFin = false;
+
+        MaxCustomer = GM.CustomerToCreature;
+        MaxCustomer = Mathf.Min(MaxCustomer, 10);
+    }
+
     public void CustomerRandomOrder()
     {
         if (GM == null) return;
+
+        if (ActualCustomer >= MaxCustomer)
+        {
+            Debug.Log("오늘 모슨 손님이 방문했습니다.");
+            return;
+        }
+        //손님 한명 들어옴
+        ActualCustomer++;
 
         List<BreadType> SellableBreads = new List<BreadType>();
 
@@ -122,6 +153,19 @@ public class DayEvent : MonoBehaviour
         //주문UI 출력하기
         dayEvnetUI.OrderedBread(orderedBread, isPackaging);
         customer.SetOrder(orderedBread, isPackaging);
+    }
+
+    public void CustomerLeft(int score)
+    {
+        CustomerScore += score;
+        ProcessedCustomer++;
+
+        Debug.Log($"현재까지 돌아간 손님 {ProcessedCustomer} / {MaxCustomer}");
+
+        if (ProcessedCustomer >= MaxCustomer)
+        {
+            DayEventFin = true;
+        }
     }
 
     public void StartNight()
@@ -184,11 +228,6 @@ public class DayEvent : MonoBehaviour
         {
             CleanDayEvent_Clear = true;
         }
-    }
-
-    public void ResetCustomer()
-    {
-        Customer = 0;
     }
 
     private void CustomerEvent()

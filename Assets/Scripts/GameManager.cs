@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     public bool MushroomMuffin = false;
     public bool SlimePudding = false;
 
+    [Header("크리쳐 포획 수 만큼 손님 수 증가")]
+    public int CustomerToCreature = 1;
+
     //n일차
     public int DayCount = 0;
 
@@ -38,11 +41,6 @@ public class GameManager : MonoBehaviour
         Day = true;
     }
 
-    void Update()
-    {
-
-    }
-
     public void ChangeDayNight()
     {
         if (Day)
@@ -51,6 +49,9 @@ public class GameManager : MonoBehaviour
 
             Day = false;
             Night = true;
+
+            //밤으로 넘어가서 초기화
+            CustomerToCreature = 0;
         }
         else if (Night)
         {
@@ -60,6 +61,24 @@ public class GameManager : MonoBehaviour
             Night = false;
 
             DayCount++;
+
+            if (DE != null)
+            {
+                DE.ResetDayEvent();
+            }
+        }
+    }
+
+    public void IncreaseCustomer()
+    {
+        if (CustomerToCreature < 10)
+        {
+            Debug.Log("크리처를 잡아서 내일 손님이 증가했습니다.");
+            CustomerToCreature++;
+        }
+        else
+        {
+            Debug.Log("최대 수에 도달했습니다.");
         }
     }
 }

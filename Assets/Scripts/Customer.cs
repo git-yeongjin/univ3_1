@@ -30,7 +30,21 @@ public class Customer : MonoBehaviour
                 Debug.Log($"주문한 빵과 일치합니다.");
                 if (DE != null)
                 {
-                    DE.Customer++;
+                    int scroe = 0;
+                    switch (MyOrder)
+                    {
+                        case BreadType.DollCake:
+                            scroe = 1;
+                            break;
+                        case BreadType.MushroomMuffin:
+                            scroe = 2;
+                            break;
+                        case BreadType.SlimePudding:
+                            scroe = 3;
+                            break;
+                    }
+                    DE.CustomerLeft(scroe);
+
                     Destroy(gameObject);
                 }
             }

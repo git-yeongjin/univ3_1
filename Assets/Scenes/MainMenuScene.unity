@@ -760,8 +760,10 @@ MonoBehaviour:
   DayTime: 0
   CustomerPrefab: {fileID: 615986444809659226, guid: eb8d06e13c32cb9458f6c742cfc411a9, type: 3}
   CustomerSpawnPoint: {fileID: 0}
-  Customer: 0
+  ActualCustomer: 0
+  ProcessedCustomer: 0
   MaxCustomer: 3
+  CustomerScore: 0
   DayEventFin: 0
   BreadEvent: 0
   BreadSellCount: 0
@@ -787,9 +789,10 @@ MonoBehaviour:
   GameFin: 0
   Day: 0
   Night: 0
-  DollCake: 1
-  MushroomMuffin: 1
+  DollCake: 0
+  MushroomMuffin: 0
   SlimePudding: 0
+  CustomerToCreature: 1
   DayCount: 0
 --- !u!1 &1484513841
 GameObject:

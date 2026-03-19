@@ -7,6 +7,7 @@ using UnityEditor;
 public class NightEvent : MonoBehaviour
 {
     private GameManager GM;
+    private NightEventUI nightEventUI;
 
     [Header("밤 이벤트")]
     //밤 시간
@@ -32,6 +33,14 @@ public class NightEvent : MonoBehaviour
         CurrentDayCount = GM.DayCount;
 
         CheckUnlockCreature();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            GM.IncreaseCustomer();
+        }
     }
 
     private void CheckUnlockCreature()
