@@ -41,6 +41,11 @@ public class DragDrop : MonoBehaviour
             TouchEndedEvent();
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ShowCaseSetting();
+        }
+
 
 #if UNITY_EDITOR
         // 캐릭터 Ray 확인용 
@@ -59,12 +64,46 @@ public class DragDrop : MonoBehaviour
 #endif
     }
 
+    private void ShowCaseSetting()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit HitInfo;
+
+        if (Physics.Raycast(ray, out HitInfo))
+        {
+            Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
+
+            ShowCase showCase = HitInfo.collider.GetComponent<ShowCase>();
+
+            if (showCase != null)
+            {
+                showCase.DisplayBread();
+            }
+        }
+    }
+
 
     private void TouchBeganEvent()
     {
-        MoveObj = OnClickObjTag(MoveObjTAG);
-        if (MoveObj != null)
+        GameObject clickObj = OnClickObjTag(MoveObjTAG);
+
+        if (clickObj != null)
         {
+            FinishedBread breadInfo = clickObj.GetComponent<FinishedBread>();
+
+            if (breadInfo != null)
+            {
+                MoveObj = Instantiate(clickObj, clickObj.transform.position, clickObj.transform.rotation);
+                MoveObj.name = clickObj.name + "_copy";
+                MoveObj.GetComponent<FinishedBread>().MyBreadType = breadInfo.MyBreadType;
+
+                Debug.Log($"진열대의 [{clickObj.name}]을 가져왔습니다.");
+            }
+            else
+            {
+                MoveObj = clickObj;
+            }
+
             BeforePosition = MoveObj.transform.position;
             Collider moveObjCollider = MoveObj.GetComponent<Collider>();
             if (moveObjCollider != null)
@@ -162,11 +201,20 @@ public class DragDrop : MonoBehaviour
                 if (bread != null)
                 {
                     targetStation.AskPackaging(bread);
+                    MoveObj = null;
+                    return;
                 }
             }
         }
 
-        MoveObj.transform.position = BeforePosition;
+        if (MoveObj.CompareTag("FinishedBread"))
+        {
+            Destroy(MoveObj);
+        }
+        else
+        {
+            MoveObj.transform.position = BeforePosition;
+        }
         MoveObj = null;
     }
 

@@ -19,8 +19,20 @@ public class ShowCase : MonoBehaviour
             return;
         }
 
+        if (Cake != null) Cake.SetActive(false);
+        if (Muffin != null) Muffin.SetActive(false);
+        if (Pudding != null) Pudding.SetActive(false);
+    }
+
+    public void DisplayBread()
+    {
+        if (GM == null) return;
+
         if (Cake != null) Cake.SetActive(GM.DollCake);
         if (Muffin != null) Muffin.SetActive(GM.MushroomMuffin);
         if (Pudding != null) Pudding.SetActive(GM.SlimePudding);
+
+        Debug.Log($"빵을 진열 했습니다.");
     }
+
 }
