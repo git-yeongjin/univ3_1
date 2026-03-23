@@ -7,7 +7,6 @@ using UnityEditor;
 public class NightEvent : MonoBehaviour
 {
     private GameManager GM;
-    private NightEventUI nightEventUI;
 
     [Header("밤 이벤트")]
     //밤 시간
@@ -18,6 +17,8 @@ public class NightEvent : MonoBehaviour
     public int MaxCatchCount = 10;
     //밤 이벤트 종료
     public bool NightEventFin = false;
+
+    public bool isCreatureUnlockedToday = false;
 
     [Header("크리쳐 데이터 목록")]
     public List<CreatureData> AllCreatureDatas = new List<CreatureData>();
@@ -30,9 +31,6 @@ public class NightEvent : MonoBehaviour
             Debug.LogError($"GM을 못찾음");
             return;
         }
-        CurrentDayCount = GM.DayCount;
-
-        CheckUnlockCreature();
     }
 
     void Update()
@@ -43,6 +41,14 @@ public class NightEvent : MonoBehaviour
         }
     }
 
+    public void StartNightEvent()
+    {
+        if (GM == null) GM = FindAnyObjectByType<GameManager>();
+        CurrentDayCount = GM.DayCount;
+
+        CheckUnlockCreature();
+    }
+
     private void CheckUnlockCreature()
     {
         if (AllCreatureDatas == null || AllCreatureDatas.Count == 0)
@@ -50,12 +56,14 @@ public class NightEvent : MonoBehaviour
             Debug.LogWarning("NightEvent에 크리쳐 데이터가 등록되지 않았습니다.");
             return;
         }
+        isCreatureUnlockedToday = false;
 
         foreach (CreatureData creature in AllCreatureDatas)
         {
             if (creature.UnLockDay == CurrentDayCount)
             {
                 Debug.Log($"{creature.name}을 포획할 수 있습니다");
+                isCreatureUnlockedToday = true;
             }
         }
     }

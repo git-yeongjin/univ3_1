@@ -4,10 +4,6 @@ public class Creature : MonoBehaviour
 {
     [Header("크리쳐 세팅")]
     public CreatureData creatureData;
-    public int Hp;
-
-    [Header("공통")]
-    public float Alertness = 1.0f;
 
     private CreatureSpawner mySpawner;
 
@@ -22,7 +18,7 @@ public class Creature : MonoBehaviour
     public void SetupSpawnInfo(CreatureSpawner spawner, float bonusAlertness)
     {
         mySpawner = spawner;
-        Alertness += bonusAlertness;
+        //Alertness += bonusAlertness;
     }
 
     public void Escape()
@@ -51,10 +47,10 @@ public class Creature : MonoBehaviour
                 Debug.LogError($"{gameObject.name}에 크리쳐 타입이 없음");
                 break;
             case CreatureType.Doll:
-                Hp = 1;
+
                 break;
             case CreatureType.Frog:
-                Hp = 2;
+
                 break;
             case CreatureType.Mushroom:
                 break;

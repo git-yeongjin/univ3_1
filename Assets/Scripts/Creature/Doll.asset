@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   origin: 1
+  dropitem: 0
+  UnLockDay: 1
+  isSpawning: 0

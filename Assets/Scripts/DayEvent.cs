@@ -181,7 +181,7 @@ public class DayEvent : MonoBehaviour
         Debug.Log($"현재 완벽한 빵 개수 : {PerfectBread}");
         if (PerfectBread >= 5)
         {
-            CustomerEvent();
+
         }
     }
 

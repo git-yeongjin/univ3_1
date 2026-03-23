@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
 
             //밤으로 넘어가서 초기화
             CustomerToCreature = 0;
+
+            if (NE != null) NE.StartNightEvent();
         }
         else if (Night)
         {

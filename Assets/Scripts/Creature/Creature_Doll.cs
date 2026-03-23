@@ -2,6 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+public enum DollItemType
+{
+    Button,
+    Ribbon
+}
+
 public class Creature_Doll : MonoBehaviour
 {
     private Creature BaseCreature;
@@ -15,17 +21,28 @@ public class Creature_Doll : MonoBehaviour
     //현재 불안도
     public float CurrentAnxiety;
     //최대 불안도 -> 넘기면 포획 실패
-    public float MaxAnxiety;
+    public float MaxAnxiety = 100f;
 
     [Header("미니게임 상태")]
     public bool isGameStarted = false;
     public float TimeLimit = 180f;
-    private float CurrentTime;
+    [SerializeField] private float CurrentTime;
     private bool isHintShown = false;
 
     [Header("물건 설정")]
     public int RequiredItemCount = 0;
     public int CurrentDeliverd = 0;
+
+    //현재 요구 아이템
+    public DollItemType RequiredItem;
+    //버튼
+    public GameObject ButtonPrefab;
+    //리본
+    public GameObject RibbonPrefab;
+    //랜덤 스폰 위치
+    public Transform[] SpawnLocations;
+    //스폰된 아이템 추적
+    public List<GameObject> SpawnedItems = new List<GameObject>();
 
     [Header("UI 및 이펙트 프리팹")]
     public GameObject ExclamationMark;
@@ -64,12 +81,15 @@ public class Creature_Doll : MonoBehaviour
         isGameStarted = true;
         CurrentTime = TimeLimit;
         isHintShown = false;
+        CurrentDeliverd = 0;
 
         if (ExclamationMark != null) ExclamationMark.SetActive(true);
 
         if (GM != null && GM.DayCount <= 4) RequiredItemCount = 7;
         else RequiredItemCount = Random.Range(3, 5);
 
+        RequiredItem = (Random.Range(0, 2) == 0) ? DollItemType.Button : DollItemType.Ribbon;
+        string itemName = RequiredItem == DollItemType.Button ? "단추" : "리본";
         Debug.Log($"[인형 패턴] 찾아야 할 물건 개수 : {RequiredItemCount}개");
 
         SpawnHiddenItems();
@@ -78,7 +98,6 @@ public class Creature_Doll : MonoBehaviour
     private void PlayMiniGameTimer()
     {
         CurrentTime -= Time.deltaTime;
-
         CurrentAnxiety = Mathf.Lerp(MaxAnxiety, 0, CurrentTime / TimeLimit);
 
         if (CurrentTime <= 30f && !isHintShown)
@@ -91,14 +110,29 @@ public class Creature_Doll : MonoBehaviour
             Debug.Log("[인형 패턴] 제한 시간 초과로 크리쳐가 도망갔습니다.");
             isGameStarted = false;
 
+            CleanSpawnedItem();
             BaseCreature.Escape();
         }
     }
 
     private void TryDeliverItem()
     {
+        PlayerInventory player = FindAnyObjectByType<PlayerInventory>();
+        if (player == null) return;
+
         //임시
-        bool playerHasItem = true;
+        bool playerHasItem = false;
+
+        if (RequiredItem == DollItemType.Button && player.ButtonCount > 0)
+        {
+            player.ButtonCount--;
+            playerHasItem = true;
+        }
+        else if (RequiredItem == DollItemType.Ribbon && player.RibbonCount > 0)
+        {
+            player.RibbonCount--;
+            playerHasItem = true;
+        }
 
         if (playerHasItem)
         {
@@ -116,6 +150,8 @@ public class Creature_Doll : MonoBehaviour
     {
         isGameStarted = false;
 
+        CleanSpawnedItem();
+
         if (HeartEffect != null) Instantiate(HeartEffect, transform.position, Quaternion.identity);
 
         BaseCreature.Capture();
@@ -123,7 +159,40 @@ public class Creature_Doll : MonoBehaviour
 
     private void SpawnHiddenItems()
     {
+        if (SpawnLocations.Length < RequiredItemCount)
+        {
+            Debug.LogWarning("스폰 위치가 요구 개수보다 적습니다.");
+            return;
+        }
 
+        GameObject prefabToSpawn = (RequiredItem == DollItemType.Button) ? ButtonPrefab : RibbonPrefab;
+
+        List<Transform> availableLocations = new List<Transform>(SpawnLocations);
+
+        for (int i = 0; i < RequiredItemCount; i++)
+        {
+            int randomIndex = Random.Range(0, availableLocations.Count);
+            Transform spawnPoint = availableLocations[randomIndex];
+
+            GameObject newItem = Instantiate(prefabToSpawn, spawnPoint.position, spawnPoint.rotation);
+            SpawnedItems.Add(newItem);
+
+            availableLocations.RemoveAt(randomIndex);
+        }
+
+        Debug.Log($"[인형 패턴] 랜덤 위치에 아이템이 생성 되었습니다.");
+    }
+
+    private void CleanSpawnedItem()
+    {
+        foreach (GameObject item in SpawnedItems)
+        {
+            if (item == null)
+            {
+                Destroy(item);
+            }
+        }
+        SpawnedItems.Clear();
     }
 
     private void ShowItemHints()

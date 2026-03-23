@@ -349,7 +349,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &309214642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,9 +431,11 @@ MonoBehaviour:
   CurrentCatchCount: 0
   MaxCatchCount: 10
   NightEventFin: 0
+  isCreatureUnlockedToday: 0
   AllCreatureDatas:
   - {fileID: 11400000, guid: ef732f86990464e43984c0ef82cfc9b5, type: 2}
-  - {fileID: 11400000, guid: 2aaaf3188d5ee8d48b5e13b15dd9988a, type: 2}
+  - {fileID: 11400000, guid: 8707a6e797b40aa4e99e98296fc7815d, type: 2}
+  - {fileID: 11400000, guid: 18fe51e9b77ab6646b891057175df501, type: 2}
 --- !u!1 &335588516
 GameObject:
   m_ObjectHideFlags: 0

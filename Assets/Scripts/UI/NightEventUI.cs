@@ -29,8 +29,16 @@ public class NightEventUI : MonoBehaviour
     public void OpenDayEventScene()
     {
         if (GM == null) return;
-
         GM.ChangeDayNight();
-        SceneManager.LoadScene("DayEventScene");
+
+        if (NE != null && NE.isCreatureUnlockedToday && GM.DayCount != 1)
+        {
+            Debug.Log("새로운 크리쳐 해금으로 빵 제작씬으로 이동");
+            SceneManager.LoadScene("BakeEventScene");
+        }
+        else
+        {
+            SceneManager.LoadScene("DayEventScene");
+        }
     }
 }

@@ -82,6 +82,12 @@ public class DayEventUI : MonoBehaviour
     {
         CurrentStation = station;
         if (PackagingUI != null) PackagingUI.SetActive(true);
+
+        Player player = FindAnyObjectByType<Player>();
+        if (player != null)
+        {
+            player.LockCursor(false);
+        }
     }
 
     public void OnClickPackageYes()
@@ -92,6 +98,12 @@ public class DayEventUI : MonoBehaviour
         {
             CurrentStation.ProceedPackaging();
         }
+
+        Player player = FindAnyObjectByType<Player>();
+        if (player != null)
+        {
+            player.LockCursor(true);
+        }
     }
 
     public void OnClickPackageNo()
@@ -101,6 +113,12 @@ public class DayEventUI : MonoBehaviour
         if (CurrentStation != null)
         {
             CurrentStation.CancelPackaging();
+        }
+
+        Player player = FindAnyObjectByType<Player>();
+        if (player != null)
+        {
+            player.LockCursor(true);
         }
     }
 

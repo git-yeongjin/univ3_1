@@ -15,6 +15,13 @@ public class DragDrop : MonoBehaviour
     private GameObject MoveObj;
     private string[] MoveObjTAG = { "Moveable", "Dough", "BreadMaterial", "Mold", "FinishedBread" };
 
+    [Header("물건 들기 설정")]
+    public Transform PlayerTransform;
+    public float HoldHeight = 1.2f;
+    public float HoldDistance = 1.5f;
+
+    private float holdZ;
+
     void Update()
     {
         LastTouchPos = CurrentTouchPos;
@@ -82,18 +89,24 @@ public class DragDrop : MonoBehaviour
         }
     }
 
-
     private void TouchBeganEvent()
     {
         GameObject clickObj = OnClickObjTag(MoveObjTAG);
 
         if (clickObj != null)
         {
+            BeforePosition = clickObj.transform.position;
+
+            Vector3 holdPos = clickObj.transform.position;
+            if (PlayerTransform != null)
+            {
+                holdPos = PlayerTransform.position + (PlayerTransform.forward * HoldDistance) + (Vector3.up * HoldHeight);
+            }
             FinishedBread breadInfo = clickObj.GetComponent<FinishedBread>();
 
             if (breadInfo != null)
             {
-                MoveObj = Instantiate(clickObj, clickObj.transform.position, clickObj.transform.rotation);
+                MoveObj = Instantiate(clickObj, holdPos, clickObj.transform.rotation);
                 MoveObj.name = clickObj.name + "_copy";
                 MoveObj.GetComponent<FinishedBread>().MyBreadType = breadInfo.MyBreadType;
 
@@ -102,9 +115,13 @@ public class DragDrop : MonoBehaviour
             else
             {
                 MoveObj = clickObj;
+                MoveObj.transform.position = holdPos;
             }
+            holdZ = Camera.main.WorldToScreenPoint(holdPos).z;
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, holdZ));
 
-            BeforePosition = MoveObj.transform.position;
+            Offset = holdPos - mouseWorldPos;
+
             Collider moveObjCollider = MoveObj.GetComponent<Collider>();
             if (moveObjCollider != null)
             {
@@ -116,13 +133,15 @@ public class DragDrop : MonoBehaviour
     {
         if (MoveObj != null)
         {
-            Vector3 TouchPos = Vector3.zero;
-
-            TouchPos = Input.mousePosition;
+            Vector3 TouchPos = Input.mousePosition;
+            /*
             float MoveObj_Z = Camera.main.WorldToScreenPoint(MoveObj.transform.position).z;
             Vector3 WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(TouchPos.x, TouchPos.y, MoveObj_Z));
 
             MoveObj.transform.position = Vector3.MoveTowards(MoveObj.transform.position, WorldPos, Time.deltaTime * 20f);
+            */
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(TouchPos.x, TouchPos.y, holdZ));
+            MoveObj.transform.position = worldPos + Offset;
         }
     }
     private void TouchStayEvent()
