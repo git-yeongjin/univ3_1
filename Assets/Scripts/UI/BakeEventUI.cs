@@ -1,27 +1,26 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BakeEventUI : MonoBehaviour
 {
     [Header("레시피 북 설정")]
     public bool isOpenRecipeBook = false;
     public GameObject RecipeBookUI;
+    public Sprite[] Sprites;
+    public Image RecipeImage;
+    public int CurrentRecipeSprite = 0;
     public RecipeDataBook recipeDataBook;
-
-
-    public GameObject RecipeContentPrefab;
-    public Transform RecipeContentTransform;
 
     void Start()
     {
+        if (RecipeImage != null && Sprites.Length > 0)
+        {
+            RecipeImage.sprite = Sprites[CurrentRecipeSprite];
+        }
+
         RecipeBookUI.SetActive(false);
-    }
-
-
-    void Update()
-    {
-
     }
 
     public void OpenRecipeBook()
@@ -42,6 +41,7 @@ public class BakeEventUI : MonoBehaviour
         }
     }
 
+    /*
     public void LoadRecipeContent(MoldCategory category)
     {
         for (int i = RecipeContentTransform.childCount - 1; i >= 0; i--)
@@ -62,10 +62,41 @@ public class BakeEventUI : MonoBehaviour
             }
         }
     }
+    */
 
+    public void OnClickRight()
+    {
+        if (CurrentRecipeSprite < Sprites.Length - 1)
+        {
+            CurrentRecipeSprite++;
+            RecipeImage.sprite = Sprites[CurrentRecipeSprite];
+        }
+        else
+        {
+            CurrentRecipeSprite = 0;
+            RecipeImage.sprite = Sprites[CurrentRecipeSprite];
+        }
+    }
+
+    public void OnClickLeft()
+    {
+        if (CurrentRecipeSprite > 0)
+        {
+            CurrentRecipeSprite--;
+            RecipeImage.sprite = Sprites[CurrentRecipeSprite];
+        }
+        else
+        {
+            CurrentRecipeSprite = Sprites.Length - 1;
+            RecipeImage.sprite = Sprites[CurrentRecipeSprite];
+        }
+    }
+
+    /*
     public void OnClickCakeRecipe() { LoadRecipeContent(MoldCategory.Cake); }
     public void OnClickPuddingRecipe() { LoadRecipeContent(MoldCategory.Pudding); }
     public void OnClickMuffinRecipe() { LoadRecipeContent(MoldCategory.Muffin); }
+    */
 
     public void OpenDayEventScene()
     {

@@ -10,41 +10,32 @@ public class PackagingStation : MonoBehaviour
     void Start()
     {
         DE = FindAnyObjectByType<DayEvent>();
-        currentCustomer = FindAnyObjectByType<Customer>();
     }
 
-    public void AskPackaging(FinishedBread bread)
+    public void AskPackaging(FinishedBread bread, string stationname)
     {
-        Debug.Log($"포장대에 [{bread.MyBreadType}]빵이 올라갔습니다.");
+        currentCustomer = FindAnyObjectByType<Customer>();
+        Debug.Log($"[{bread.MyBreadType}]빵을 [{stationname}]에 올렸습니다.");
 
         currentBread = bread;
         DayEventUI dayEventUI = FindAnyObjectByType<DayEventUI>();
 
         if (currentCustomer != null && dayEventUI != null)
         {
-            dayEventUI.ShowPackagingUI(this);
+            if (stationname == "포장")
+            {
+                Debug.Log("포장으로 판매했습니다.");
+                if (currentCustomer != null) currentCustomer.ReceiveBread(currentBread, true);
+            }
+            else if (stationname == "매장")
+            {
+                Debug.Log("매장으로 판매했습니다");
+                if (currentCustomer != null) currentCustomer.ReceiveBread(currentBread, false);
+            }
         }
         else
         {
-            Debug.LogWarning("손님이 없어서 포장을 취소합니다.");
-        }
-    }
-
-    public void ProceedPackaging()
-    {
-        Debug.Log("포장해서 먹는 중");
-        if (currentCustomer != null)
-        {
-            currentCustomer.ReceiveBread(currentBread, true);
-        }
-    }
-
-    public void CancelPackaging()
-    {
-        Debug.Log("매장에서 먹는 중");
-        if (currentCustomer != null)
-        {
-            currentCustomer.ReceiveBread(currentBread, false);
+            Debug.LogWarning("손님이 없어서 판매을 취소합니다.");
         }
     }
 

@@ -219,7 +219,9 @@ public class DragDrop : MonoBehaviour
                 FinishedBread bread = MoveObj.GetComponent<FinishedBread>();
                 if (bread != null)
                 {
-                    targetStation.AskPackaging(bread);
+                    targetStation.AskPackaging(bread, HitInfo.collider.gameObject.name);
+                    Destroy(MoveObj);
+
                     MoveObj = null;
                     return;
                 }
