@@ -2853,6 +2853,7 @@ MonoBehaviour:
   RecipeImage: {fileID: 26833324}
   CurrentRecipeSprite: 0
   recipeDataBook: {fileID: 11400000, guid: 2d76769918c039c4bb8eca4c6d8df3c8, type: 2}
+  BakeFailUI: {fileID: 0}
 --- !u!1 &1278278938
 GameObject:
   m_ObjectHideFlags: 0
@@ -3678,7 +3679,7 @@ Transform:
   m_GameObject: {fileID: 1774611094}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.16, y: 1, z: 3.05}
+  m_LocalPosition: {x: -3.16, y: 1, z: 1.7499998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
