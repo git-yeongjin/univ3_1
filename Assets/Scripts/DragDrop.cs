@@ -13,11 +13,11 @@ public class DragDrop : MonoBehaviour
 
     [SerializeField]
     private GameObject MoveObj;
-    private string[] MoveObjTAG = { "Moveable", "Dough", "BreadMaterial", "Mold", "FinishedBread" };
+    private string[] MoveObjTAG = { "Moveable", "Dough", "BreadMaterial", "FinishedBread" };
 
     [Header("물건 들기 설정")]
     public Transform PlayerTransform;
-    public float HoldHeight = 1.2f;
+    public float HoldHeight = -1.2f;
     public float HoldDistance = 1.5f;
 
     private float holdZ;
@@ -127,6 +127,7 @@ public class DragDrop : MonoBehaviour
             {
                 moveObjCollider.enabled = false;
             }
+
         }
     }
     private void TouchMovedEvent()
@@ -134,12 +135,6 @@ public class DragDrop : MonoBehaviour
         if (MoveObj != null)
         {
             Vector3 TouchPos = Input.mousePosition;
-            /*
-            float MoveObj_Z = Camera.main.WorldToScreenPoint(MoveObj.transform.position).z;
-            Vector3 WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(TouchPos.x, TouchPos.y, MoveObj_Z));
-
-            MoveObj.transform.position = Vector3.MoveTowards(MoveObj.transform.position, WorldPos, Time.deltaTime * 20f);
-            */
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(TouchPos.x, TouchPos.y, holdZ));
             MoveObj.transform.position = worldPos + Offset;
         }
@@ -172,20 +167,27 @@ public class DragDrop : MonoBehaviour
                 Dough currentDough = MoveObj.GetComponent<Dough>();
                 if (currentDough != null)
                 {
-                    if (currentDough.isMold)
+                    currentDough.FindRecipe();
+                    if (currentDough.recipe == null)
                     {
-                        currentDough.FindRecipe();
-                        targetOven.StartBaking(currentDough.recipe);
+                        BakeEventUI bakeEventUI = FindAnyObjectByType<BakeEventUI>();
 
-                        //반죽을 오븐에 넣어서 반죽오브젝트 삭제
-                        Destroy(MoveObj);
-                        MoveObj = null;
-                        return;
+
+                        Debug.Log("[DragDrop] 반죽을 다시 생성 합니다.");
+                        currentDough.ClearBreadMaterial();
+
+                        MoveObj.transform.position = BeforePosition;
+
                     }
                     else
                     {
-                        Debug.Log("반죽을 섞고 틀에 넣어야 합니다.");
+                        targetOven.StartBaking(currentDough.recipe);
+                        //반죽을 오븐에 넣어서 반죽오브젝트 삭제
+                        Destroy(MoveObj);
+
                     }
+                    MoveObj = null;
+                    return;
                 }
                 else
                 {
@@ -200,16 +202,6 @@ public class DragDrop : MonoBehaviour
                 if (breadMaterial != null)
                 {
                     targetDough.AddMaterial(breadMaterial.GetMaterialName());
-                }
-            }
-
-            //틀안에 반죽을 넣을 때
-            else if (targetDough != null && MoveObj.CompareTag("Mold"))
-            {
-                MoldType moldType = MoveObj.GetComponent<MoldType>();
-                if (moldType != null)
-                {
-                    targetDough.AddMold(moldType.GetMoldName());
                 }
             }
 

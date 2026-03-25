@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class BakeEventUI : MonoBehaviour
 {
+    private GameManager GM;
+
     [Header("레시피 북 설정")]
     public bool isOpenRecipeBook = false;
     public GameObject RecipeBookUI;
@@ -13,14 +15,27 @@ public class BakeEventUI : MonoBehaviour
     public int CurrentRecipeSprite = 0;
     public RecipeDataBook recipeDataBook;
 
+    public GameObject BakeFailUI;
+
     void Start()
     {
+        GM = FindAnyObjectByType<GameManager>();
+        if (GM == null) Debug.LogError($"GameManager를 찾을 수 없습니다.");
+
         if (RecipeImage != null && Sprites.Length > 0)
         {
             RecipeImage.sprite = Sprites[CurrentRecipeSprite];
         }
 
         RecipeBookUI.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnClickBakeFinish();
+        }
     }
 
     public void OpenRecipeBook()
@@ -40,29 +55,6 @@ public class BakeEventUI : MonoBehaviour
             isOpenRecipeBook = false;
         }
     }
-
-    /*
-    public void LoadRecipeContent(MoldCategory category)
-    {
-        for (int i = RecipeContentTransform.childCount - 1; i >= 0; i--)
-        {
-            Destroy(RecipeContentTransform.GetChild(i).gameObject);
-        }
-
-        foreach (RecipeData recipe in recipeDataBook.AllRecipes)
-        {
-            if (recipe.moldCategory == category)
-            {
-                GameObject entry = Instantiate(RecipeContentPrefab, RecipeContentTransform);
-
-                TMP_Text content = entry.GetComponentInChildren<TMP_Text>();
-                //string.Join() -> 문자열 이어서 출력 ex ", "면 a, b, c
-                content.text = $"빵 이름 : {recipe.BreadName}\n" + $"사용하는 틀 : {recipe.RequiredMold}\n" +
-                                $"사용 재료 : {string.Join(", ", recipe.BreadMaterial)}";
-            }
-        }
-    }
-    */
 
     public void OnClickRight()
     {
@@ -92,11 +84,34 @@ public class BakeEventUI : MonoBehaviour
         }
     }
 
-    /*
-    public void OnClickCakeRecipe() { LoadRecipeContent(MoldCategory.Cake); }
-    public void OnClickPuddingRecipe() { LoadRecipeContent(MoldCategory.Pudding); }
-    public void OnClickMuffinRecipe() { LoadRecipeContent(MoldCategory.Muffin); }
-    */
+    public void OnClickBakeFinish()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit HitInfo;
+
+        if (Physics.Raycast(ray, out HitInfo))
+        {
+            Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
+
+            if (HitInfo.collider.gameObject.name == "반죽완료" && GM.isBakingTime)
+            {
+                Dough currentDought = FindAnyObjectByType<Dough>();
+                if (currentDought != null)
+                {
+                    currentDought.FindRecipe();
+                    if (currentDought.recipe == null)
+                    {
+                        Debug.Log("[BakeEventUI] 재료가 맞지 않아 반죽을 섞지 못했습니다.");
+                    }
+                    else
+                    {
+                        Debug.Log("반죽을 섞었습니다.");
+                        GM.isBakingTime = false;
+                    }
+                }
+            }
+        }
+    }
 
     public void OpenDayEventScene()
     {

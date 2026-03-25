@@ -3,20 +3,22 @@ using UnityEngine;
 
 public class Dough : MonoBehaviour
 {
+    private GameManager GM;
+
     public RecipeData recipe;
 
     [Header("반죽에 들어간 재료")]
     public List<string> BreadMaterial = new List<string>();
 
-    [Header("반죽 상태")]
-    public bool isReadyToBake = false;
-    public bool isMold = false;
-
-    public Mold MoldName;
+    void Start()
+    {
+        GM = FindAnyObjectByType<GameManager>();
+        if (GM == null) Debug.LogError($"[Dough] GameManager를 찾을 수 없습니다.");
+    }
 
     public void AddMaterial(string BreadMaterialName)
     {
-        if (isReadyToBake)
+        if (!GM.isBakingTime)
         {
             Debug.Log("섞기가 완료된 반죽입니다.");
             return;
@@ -26,32 +28,16 @@ public class Dough : MonoBehaviour
         Debug.Log($"반죽에 {BreadMaterialName}을 추가했습니다. 총 재료 {BreadMaterial.Count}개 들어감");
     }
 
-    public void AddMold(Mold mold)
+    public void ClearBreadMaterial()
     {
-        if (!isReadyToBake)
-        {
-            Debug.Log("먼저 반죽을 섞어야 합니다.");
-            return;
-        }
-        MoldName = mold;
-        isMold = true;
-        Debug.Log($"반죽을 {MoldName}에 넣었습니다.");
+        Debug.Log("반죽에 들어간 재료가 초기화 되었습니다.");
+
+        BreadMaterial.Clear();
     }
 
     public void FindRecipe()
     {
         Debug.Log("레시피 찾는 중");
-        recipe = RecipeManager.Instance.FindRecipe(BreadMaterial, MoldName);
+        recipe = RecipeManager.Instance.FindRecipe(BreadMaterial);
     }
-
-    void OnMouseUp()
-    {
-        if (!isReadyToBake)
-        {
-            Debug.Log("반죽을 섞었습니다.");
-            isReadyToBake = true;
-        }
-    }
-
-
 }

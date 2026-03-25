@@ -13,7 +13,7 @@ public class RecipeManager : MonoBehaviour
         Instance = this;
     }
 
-    public RecipeData FindRecipe(List<string> dough, Mold mold)
+    public RecipeData FindRecipe(List<string> dough)
     {
         Debug.Log($"총 {recipeDataBook.AllRecipes.Count}개의 레시피가 있습니다.");
 
@@ -31,11 +31,6 @@ public class RecipeManager : MonoBehaviour
                     break;
                 }
             }
-            if (mold != recipe.RequiredMold)
-            {
-                isMatch = false;
-                Debug.Log("반죽틀이 틀립니다.");
-            }
 
             if (isMatch)
             {
@@ -44,7 +39,8 @@ public class RecipeManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"맞는 레시피가 없어서 일반 빵");
-        return recipeDataBook.NormalBread;
+
+        Debug.Log($"맞는 레시피가 없어서 다시 제작 합니다.");
+        return null;
     }
 }

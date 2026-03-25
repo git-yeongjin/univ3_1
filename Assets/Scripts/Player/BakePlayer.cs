@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class BakePlayer : MonoBehaviour
 {
+    private GameManager GM;
+
     Rigidbody rb;
     Camera MainCamera;
     [Header("플레이어 회전")]
@@ -18,13 +20,14 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        GM = FindAnyObjectByType<GameManager>();
+        if (GM == null) Debug.LogError($"GameManager를 찾을 수 없습니다.");
+        GM.isBakingTime = true;
+
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
         MainCamera = Camera.main;
-
-        yRotation = transform.eulerAngles.y;
-        xRotation = 0f;
 
         LockCursor(true);
     }
@@ -40,7 +43,10 @@ public class Player : MonoBehaviour
         {
             Rotate();
         }
-        Move();
+        if (!GM.isBakingTime)
+        {
+            Move();
+        }
     }
 
     void Rotate()
@@ -53,9 +59,8 @@ public class Player : MonoBehaviour
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
+        MainCamera.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         transform.rotation = Quaternion.Euler(0, yRotation, 0);
-
-        MainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
     }
 
     void Move()
