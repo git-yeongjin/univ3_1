@@ -4,6 +4,8 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     private DayEvent DE;
     private NightEvent NE;
 
@@ -23,12 +25,30 @@ public class GameManager : MonoBehaviour
     [Header("크리쳐 포획 수 만큼 손님 수 증가")]
     public int CustomerToCreature = 1;
 
+    [Header("최대 판매 갯수")]
+    public int DollCakeCount = 0;
+    public int MushroomMuffinCount = 0;
+    public int SlimePuddingCount = 0;
+
+    [Header("위생 관리 이벤트 보상&패널티")]
+    public bool CustomerCountDoubleEvent = false;
+    public bool CustomerCountPenaltyEvent = false;
+
+    [Header("일차")]
     //n일차
     public int DayCount = 0;
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -51,6 +71,9 @@ public class GameManager : MonoBehaviour
 
             Day = false;
             Night = true;
+
+            CustomerCountDoubleEvent = false;
+            CustomerCountPenaltyEvent = false;
 
             //밤으로 넘어가서 초기화
             CustomerToCreature = 0;

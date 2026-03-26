@@ -6,10 +6,12 @@ public class Customer : MonoBehaviour
     public bool wantsPackaging;
 
     private DayEvent DE;
+    private GameManager GM;
 
     void Start()
     {
         DE = FindAnyObjectByType<DayEvent>();
+        GM = FindAnyObjectByType<GameManager>();
     }
 
     public void SetOrder(BreadType order, bool packaging)
@@ -30,21 +32,35 @@ public class Customer : MonoBehaviour
                 Debug.Log($"주문한 빵과 일치합니다.");
                 if (DE != null)
                 {
-                    int scroe = 0;
+                    int score = 0;
                     switch (MyOrder)
                     {
                         case BreadType.DollCake:
-                            scroe = 1;
+                            score = 1;
                             break;
                         case BreadType.MushroomMuffin:
-                            scroe = 2;
+                            score = 2;
                             break;
                         case BreadType.SlimePudding:
-                            scroe = 3;
+                            score = 3;
                             break;
                     }
-                    DE.CustomerLeft(scroe);
 
+                    if (GM != null)
+                    {
+                        if (GM.CustomerCountPenaltyEvent)
+                        {
+                            score = 1;
+                            Debug.Log("위생 패널티로 카운트가 1만 오릅니다.");
+                        }
+                        else if (GM.CustomerCountDoubleEvent)
+                        {
+                            score *= 2;
+                            Debug.Log("위생 우수로 카운트가 2배로 적용 됩니다.");
+                        }
+                    }
+
+                    DE.CustomerLeft(score);
                     Destroy(gameObject);
                 }
             }

@@ -148,40 +148,6 @@ public class DayEventUI : MonoBehaviour
         }
     }
 
-    /*
-        public void OnClickPackageYes()
-        {
-            if (PackagingUI != null) PackagingUI.SetActive(false);
-
-            if (CurrentStation != null)
-            {
-                CurrentStation.ProceedPackaging();
-            }
-
-            Player player = FindAnyObjectByType<Player>();
-            if (player != null)
-            {
-                player.LockCursor(true);
-            }
-        }
-
-        public void OnClickPackageNo()
-        {
-            if (PackagingUI != null) PackagingUI.SetActive(false);
-
-            if (CurrentStation != null)
-            {
-                CurrentStation.CancelPackaging();
-            }
-
-            Player player = FindAnyObjectByType<Player>();
-            if (player != null)
-            {
-                player.LockCursor(true);
-            }
-        }
-    */
-
     public void CloseOrderDetail()
     {
         if (OrderDetailPanel != null) OrderDetailPanel.SetActive(false);

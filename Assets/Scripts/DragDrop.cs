@@ -146,11 +146,7 @@ public class DragDrop : MonoBehaviour
     {
         if (MoveObj == null) return;
 
-
-        Collider moveObjCollider = MoveObj.GetComponent<Collider>();
-        if (moveObjCollider != null) moveObjCollider.enabled = true;
-
-        Ray ray = new Ray(MoveObj.transform.position, Camera.main.transform.forward);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit HitInfo;
 
         if (Physics.Raycast(ray, out HitInfo))
@@ -168,23 +164,12 @@ public class DragDrop : MonoBehaviour
                 if (currentDough != null)
                 {
                     currentDough.FindRecipe();
-                    if (currentDough.recipe == null)
-                    {
-                        BakeEventUI bakeEventUI = FindAnyObjectByType<BakeEventUI>();
-
-
-                        Debug.Log("[DragDrop] 반죽을 다시 생성 합니다.");
-                        currentDough.ClearBreadMaterial();
-
-                        MoveObj.transform.position = BeforePosition;
-
-                    }
+                    if (currentDough.recipe == null) MoveObj.transform.position = BeforePosition;
                     else
                     {
                         targetOven.StartBaking(currentDough.recipe);
                         //반죽을 오븐에 넣어서 반죽오브젝트 삭제
                         Destroy(MoveObj);
-
                     }
                     MoveObj = null;
                     return;
@@ -228,6 +213,14 @@ public class DragDrop : MonoBehaviour
         {
             MoveObj.transform.position = BeforePosition;
         }
+
+        if (MoveObj != null)
+        {
+            Collider moveObjCollider = MoveObj.GetComponent<Collider>();
+
+            if (moveObjCollider != null) moveObjCollider.enabled = true;
+        }
+
         MoveObj = null;
     }
 

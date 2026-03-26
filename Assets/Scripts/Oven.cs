@@ -40,10 +40,6 @@ public class Oven : MonoBehaviour
                 isBaking = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EndBaking();
-        }
     }
 
     public void StartBaking(RecipeData recipe)

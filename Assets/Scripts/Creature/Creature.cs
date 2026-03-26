@@ -6,6 +6,12 @@ public class Creature : MonoBehaviour
     public CreatureData creatureData;
 
     private CreatureSpawner mySpawner;
+    private GameManager GM;
+
+    void Start()
+    {
+        GM = FindAnyObjectByType<GameManager>();
+    }
 
     void OnValidate()
     {
@@ -35,6 +41,21 @@ public class Creature : MonoBehaviour
         if (mySpawner != null)
         {
             mySpawner.ReportCapture();
+        }
+        if (GM != null)
+        {
+            switch (creatureData.type)
+            {
+                case CreatureType.Doll:
+                    GM.DollCakeCount++;
+                    break;
+                case CreatureType.Mushroom:
+                    GM.MushroomMuffinCount++;
+                    break;
+                case CreatureType.SlimeHorse:
+                    GM.SlimePuddingCount++;
+                    break;
+            }
         }
         Destroy(gameObject);
     }

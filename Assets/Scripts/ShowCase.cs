@@ -3,11 +3,10 @@ using UnityEngine;
 public class ShowCase : MonoBehaviour
 {
     private GameManager GM;
+    private FinishedBread MyBread;
 
     [Header("판매할 음식")]
-    public GameObject Cake;
-    public GameObject Muffin;
-    public GameObject Pudding;
+    public GameObject Bread;
 
 
     void Start()
@@ -19,18 +18,38 @@ public class ShowCase : MonoBehaviour
             return;
         }
 
-        if (Cake != null) Cake.SetActive(false);
-        if (Muffin != null) Muffin.SetActive(false);
-        if (Pudding != null) Pudding.SetActive(false);
+        if (Bread == null)
+        {
+            Debug.LogError("[Showcase] Bread 오브젝트를 찾지 못함");
+            return;
+        }
+
+        MyBread = Bread.GetComponent<FinishedBread>();
+        if (MyBread == null)
+        {
+            Debug.LogError("[Showcase] FinishedBread를 찾지 못함");
+            return;
+        }
+
+        Bread.SetActive(false);
     }
 
     public void DisplayBread()
     {
-        if (GM == null) return;
+        if (GM == null || MyBread == null) return;
 
-        if (Cake != null) Cake.SetActive(GM.DollCake);
-        if (Muffin != null) Muffin.SetActive(GM.MushroomMuffin);
-        if (Pudding != null) Pudding.SetActive(GM.SlimePudding);
+        switch (MyBread.MyBreadType)
+        {
+            case BreadType.DollCake:
+                Bread.SetActive(GM.DollCake);
+                break;
+            case BreadType.MushroomMuffin:
+                Bread.SetActive(GM.MushroomMuffin);
+                break;
+            case BreadType.SlimePudding:
+                Bread.SetActive(GM.SlimePudding);
+                break;
+        }
 
         Debug.Log($"빵을 진열 했습니다.");
     }

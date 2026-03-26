@@ -41,12 +41,12 @@ public class DayEvent : MonoBehaviour
     public int BreadSellCount = 0;
     public int PerfectBread = 0;
 
-    public bool CleanDayEvent = false;
-    public bool CleanDayEvent_Clear = false;
-    public bool CleanDayEvent_Fail = false;
+    //public bool CleanDayEvent = false;
+    //public bool CleanDayEvent_Clear = false;
+    //public bool CleanDayEvent_Fail = false;
     //제한 시간
-    public float CleanDayEvent_TimeLimit = 120.0f;
-    public int CleanDayEvent_Count = 0;
+    //public float CleanDayEvent_TimeLimit = 120.0f;
+    //public int CleanDayEvent_Count = 0;
 
     void Start()
     {
@@ -74,20 +74,9 @@ public class DayEvent : MonoBehaviour
             DayEventFin = true;
         }
 
-        if (!CleanDayEvent && GM.DayCount == 8)
+        if (GM.DayCount == 8)
         {
             StartCleanDayEvent();
-            CleanDayEvent = true;
-        }
-
-        if (CleanDayEvent && !CleanDayEvent_Clear && !CleanDayEvent_Fail)
-        {
-            CleanDayEvent_TimeLimit -= Time.deltaTime;
-
-            if (CleanDayEvent_TimeLimit <= 0f)
-            {
-                CheckTimeOutCleanEvent();
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -118,23 +107,40 @@ public class DayEvent : MonoBehaviour
             Debug.Log("오늘 모슨 손님이 방문했습니다.");
             return;
         }
-        //손님 한명 들어옴
-        ActualCustomer++;
 
         List<BreadType> SellableBreads = new List<BreadType>();
 
-        if (GM.DollCake) SellableBreads.Add(BreadType.DollCake);
-        if (GM.MushroomMuffin) SellableBreads.Add(BreadType.MushroomMuffin);
-        if (GM.SlimePudding) SellableBreads.Add(BreadType.SlimePudding);
+        if (GM.DollCakeCount > 0) SellableBreads.Add(BreadType.DollCake);
+        if (GM.MushroomMuffinCount > 0) SellableBreads.Add(BreadType.MushroomMuffin);
+        if (GM.SlimePuddingCount > 0) SellableBreads.Add(BreadType.SlimePudding);
 
         if (SellableBreads.Count == 0)
         {
             Debug.LogWarning("판매 가능한 빵이 없습니다.");
+
+            //DayEventFin = true;
             return;
         }
 
+        //손님 한명 들어옴
+        ActualCustomer++;
+
         int randomIndex = Random.Range(0, SellableBreads.Count);
         BreadType orderedBread = SellableBreads[randomIndex];
+
+        //주문한 빵 차감
+        switch (orderedBread)
+        {
+            case BreadType.DollCake:
+                GM.DollCakeCount--;
+                break;
+            case BreadType.MushroomMuffin:
+                GM.MushroomMuffinCount--;
+                break;
+            case BreadType.SlimePudding:
+                GM.SlimePuddingCount--;
+                break;
+        }
 
         bool isPackaging = (Random.Range(0, 2) == 1);
 
@@ -189,45 +195,6 @@ public class DayEvent : MonoBehaviour
     {
         SceneManager.LoadScene("CleanEventScene");
         Debug.Log("위생 점검 이벤트로 이동");
-    }
-
-    public void CheckTimeOutCleanEvent()
-    {
-        if (CleanDayEvent_Clear)
-        {
-            if (CleanDayEvent_Count == 7)
-            {
-                Debug.Log("매우 우수");
-                CustomerEvent();
-            }
-            else if (CleanDayEvent_Count < 7 && CleanDayEvent_Count >= 4)
-            {
-                Debug.Log("우수");
-            }
-            else if (CleanDayEvent_Count < 4)
-            {
-                Debug.Log("좋음");
-            }
-
-        }
-    }
-
-    public void IncreaseCount()
-    {
-        CleanDayEvent_Count++;
-    }
-
-    public void CheckCreatureTrace(bool trace)
-    {
-        if (trace)
-        {
-            Debug.Log("위생 검사에서 크리쳐 흔적이 발견되어 게임 끝");
-            CleanDayEvent_Fail = true;
-        }
-        else
-        {
-            CleanDayEvent_Clear = true;
-        }
     }
 
     private void CustomerEvent()

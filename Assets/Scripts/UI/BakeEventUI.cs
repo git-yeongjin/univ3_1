@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 public class BakeEventUI : MonoBehaviour
 {
     private GameManager GM;
+    private Coroutine HideBakeFailUICoroutine;
 
     [Header("레시피 북 설정")]
     public bool isOpenRecipeBook = false;
@@ -28,13 +30,14 @@ public class BakeEventUI : MonoBehaviour
         }
 
         RecipeBookUI.SetActive(false);
+        BakeFailUI.SetActive(false);
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            OnClickBakeFinish();
+            //OnClickBakeFinish();
         }
     }
 
@@ -86,6 +89,7 @@ public class BakeEventUI : MonoBehaviour
 
     public void OnClickBakeFinish()
     {
+        /*
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit HitInfo;
 
@@ -95,20 +99,46 @@ public class BakeEventUI : MonoBehaviour
 
             if (HitInfo.collider.gameObject.name == "반죽완료" && GM.isBakingTime)
             {
-                Dough currentDought = FindAnyObjectByType<Dough>();
-                if (currentDought != null)
+                Dough currentDough = FindAnyObjectByType<Dough>();
+                if (currentDough != null)
                 {
-                    currentDought.FindRecipe();
-                    if (currentDought.recipe == null)
+                    currentDough.FindRecipe();
+                    if (currentDough.recipe == null)
                     {
-                        Debug.Log("[BakeEventUI] 재료가 맞지 않아 반죽을 섞지 못했습니다.");
+                        Debug.Log("[BakeEventUI] 재료가 맞지 않아 반죽을 섞지 못했습니다, 반죽을 초기화 합니다.");
+                        currentDough.BreadMaterial.Clear();
+                        BakeFailUI.SetActive(true);
+                        if (HideBakeFailUICoroutine != null) StopCoroutine(HideBakeFailUICoroutine);
+
+                        HideBakeFailUICoroutine = StartCoroutine(HideBakeFailUI());
                     }
                     else
                     {
-                        Debug.Log("반죽을 섞었습니다.");
+                        Debug.Log($"반죽을 섞었습니다. 현재 레시피 : {currentDough.recipe}");
                         GM.isBakingTime = false;
                     }
                 }
+            }
+        }
+        */
+
+        Dough currentDough = FindAnyObjectByType<Dough>();
+        if (currentDough != null)
+        {
+            currentDough.FindRecipe();
+            if (currentDough.recipe == null)
+            {
+                Debug.Log("[BakeEventUI] 재료가 맞지 않아 반죽을 섞지 못했습니다, 반죽을 초기화 합니다.");
+                currentDough.BreadMaterial.Clear();
+                BakeFailUI.SetActive(true);
+                if (HideBakeFailUICoroutine != null) StopCoroutine(HideBakeFailUICoroutine);
+
+                HideBakeFailUICoroutine = StartCoroutine(HideBakeFailUI());
+            }
+            else
+            {
+                Debug.Log($"반죽을 섞었습니다. 현재 레시피 : {currentDough.recipe}");
+                GM.isBakingTime = false;
             }
         }
     }
@@ -116,5 +146,12 @@ public class BakeEventUI : MonoBehaviour
     public void OpenDayEventScene()
     {
         SceneManager.LoadScene("DayEventScene");
+    }
+
+    private IEnumerator HideBakeFailUI()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        if (BakeFailUI != null) BakeFailUI.SetActive(false);
     }
 }
