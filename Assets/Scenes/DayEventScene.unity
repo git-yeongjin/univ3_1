@@ -568,6 +568,11 @@ MonoBehaviour:
   MushroomMuffin: 0
   SlimePudding: 0
   CustomerToCreature: 1
+  DollCakeCount: 0
+  MushroomMuffinCount: 0
+  SlimePuddingCount: 0
+  CustomerCountDoubleEvent: 0
+  CustomerCountPenaltyEvent: 0
   DayCount: 0
 --- !u!114 &309214643
 MonoBehaviour:
@@ -592,11 +597,6 @@ MonoBehaviour:
   BreadEvent: 0
   BreadSellCount: 0
   PerfectBread: 0
-  CleanDayEvent: 0
-  CleanDayEvent_Clear: 0
-  CleanDayEvent_Fail: 0
-  CleanDayEvent_TimeLimit: 120
-  CleanDayEvent_Count: 0
 --- !u!4 &309214644
 Transform:
   m_ObjectHideFlags: 0

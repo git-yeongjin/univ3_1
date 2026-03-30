@@ -12,6 +12,7 @@ public class Creature_Doll : MonoBehaviour
 {
     private Creature BaseCreature;
     private GameManager GM;
+    private Camera MainCamera;
 
     [Header("인형")]
     //현재 호감도
@@ -48,12 +49,20 @@ public class Creature_Doll : MonoBehaviour
     public GameObject ExclamationMark;
     public GameObject HeartEffect;
 
+    public GameObject PopupUI;
+    public GameObject SpeechBubble;
+
+    public Sprite[] SpeechBubbleSprites;
+
     void Start()
     {
         BaseCreature = GetComponent<Creature>();
         GM = FindAnyObjectByType<GameManager>();
 
+        MainCamera = Camera.main;
+
         if (ExclamationMark != null) ExclamationMark.SetActive(false);
+        //if (SpeechBubble != null) SpeechBubble.SetActive(false);
     }
 
     void Update()
@@ -61,6 +70,11 @@ public class Creature_Doll : MonoBehaviour
         if (isGameStarted)
         {
             PlayMiniGameTimer();
+        }
+
+        if (SpeechBubble != null && SpeechBubble.activeSelf)
+        {
+            SpeechBubble.transform.rotation = MainCamera.transform.rotation;
         }
     }
 
@@ -91,6 +105,20 @@ public class Creature_Doll : MonoBehaviour
         RequiredItem = (Random.Range(0, 2) == 0) ? DollItemType.Button : DollItemType.Ribbon;
         string itemName = RequiredItem == DollItemType.Button ? "단추" : "리본";
         Debug.Log($"[인형 패턴] 찾아야 할 물건 개수 : {RequiredItemCount}개");
+
+        if (SpeechBubble != null)
+        {
+            SpriteRenderer speechBubbleRenderer = SpeechBubble.GetComponent<SpriteRenderer>();
+            switch (RequiredItem)
+            {
+                case DollItemType.Button:
+                    speechBubbleRenderer.sprite = SpeechBubbleSprites[1];
+                    break;
+                case DollItemType.Ribbon:
+                    speechBubbleRenderer.sprite = SpeechBubbleSprites[2];
+                    break;
+            }
+        }
 
         SpawnHiddenItems();
     }

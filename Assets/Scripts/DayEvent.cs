@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,16 +12,15 @@ public enum BreadType
 
 public class DayEvent : MonoBehaviour
 {
-    private GameManager GM;
-
-    [Header("낮 이벤트")]
+    [Header("낮 시간 및 스폰 설정")]
     //낮 시간
     public int DayTime = 0;
     //손님 프리팹
     public GameObject CustomerPrefab;
     //손님 스폰 위치
     public Transform CustomerSpawnPoint;
-    [Header("손님 및 카운트 정보")]
+
+    [Header("손님 및 영업 정보")]
     //현재까지 스폰 된 손님
     public int ActualCustomer = 0;
     //판매 완료한 손님
@@ -31,7 +29,6 @@ public class DayEvent : MonoBehaviour
     public int MaxCustomer = 3;
     //손님 카운트
     public int CustomerScore = 0;
-
     //영업종료 -> 밤으로 전환
     public bool DayEventFin = false;
 
@@ -41,44 +38,28 @@ public class DayEvent : MonoBehaviour
     public int BreadSellCount = 0;
     public int PerfectBread = 0;
 
-    //public bool CleanDayEvent = false;
-    //public bool CleanDayEvent_Clear = false;
-    //public bool CleanDayEvent_Fail = false;
-    //제한 시간
-    //public float CleanDayEvent_TimeLimit = 120.0f;
-    //public int CleanDayEvent_Count = 0;
+    //무한 씬 로딩 방지
+    private bool hasTirggeredCleanEvent = false;
 
     void Start()
     {
-        GM = gameObject.GetComponent<GameManager>();
-        if (GM == null)
+        if (GameManager.Instance == null)
         {
-            Debug.LogError($"GM을 못찾음");
+            Debug.LogError($"[DayEvent] GameManager.Instance가 존재하지 않습니다.");
         }
 
-        //오늘 올 수 있는 최대 손님 계산
-        MaxCustomer = GM.CustomerToCreature;
-        MaxCustomer = Mathf.Min(MaxCustomer, 10);
+        ResetDayEvent();
     }
 
     void Update()
     {
-        if (ProcessedCustomer >= MaxCustomer)
+        if (GameManager.Instance.DayCount == 8 && !hasTirggeredCleanEvent)
         {
-            //밤으로 넘어가는 UI가 뜨고 버튼 누르면 StartNight실행
-            DayEventUI dayEventUI = FindAnyObjectByType<DayEventUI>();
-            if (dayEventUI == null) return;
-
-            dayEventUI.DayFinUI.SetActive(true);
-
-            DayEventFin = true;
-        }
-
-        if (GM.DayCount == 8)
-        {
+            hasTirggeredCleanEvent = true;
             StartCleanDayEvent();
         }
 
+        //테스트 용
         if (Input.GetKeyDown(KeyCode.Space))
         {
             CustomerRandomOrder();
@@ -87,38 +68,36 @@ public class DayEvent : MonoBehaviour
 
     public void ResetDayEvent()
     {
-        if (GM == null) return;
-
         ActualCustomer = 0;
         ProcessedCustomer = 0;
         CustomerScore = 0;
         DayEventFin = false;
+        hasTirggeredCleanEvent = false;
 
-        MaxCustomer = GM.CustomerToCreature;
-        MaxCustomer = Mathf.Min(MaxCustomer, 10);
+        MaxCustomer = Mathf.Min(GameManager.Instance.CustomerToCreature, 10);
+
+        Debug.Log($"[DayEvnet] 오늘 예정된 손님 {MaxCustomer}명");
     }
 
     public void CustomerRandomOrder()
     {
-        if (GM == null) return;
-
-        if (ActualCustomer >= MaxCustomer)
+        if (DayEventFin || ActualCustomer >= MaxCustomer)
         {
-            Debug.Log("오늘 모슨 손님이 방문했습니다.");
+            Debug.Log("오늘 모든 손님이 방문했습니다.");
             return;
         }
 
         List<BreadType> SellableBreads = new List<BreadType>();
 
-        if (GM.DollCakeCount > 0) SellableBreads.Add(BreadType.DollCake);
-        if (GM.MushroomMuffinCount > 0) SellableBreads.Add(BreadType.MushroomMuffin);
-        if (GM.SlimePuddingCount > 0) SellableBreads.Add(BreadType.SlimePudding);
+        if (GameManager.Instance.DollCakeCount > 0) SellableBreads.Add(BreadType.DollCake);
+        if (GameManager.Instance.MushroomMuffinCount > 0) SellableBreads.Add(BreadType.MushroomMuffin);
+        if (GameManager.Instance.SlimePuddingCount > 0) SellableBreads.Add(BreadType.SlimePudding);
 
         if (SellableBreads.Count == 0)
         {
-            Debug.LogWarning("판매 가능한 빵이 없습니다.");
-
-            //DayEventFin = true;
+            Debug.LogWarning("[DayEvnet] 판매 가능한 빵이 없습니다.");
+            MaxCustomer = ProcessedCustomer;
+            CheckDayFinish();
             return;
         }
 
@@ -132,19 +111,19 @@ public class DayEvent : MonoBehaviour
         switch (orderedBread)
         {
             case BreadType.DollCake:
-                GM.DollCakeCount--;
+                GameManager.Instance.DollCakeCount--;
                 break;
             case BreadType.MushroomMuffin:
-                GM.MushroomMuffinCount--;
+                GameManager.Instance.MushroomMuffinCount--;
                 break;
             case BreadType.SlimePudding:
-                GM.SlimePuddingCount--;
+                GameManager.Instance.SlimePuddingCount--;
                 break;
         }
 
         bool isPackaging = (Random.Range(0, 2) == 1);
 
-        Debug.Log($"주문한 빵 : {orderedBread}, 포장 : {isPackaging}");
+        Debug.Log($"[DayEvent] {ActualCustomer}번째 손님 주문 주문한 빵 : {orderedBread}, 포장 : {isPackaging}");
 
         //아래에 손님 소환 or 주문UI 코드짜기
         GameObject newCustomer = Instantiate(CustomerPrefab, CustomerSpawnPoint.position, Quaternion.identity);
@@ -152,13 +131,14 @@ public class DayEvent : MonoBehaviour
 
         PackagingStation station = FindAnyObjectByType<PackagingStation>();
         DayEventUI dayEvnetUI = FindAnyObjectByType<DayEventUI>();
-        if (dayEvnetUI == null || station == null) return;
 
-        station.FindCustomer(customer);
-
-        //주문UI 출력하기
-        dayEvnetUI.OrderedBread(orderedBread, isPackaging);
-        customer.SetOrder(orderedBread, isPackaging);
+        if (dayEvnetUI != null && station != null)
+        {
+            station.FindCustomer(customer);
+            //주문UI 출력하기
+            dayEvnetUI.OrderedBread(orderedBread, isPackaging);
+            customer.SetOrder(orderedBread, isPackaging);
+        }
     }
 
     public void CustomerLeft(int score)
@@ -166,39 +146,34 @@ public class DayEvent : MonoBehaviour
         CustomerScore += score;
         ProcessedCustomer++;
 
-        Debug.Log($"현재까지 돌아간 손님 {ProcessedCustomer} / {MaxCustomer}");
+        Debug.Log($"[DayEvent] 현재까지 돌아간 손님 {ProcessedCustomer} / {MaxCustomer}");
 
-        if (ProcessedCustomer >= MaxCustomer)
+        CheckDayFinish();
+    }
+
+    private void CheckDayFinish()
+    {
+        if (ProcessedCustomer >= MaxCustomer && !DayEventFin)
         {
             DayEventFin = true;
+            Debug.Log($"[DayEvnet] 오늘 영업이 끝났습니다.");
+
+            DayEventUI dayEventUI = FindAnyObjectByType<DayEventUI>();
+            if (dayEventUI != null)
+            {
+                dayEventUI.DayFinUI.SetActive(true);
+            }
         }
     }
 
     public void StartNight()
     {
-        //밤 씬으로 이동하기
-        //이동했으니 다시 false
         DayEventFin = false;
-    }
-
-    public void AddPerfectBread()
-    {
-        PerfectBread++;
-        Debug.Log($"현재 완벽한 빵 개수 : {PerfectBread}");
-        if (PerfectBread >= 5)
-        {
-
-        }
     }
 
     public void StartCleanDayEvent()
     {
         SceneManager.LoadScene("CleanEventScene");
-        Debug.Log("위생 점검 이벤트로 이동");
-    }
-
-    private void CustomerEvent()
-    {
-        Debug.Log($"손님 증가");
+        Debug.Log("[DayEvent] 위생 점검 이벤트로 이동");
     }
 }

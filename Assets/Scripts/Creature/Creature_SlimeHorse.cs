@@ -5,13 +5,14 @@ public class Creature_SlimeHorse : MonoBehaviour
     private Creature BaseCreature;
     private Transform PlayerTransform;
 
-    public enum SlimeHorseState { Explore, Stare, Capturable, Alert, Attack, Down }
+    public enum SlimeHorseState { Idle, Explore, Stare, Capturable, Alert, Attack, Down }
     [Header("현재 상태")]
-    public SlimeHorseState CurrentState = SlimeHorseState.Explore;
+    public SlimeHorseState CurrentState = SlimeHorseState.Idle;
 
     [Header("이동 및 거리")]
+    public float DetectRadius = 15.0f;
     //원형 이동 속도
-    public float CircleSpeed = 3.0f;
+    public float CircleSpeed = 50.0f;
     //플레이어 주변을 도는 거리
     public float DistanceFromPlayer = 5.0f;
     //포획 실패시 도망가는 거리
@@ -62,10 +63,23 @@ public class Creature_SlimeHorse : MonoBehaviour
 
         switch (CurrentState)
         {
+            case SlimeHorseState.Idle:
+                float distToPlayer = Vector3.Distance(transform.position, PlayerTransform.position);
+                if (distToPlayer <= DetectRadius)
+                {
+                    Debug.Log($"[슬라임 말] 플레이어 인식");
+                    ChangeState(SlimeHorseState.Explore);
+                }
+                break;
             case SlimeHorseState.Explore:
+                Vector3 beforePos = transform.position;
+
                 //플레이어 주변을 원형으로 달림
                 transform.RotateAround(PlayerTransform.position, Vector3.up, CircleSpeed * Time.deltaTime);
-                //transform.LookAt(PlayerTransform);
+
+                Vector3 moveDir = (transform.position - beforePos).normalized;
+                if (moveDir != Vector3.zero) transform.rotation = Quaternion.LookRotation(moveDir);
+
                 break;
 
             case SlimeHorseState.Stare:
@@ -108,9 +122,10 @@ public class Creature_SlimeHorse : MonoBehaviour
 
     public void OnOcarinaused()
     {
+        /*
         float distance = Vector3.Distance(transform.position, PlayerTransform.position);
-
         if (distance > 10f) return;
+        */
 
         if (CurrentState == SlimeHorseState.Explore)
         {
@@ -120,11 +135,11 @@ public class Creature_SlimeHorse : MonoBehaviour
                 Debug.Log($"[슬라임 말] 오카리나에 관심을 가집니다.");
                 ChangeState(SlimeHorseState.Stare);
             }
-            else if (CurrentState == SlimeHorseState.Stare)
-            {
-                Debug.Log($"[슬라임 말] 포획 가능 상태가 되었습니다.");
-                ChangeState(SlimeHorseState.Capturable);
-            }
+        }
+        else if (CurrentState == SlimeHorseState.Stare)
+        {
+            Debug.Log($"[슬라임 말] 포획 가능 상태가 되었습니다.");
+            ChangeState(SlimeHorseState.Capturable);
         }
     }
 
@@ -146,7 +161,7 @@ public class Creature_SlimeHorse : MonoBehaviour
     private void HandleCaptureFailure()
     {
         CaptureAttemptCount++;
-        Debug.Log($"[슬라임 말] 포획 실패, 시도 횟수 ({CaptureAttemptCount / 3})");
+        Debug.Log($"[슬라임 말] 포획 실패, 시도 횟수 ({CaptureAttemptCount} / 3)");
 
         if (CaptureAttemptCount >= 3)
         {
@@ -206,5 +221,11 @@ public class Creature_SlimeHorse : MonoBehaviour
                 if (BurstEffect != null) Instantiate(BurstEffect, transform.position, Quaternion.identity);
                 break;
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, DetectRadius);
     }
 }

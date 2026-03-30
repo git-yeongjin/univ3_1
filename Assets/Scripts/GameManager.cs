@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,9 +20,6 @@ public class GameManager : MonoBehaviour
     public bool MushroomMuffin = false;
     public bool SlimePudding = false;
 
-    [Header("크리쳐 포획 수 만큼 손님 수 증가")]
-    public int CustomerToCreature = 1;
-
     [Header("최대 판매 갯수")]
     public int DollCakeCount = 0;
     public int MushroomMuffinCount = 0;
@@ -34,9 +29,10 @@ public class GameManager : MonoBehaviour
     public bool CustomerCountDoubleEvent = false;
     public bool CustomerCountPenaltyEvent = false;
 
-    [Header("일차")]
-    //n일차
+    [Header("일차 및 손님 설정")]
     public int DayCount = 0;
+    public int CustomerToCreature = 1;
+    private readonly int MaxCustomerLimit = 10;
 
     void Awake()
     {
@@ -53,59 +49,56 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        DE = gameObject.GetComponent<DayEvent>();
-        NE = gameObject.GetComponent<NightEvent>();
+        DE = GetComponent<DayEvent>();
+        NE = GetComponent<NightEvent>();
+
         if (DE == null || NE == null)
         {
-            Debug.LogError($"GameManager : DE또는NE가 없습니다.");
+            Debug.LogError($"[GameManager] DayEvent 또는 NightEvent를 찾을 수 없습니다.");
         }
+
         GameStart = true;
         Day = true;
+        Night = false;
     }
 
     public void ChangeDayNight()
     {
         if (Day)
         {
-            Debug.Log($"낮에서 밤으로 이동합니다.");
-
+            Debug.Log($"[GameManager] 낮에서 밤으로 이동합니다.");
             Day = false;
             Night = true;
 
+            //위생 이벤트 버프&디버프, 손님 카운트 초기화
             CustomerCountDoubleEvent = false;
             CustomerCountPenaltyEvent = false;
-
-            //밤으로 넘어가서 초기화
             CustomerToCreature = 0;
 
             if (NE != null) NE.StartNightEvent();
         }
         else if (Night)
         {
-            Debug.Log($"밤에서 낮으로 이동하고 일차가 증가합니다.");
-
+            Debug.Log($"[GameManager] 밤에서 낮으로 이동하고 일차가 증가합니다.");
             Day = true;
             Night = false;
 
             DayCount++;
 
-            if (DE != null)
-            {
-                DE.ResetDayEvent();
-            }
+            if (DE != null) DE.ResetDayEvent();
         }
     }
 
     public void IncreaseCustomer()
     {
-        if (CustomerToCreature < 10)
+        if (CustomerToCreature < MaxCustomerLimit)
         {
-            Debug.Log("크리처를 잡아서 내일 손님이 증가했습니다.");
+            Debug.Log("[GameManager] 크리처를 잡아서 내일 손님이 증가했습니다.");
             CustomerToCreature++;
         }
         else
         {
-            Debug.Log("최대 수에 도달했습니다.");
+            Debug.Log("[GameManager] 최대 수에 도달했습니다.");
         }
     }
 }

@@ -6,18 +6,16 @@ using UnityEditor;
 
 public class NightEvent : MonoBehaviour
 {
-    private GameManager GM;
-
-    [Header("밤 이벤트")]
+    [Header("밤 시간 및 진행 상태")]
     //밤 시간
     public int NightTime = 0;
     public int CurrentDayCount;
-
-    public int CurrentCatchCount = 0;
-    public int MaxCatchCount = 10;
     //밤 이벤트 종료
     public bool NightEventFin = false;
 
+    [Header("크리쳐 포획 정보")]
+    public int CurrentCatchCount = 0;
+    public int MaxCatchCount = 10;
     public bool isCreatureUnlockedToday = false;
 
     [Header("크리쳐 데이터 목록")]
@@ -25,26 +23,27 @@ public class NightEvent : MonoBehaviour
 
     void Start()
     {
-        GM = GetComponent<GameManager>();
-        if (GM == null)
+        if (GameManager.Instance == null)
         {
-            Debug.LogError($"GM을 못찾음");
+            Debug.LogError($"[NightEvent] GameManager.Instance가 존재하지 않습니다.");
             return;
         }
     }
 
     void Update()
     {
+        //테스트
         if (Input.GetKeyDown(KeyCode.L))
         {
-            GM.IncreaseCustomer();
+            GameManager.Instance.IncreaseCustomer();
         }
     }
 
     public void StartNightEvent()
     {
-        if (GM == null) GM = FindAnyObjectByType<GameManager>();
-        CurrentDayCount = GM.DayCount;
+        CurrentDayCount = GameManager.Instance.DayCount;
+
+        Debug.Log($"[NightEvent] {CurrentDayCount}일차 밤이 시작되었습니다.");
 
         CheckUnlockCreature();
     }
@@ -53,13 +52,14 @@ public class NightEvent : MonoBehaviour
     {
         if (AllCreatureDatas == null || AllCreatureDatas.Count == 0)
         {
-            Debug.LogWarning("NightEvent에 크리쳐 데이터가 등록되지 않았습니다.");
+            Debug.LogWarning("[NightEvent] 크리쳐 데이터가 등록되지 않았습니다.");
             return;
         }
         isCreatureUnlockedToday = false;
 
         foreach (CreatureData creature in AllCreatureDatas)
         {
+            //오늘 날차에 해금되는 크리쳐인지 검사
             if (creature.UnLockDay == CurrentDayCount)
             {
                 Debug.Log($"{creature.name}을 포획할 수 있습니다");

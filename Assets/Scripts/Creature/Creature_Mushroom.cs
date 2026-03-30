@@ -174,7 +174,7 @@ public class Creature_Mushroom : MonoBehaviour
 
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, DetectRadius);

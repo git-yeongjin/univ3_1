@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class NightEventTools : MonoBehaviour
@@ -36,6 +37,11 @@ public class NightEventTools : MonoBehaviour
     //쿨타임 계산용
     public float CurrentCoolDownTimer;
 
+    [Header("오카리나")]
+    public float OcarinaRange = 10.0f;
+    public float OcarinaCoolDown = 5.0f;
+    private float CurrentOcarinaTimer = 0f;
+
     void Start()
     {
 
@@ -44,6 +50,53 @@ public class NightEventTools : MonoBehaviour
 
     void Update()
     {
+        if (CurrentOcarinaTimer > 0)
+        {
+            CurrentOcarinaTimer -= Time.deltaTime;
+        }
 
+        if (Input.GetMouseButtonDown(0) && !isToolWindowOpen)
+        {
+            UseCurrentTool();
+        }
+    }
+
+    private void UseCurrentTool()
+    {
+        switch (Tools)
+        {
+            case NightTools.Ocarina:
+                PlayOcarina();
+                break;
+        }
+    }
+
+    private void PlayOcarina()
+    {
+        if (CurrentOcarinaTimer > 0)
+        {
+            Debug.Log($"[오카리나] 쿨타임 중입니다. {CurrentOcarinaTimer:F1}초 남음");
+            return;
+        }
+
+        Debug.Log($"오카리나 연주 중");
+        CurrentOcarinaTimer = OcarinaCoolDown;
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, OcarinaRange);
+
+        foreach (Collider hit in hitColliders)
+        {
+            Creature_SlimeHorse slimeHorse = hit.GetComponent<Creature_SlimeHorse>();
+            if (slimeHorse != null)
+            {
+                slimeHorse.OnOcarinaused();
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, OcarinaRange);
     }
 }
