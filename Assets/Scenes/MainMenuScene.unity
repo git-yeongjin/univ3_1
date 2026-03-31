@@ -178,8 +178,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ceadf915864c5ed498a1e20341c69835, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -739,9 +739,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NightTime: 0
   CurrentDayCount: 0
+  NightEventFin: 0
   CurrentCatchCount: 0
   MaxCatchCount: 10
-  NightEventFin: 0
+  isCreatureUnlockedToday: 0
   AllCreatureDatas:
   - {fileID: 11400000, guid: ef732f86990464e43984c0ef82cfc9b5, type: 2}
   - {fileID: 11400000, guid: 8707a6e797b40aa4e99e98296fc7815d, type: 2}
@@ -766,14 +767,10 @@ MonoBehaviour:
   MaxCustomer: 3
   CustomerScore: 0
   DayEventFin: 0
+  isCustomerPresent: 0
   BreadEvent: 0
   BreadSellCount: 0
   PerfectBread: 0
-  CleanDayEvent: 0
-  CleanDayEvent_Clear: 0
-  CleanDayEvent_Fail: 0
-  CleanDayEvent_TimeLimit: 120
-  CleanDayEvent_Count: 0
 --- !u!114 &1436307688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,11 +787,17 @@ MonoBehaviour:
   GameFin: 0
   Day: 0
   Night: 0
+  isBakingTime: 1
   DollCake: 0
   MushroomMuffin: 0
   SlimePudding: 0
-  CustomerToCreature: 1
+  DollCakeCount: 0
+  MushroomMuffinCount: 0
+  SlimePuddingCount: 0
+  CustomerCountDoubleEvent: 0
+  CustomerCountPenaltyEvent: 0
   DayCount: 0
+  CustomerToCreature: 1
 --- !u!1 &1484513841
 GameObject:
   m_ObjectHideFlags: 0

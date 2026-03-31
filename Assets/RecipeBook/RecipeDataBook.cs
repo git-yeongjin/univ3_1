@@ -8,8 +8,6 @@ using UnityEditor;
 public class RecipeDataBook : ScriptableObject
 {
     [Header("RecipeBook폴더에서 가져오기")]
-    //레시피에 없으면 나오는 빵
-    public RecipeData NormalBread;
     //빵 레시피 리스트
     public List<RecipeData> AllRecipes;
 
@@ -26,7 +24,7 @@ public class RecipeDataBook : ScriptableObject
             string AssetPath = AssetDatabase.GUIDToAssetPath(Guid);
             RecipeData recipe = AssetDatabase.LoadAssetAtPath<RecipeData>(AssetPath);
 
-            if (recipe != null && recipe != NormalBread)
+            if (recipe != null)
             {
                 AllRecipes.Add(recipe);
             }

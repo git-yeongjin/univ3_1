@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class BakePlayer : MonoBehaviour
 {
-    private GameManager GM;
+    private Rigidbody rb;
+    private Camera MainCamera;
 
-    Rigidbody rb;
-    Camera MainCamera;
     [Header("플레이어 회전")]
     public float MouseSpeed;
     float yRotation;
@@ -13,6 +12,7 @@ public class BakePlayer : MonoBehaviour
 
     [Header("플레이어 이동속도")]
     public float MoveSpeed;
+    private Vector3 MoveDirection;
     float h;
     float v;
 
@@ -20,9 +20,14 @@ public class BakePlayer : MonoBehaviour
 
     void Start()
     {
-        GM = FindAnyObjectByType<GameManager>();
-        if (GM == null) Debug.LogError($"GameManager를 찾을 수 없습니다.");
-        GM.isBakingTime = true;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.isBakingTime = true;
+        }
+        else
+        {
+            Debug.LogError($"[BakePlayer] GameManager.Instance를 찾을 수 없습니다.");
+        }
 
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
@@ -43,10 +48,23 @@ public class BakePlayer : MonoBehaviour
         {
             Rotate();
         }
-        if (!GM.isBakingTime)
+        if (GameManager.Instance != null && !GameManager.Instance.isBakingTime)
         {
-            Move();
+            float h = Input.GetAxisRaw("Horizontal");
+            float v = Input.GetAxisRaw("Vertical");
+
+            //대각선 이동 속도 빨라짐 방지
+            MoveDirection = (transform.forward * v + transform.right * h).normalized;
         }
+        else
+        {
+            MoveDirection = Vector3.zero;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + MoveDirection * MoveSpeed * Time.fixedDeltaTime);
     }
 
     void Rotate()
@@ -59,18 +77,11 @@ public class BakePlayer : MonoBehaviour
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        MainCamera.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        if (MainCamera != null)
+        {
+            MainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        }
         transform.rotation = Quaternion.Euler(0, yRotation, 0);
-    }
-
-    void Move()
-    {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
-
-        Vector3 MoveVector = transform.forward * v + transform.right * h;
-
-        transform.position += MoveVector.normalized * MoveSpeed * Time.deltaTime;
     }
 
     public void LockCursor(bool isLocked)

@@ -6,12 +6,6 @@ public class Creature : MonoBehaviour
     public CreatureData creatureData;
 
     private CreatureSpawner mySpawner;
-    private GameManager GM;
-
-    void Start()
-    {
-        GM = FindAnyObjectByType<GameManager>();
-    }
 
     void OnValidate()
     {
@@ -33,6 +27,7 @@ public class Creature : MonoBehaviour
         {
             mySpawner.ReportEscape();
         }
+        Debug.Log($"[Creature] {gameObject.name} 크리쳐가 도망갔습니다.");
         Destroy(gameObject);
     }
 
@@ -42,36 +37,41 @@ public class Creature : MonoBehaviour
         {
             mySpawner.ReportCapture();
         }
-        if (GM != null)
+        if (GameManager.Instance != null && creatureData != null)
         {
             switch (creatureData.type)
             {
                 case CreatureType.Doll:
-                    GM.DollCakeCount++;
+                    GameManager.Instance.DollCakeCount++;
+                    Debug.Log($"[Creature] 케이크 판매 갯수가 증가했습니다.");
                     break;
                 case CreatureType.Mushroom:
-                    GM.MushroomMuffinCount++;
+                    GameManager.Instance.MushroomMuffinCount++;
+                    Debug.Log($"[Creature] 머핀 판매 갯수가 증가했습니다.");
                     break;
                 case CreatureType.SlimeHorse:
-                    GM.SlimePuddingCount++;
+                    GameManager.Instance.SlimePuddingCount++;
+                    Debug.Log($"[Creature] 푸딩 판매 갯수가 증가했습니다.");
                     break;
             }
+
+            GameManager.Instance.IncreaseCustomer();
         }
         Destroy(gameObject);
     }
 
     private void SetCreatureState()
     {
+        if (creatureData == null) return;
+
         switch (creatureData.type)
         {
             case CreatureType.none:
-                Debug.LogError($"{gameObject.name}에 크리쳐 타입이 없음");
+                Debug.LogError($"[Creature] {gameObject.name}에 크리쳐 타입이 없음");
                 break;
             case CreatureType.Doll:
-
                 break;
             case CreatureType.Frog:
-
                 break;
             case CreatureType.Mushroom:
                 break;
@@ -80,9 +80,8 @@ public class Creature : MonoBehaviour
             case CreatureType.Mammoth:
                 break;
             default:
-
                 return;
         }
-        Debug.Log($"{gameObject.name}의 크리쳐 타입 : {creatureData.type} 세팅 완료");
+        //Debug.Log($"{gameObject.name}의 크리쳐 타입 : {creatureData.type} 세팅 완료");
     }
 }

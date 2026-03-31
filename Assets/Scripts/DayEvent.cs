@@ -32,6 +32,8 @@ public class DayEvent : MonoBehaviour
     //영업종료 -> 밤으로 전환
     public bool DayEventFin = false;
 
+    public bool isCustomerPresent = false;
+
     [Header("빵 이벤트")]
     public bool BreadEvent = false;
     //빵 판매갯수
@@ -39,7 +41,7 @@ public class DayEvent : MonoBehaviour
     public int PerfectBread = 0;
 
     //무한 씬 로딩 방지
-    private bool hasTirggeredCleanEvent = false;
+    private bool hasTriggeredCleanEvent = false;
 
     void Start()
     {
@@ -53,9 +55,9 @@ public class DayEvent : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.DayCount == 8 && !hasTirggeredCleanEvent)
+        if (GameManager.Instance.DayCount == 8 && !hasTriggeredCleanEvent)
         {
-            hasTirggeredCleanEvent = true;
+            hasTriggeredCleanEvent = true;
             StartCleanDayEvent();
         }
 
@@ -72,7 +74,8 @@ public class DayEvent : MonoBehaviour
         ProcessedCustomer = 0;
         CustomerScore = 0;
         DayEventFin = false;
-        hasTirggeredCleanEvent = false;
+        hasTriggeredCleanEvent = false;
+        isCustomerPresent = false;
 
         MaxCustomer = Mathf.Min(GameManager.Instance.CustomerToCreature, 10);
 
@@ -81,9 +84,15 @@ public class DayEvent : MonoBehaviour
 
     public void CustomerRandomOrder()
     {
+        if (isCustomerPresent)
+        {
+            Debug.Log($"[DayEvent] 아직 손님이 있습니다.");
+            return;
+        }
+
         if (DayEventFin || ActualCustomer >= MaxCustomer)
         {
-            Debug.Log("오늘 모든 손님이 방문했습니다.");
+            Debug.Log("[DayEvent] 오늘 모든 손님이 방문했습니다.");
             return;
         }
 
@@ -103,6 +112,7 @@ public class DayEvent : MonoBehaviour
 
         //손님 한명 들어옴
         ActualCustomer++;
+        isCustomerPresent = true;
 
         int randomIndex = Random.Range(0, SellableBreads.Count);
         BreadType orderedBread = SellableBreads[randomIndex];
@@ -145,6 +155,7 @@ public class DayEvent : MonoBehaviour
     {
         CustomerScore += score;
         ProcessedCustomer++;
+        isCustomerPresent = false;
 
         Debug.Log($"[DayEvent] 현재까지 돌아간 손님 {ProcessedCustomer} / {MaxCustomer}");
 

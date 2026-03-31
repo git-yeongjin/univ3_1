@@ -1,21 +1,15 @@
-using Unity.Mathematics;
 using UnityEngine;
-using Unity.Cinemachine;
 
 public class NightEventPlayer : MonoBehaviour
 {
     Rigidbody rb;
     Transform cameraTransform;
 
-    [Header("플레이어 회전")]
-    public float MouseSpeed;
-    float yRotation;
-    float xRotation;
-
-    [Header("플레이어 이동속도")]
+    [Header("플레이어 이동")]
     public float MoveSpeed;
-    float h;
-    float v;
+    public float RotationSpeed;
+
+    private Vector3 MoveDirection;
 
     void Start()
     {
@@ -26,17 +20,32 @@ public class NightEventPlayer : MonoBehaviour
         {
             cameraTransform = Camera.main.transform;
         }
+        else
+        {
+            Debug.LogError($"[NightEventPlayer] 씬에 MainCamera 태그가 달린 카메라가 없습니다.");
+        }
     }
 
     void Update()
     {
-        //Rotate();
-        Move();
+        CalculateMovemenetDirection();
     }
-    void Move()
+
+    void FixedUpdate()
     {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
+        if (MoveDirection != Vector3.zero)
+        {
+            rb.MovePosition(rb.position + MoveDirection * MoveSpeed * Time.fixedDeltaTime);
+
+            Quaternion targetRotation = Quaternion.LookRotation(MoveDirection);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, RotationSpeed * Time.fixedDeltaTime));
+        }
+    }
+
+    private void CalculateMovemenetDirection()
+    {
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
 
         if (cameraTransform != null)
         {
@@ -49,15 +58,7 @@ public class NightEventPlayer : MonoBehaviour
             camForward.Normalize();
             camRight.Normalize();
 
-            Vector3 MoveVector = (camForward * v + camRight * h).normalized;
-
-            if (MoveVector != Vector3.zero)
-            {
-                transform.position += MoveVector * MoveSpeed * Time.deltaTime;
-
-                Quaternion Rotation = Quaternion.LookRotation(MoveVector);
-                transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, Time.deltaTime * 15f);
-            }
+            MoveDirection = (camForward * v + camRight * h).normalized;
         }
     }
 }

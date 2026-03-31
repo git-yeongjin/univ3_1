@@ -89,39 +89,6 @@ public class BakeEventUI : MonoBehaviour
 
     public void OnClickBakeFinish()
     {
-        /*
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit HitInfo;
-
-        if (Physics.Raycast(ray, out HitInfo))
-        {
-            Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
-
-            if (HitInfo.collider.gameObject.name == "반죽완료" && GM.isBakingTime)
-            {
-                Dough currentDough = FindAnyObjectByType<Dough>();
-                if (currentDough != null)
-                {
-                    currentDough.FindRecipe();
-                    if (currentDough.recipe == null)
-                    {
-                        Debug.Log("[BakeEventUI] 재료가 맞지 않아 반죽을 섞지 못했습니다, 반죽을 초기화 합니다.");
-                        currentDough.BreadMaterial.Clear();
-                        BakeFailUI.SetActive(true);
-                        if (HideBakeFailUICoroutine != null) StopCoroutine(HideBakeFailUICoroutine);
-
-                        HideBakeFailUICoroutine = StartCoroutine(HideBakeFailUI());
-                    }
-                    else
-                    {
-                        Debug.Log($"반죽을 섞었습니다. 현재 레시피 : {currentDough.recipe}");
-                        GM.isBakingTime = false;
-                    }
-                }
-            }
-        }
-        */
-
         Dough currentDough = FindAnyObjectByType<Dough>();
         if (currentDough != null)
         {
@@ -129,7 +96,7 @@ public class BakeEventUI : MonoBehaviour
             if (currentDough.recipe == null)
             {
                 Debug.Log("[BakeEventUI] 재료가 맞지 않아 반죽을 섞지 못했습니다, 반죽을 초기화 합니다.");
-                currentDough.BreadMaterial.Clear();
+                currentDough.ClearBreadMaterial();
                 BakeFailUI.SetActive(true);
                 if (HideBakeFailUICoroutine != null) StopCoroutine(HideBakeFailUICoroutine);
 

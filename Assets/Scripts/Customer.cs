@@ -26,43 +26,45 @@ public class Customer : MonoBehaviour
         Debug.Log($"[Customer] 현재 주문 : {MyOrder} / {packStr}");
     }
 
-    public void ReceiveBread(FinishedBread bread, bool isPackaged)
+    public bool ReceiveBread(FinishedBread bread, bool isPackaged)
     {
         if (bread.MyBreadType != MyOrder)
         {
             Debug.LogWarning($"[Customer] 주문 불일치 : 빵 종류가 다릅니다.");
-            return;
+            return false;
         }
         if (wantsPackaging != isPackaged)
         {
             Debug.LogWarning($"[Customer] 포장 불일치 : 포장 여부가 다릅니다.");
-            return;
+            return false;
         }
 
         Debug.Log($"[Customer] 손님에게 빵을 전달하였습니다.");
-        if (DE == null) return;
-
-        int score = 0;
-
-        switch (MyOrder)
+        if (DE != null)
         {
-            case BreadType.DollCake: score = 1; break;
-            case BreadType.MushroomMuffin: score = 2; break;
-            case BreadType.SlimePudding: score = 3; break;
-        }
+            int score = 0;
 
-        if (GameManager.Instance.CustomerCountPenaltyEvent)
-        {
-            score = 1;
-            Debug.Log($"[Customer] 위생 패널티로 카운트가 1만 오릅니다.");
-        }
-        else if (GameManager.Instance.CustomerCountDoubleEvent)
-        {
-            score *= 2;
-            Debug.Log($"[Customer] 위생 버프로 카운트가 2배로 적용 됩니다.");
-        }
+            switch (MyOrder)
+            {
+                case BreadType.DollCake: score = 1; break;
+                case BreadType.MushroomMuffin: score = 2; break;
+                case BreadType.SlimePudding: score = 3; break;
+            }
 
-        DE.CustomerLeft(score);
-        Destroy(gameObject);
+            if (GameManager.Instance.CustomerCountPenaltyEvent)
+            {
+                score = 1;
+                Debug.Log($"[Customer] 위생 패널티로 카운트가 1만 오릅니다.");
+            }
+            else if (GameManager.Instance.CustomerCountDoubleEvent)
+            {
+                score *= 2;
+                Debug.Log($"[Customer] 위생 버프로 카운트가 2배로 적용 됩니다.");
+            }
+
+            DE.CustomerLeft(score);
+            Destroy(gameObject);
+        }
+        return true;
     }
 }
