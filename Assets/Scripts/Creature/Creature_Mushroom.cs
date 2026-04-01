@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Creature_Mushroom : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class Creature_Mushroom : MonoBehaviour
 
     [Header("거리 및 시간 설정")]
     public float DetectRadius = 6.0f;
-    public float ChargeDuration = 1.5f;
+    public float DiscoverDuration = 3.0f;
+    public float ChargeDuration = 2.0f;
     public float EmitDuration = 2.0f;
     public float StopDuration = 2.0f;
     public float WeaknessThreshold = 50.0f;
@@ -74,6 +76,8 @@ public class Creature_Mushroom : MonoBehaviour
 
     private void TriggerWeakness()
     {
+        TotalAwareTime = 0f;
+
         ChangeState(MushroomState.Weakness);
     }
 
@@ -82,7 +86,14 @@ public class Creature_Mushroom : MonoBehaviour
         isAware = true;
         TotalAwareTime = 0f;
 
+        StartCoroutine(DiscoverRoutine());
+    }
+
+    private IEnumerator DiscoverRoutine()
+    {
         anim.SetTrigger("OnDiscovered");
+
+        yield return new WaitForSeconds(DiscoverDuration);
 
         ChangeState(MushroomState.Charging);
     }
@@ -107,7 +118,7 @@ public class Creature_Mushroom : MonoBehaviour
                 }
                 if (StateTimer >= EmitDuration)
                 {
-                    ChangeState(MushroomState.Stopped);
+                    ChangeState(MushroomState.Charging);
                 }
                 break;
             case MushroomState.Stopped:
@@ -119,7 +130,7 @@ public class Creature_Mushroom : MonoBehaviour
             case MushroomState.Weakness:
                 if (StateTimer >= WeaknessDuration)
                 {
-                    ChangeState(MushroomState.Emitting);
+                    ChangeState(MushroomState.Charging);
                 }
                 break;
         }

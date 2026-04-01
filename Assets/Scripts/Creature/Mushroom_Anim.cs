@@ -32,6 +32,7 @@ public class Mushroom_Anim : MonoBehaviour
             case Creature_Mushroom.MushroomState.Stopped:
                 break;
             case Creature_Mushroom.MushroomState.Weakness:
+                anim.SetInteger("MushState", 0);
                 break;
         }
     }
