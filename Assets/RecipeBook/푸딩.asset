@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016f87c1501cb7b4babda27e91b31117, type: 3}
   m_Name: "\uD478\uB529"
   m_EditorClassIdentifier: 
-  moldCategory: 2
   Result: 3
   BreadName: "\uD478\uB529"
   BreadMaterial:
   - SlimeGelatin
   - BrainFruit
-  RequiredMold: 2
-  PerfectBakeTime: 5
-  ErrorMargin: 1
+  PerfectBakeTime: 3

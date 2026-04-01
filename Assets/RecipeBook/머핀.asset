@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016f87c1501cb7b4babda27e91b31117, type: 3}
   m_Name: "\uBA38\uD540"
   m_EditorClassIdentifier: 
-  moldCategory: 3
   Result: 2
   BreadName: "\uBA38\uD540"
   BreadMaterial:
-  - "\uD3EC\uC790 \uAC00\uB8E8"
-  - "\uBC84\uC12F \uBA38\uB9AC\uD06C\uB9BC"
-  RequiredMold: 3
-  PerfectBakeTime: 10
-  ErrorMargin: 1
+  - SporePowder
+  - MushroomCream
+  PerfectBakeTime: 3

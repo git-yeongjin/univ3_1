@@ -71,7 +71,8 @@ public class DayEventUI : MonoBehaviour
         {
             if (CustomerCountText != null)
             {
-                CustomerCountText.text = $"남은 손님\n{DE.MaxCustomer - DE.ActualCustomer}명, 카운트 : {DE.CustomerScore}";
+                //CustomerCountText.text = $"남은 손님\n{DE.MaxCustomer - DE.ActualCustomer}명, 카운트 : {DE.CustomerScore}";
+                CustomerCountText.text = $"{DE.CustomerScore}";
             }
         }
 

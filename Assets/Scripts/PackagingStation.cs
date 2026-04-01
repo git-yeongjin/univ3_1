@@ -9,6 +9,7 @@ public class PackagingStation : MonoBehaviour
     public bool AskPackaging(FinishedBread bread, string stationname)
     {
         Debug.Log($"[PackagingStation] [{bread.MyBreadType}] 빵을 [{stationname}] 구역에 올렸습니다.");
+        currentCustomer = FindAnyObjectByType<Customer>();
 
         if (currentCustomer == null)
         {

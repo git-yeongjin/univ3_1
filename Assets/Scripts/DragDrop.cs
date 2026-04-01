@@ -95,6 +95,11 @@ public class DragDrop : MonoBehaviour
 
         if (clickObj != null)
         {
+            if (clickObj.CompareTag("Dough") && GameManager.Instance.isBakingTime)
+            {
+                Debug.Log($"반죽을 먼저 섞어야 합니다.");
+                return;
+            }
             BeforePosition = clickObj.transform.position;
 
             Vector3 holdPos = clickObj.transform.position;

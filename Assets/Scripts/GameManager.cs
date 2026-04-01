@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
     public bool Day = false;
     public bool Night = false;
     //빵 제작 씬 플레이어 조작
-    public bool isBakingTime = true;
+    public bool isBakingTime = false;
 
     [Header("빵 판매가능 여부")]
     public bool DollCake = false;
@@ -40,10 +41,34 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "BakeEventScene")
+        {
+            isBakingTime = true;
+            Debug.Log($"[GameManager] {scene.name} 씬, isBakingTime = {isBakingTime}");
+        }
+        else
+        {
+            isBakingTime = false;
+            Debug.Log($"[GameManager] {scene.name} 씬, isBakingTime = {isBakingTime}");
         }
     }
 

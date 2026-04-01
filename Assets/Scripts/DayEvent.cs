@@ -68,6 +68,25 @@ public class DayEvent : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "DayEventScene")
+        {
+            Debug.Log($"[DayEvent] {scene.name} 씬,  낮 영업 세팅을 초기화합니다.");
+            ResetDayEvent();
+        }
+    }
+
     public void ResetDayEvent()
     {
         ActualCustomer = 0;
@@ -77,7 +96,19 @@ public class DayEvent : MonoBehaviour
         hasTriggeredCleanEvent = false;
         isCustomerPresent = false;
 
-        MaxCustomer = Mathf.Min(GameManager.Instance.CustomerToCreature, 10);
+        if (GameManager.Instance.DayCount == 0)
+        {
+            MaxCustomer = 1;
+            GameManager.Instance.DollCakeCount = 1;
+        }
+        else
+        {
+            MaxCustomer = Mathf.Min(GameManager.Instance.CustomerToCreature, 10);
+        }
+        if (MaxCustomer <= 0)
+        {
+            MaxCustomer = 1;
+        }
 
         Debug.Log($"[DayEvnet] 오늘 예정된 손님 {MaxCustomer}명");
     }
@@ -90,7 +121,7 @@ public class DayEvent : MonoBehaviour
             return;
         }
 
-        if (DayEventFin || ActualCustomer >= MaxCustomer)
+        if (DayEventFin || ActualCustomer > MaxCustomer)
         {
             Debug.Log("[DayEvent] 오늘 모든 손님이 방문했습니다.");
             return;

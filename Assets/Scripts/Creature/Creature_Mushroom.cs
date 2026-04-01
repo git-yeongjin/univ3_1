@@ -4,12 +4,14 @@ public class Creature_Mushroom : MonoBehaviour
 {
     private Creature BaseCreature;
     private Transform PlayerTransform;
+    private Animator anim;
 
-    public enum MushroomState { Idle, Emitting, Stopped, Weakness }
+    public enum MushroomState { Idle, Charging, Emitting, Stopped, Weakness }
     public MushroomState CurrentState = MushroomState.Idle;
 
     [Header("거리 및 시간 설정")]
     public float DetectRadius = 6.0f;
+    public float ChargeDuration = 1.5f;
     public float EmitDuration = 2.0f;
     public float StopDuration = 2.0f;
     public float WeaknessThreshold = 50.0f;
@@ -33,6 +35,8 @@ public class Creature_Mushroom : MonoBehaviour
 
     void Start()
     {
+        anim = GetComponent<Animator>();
+
         BaseCreature = GetComponent<Creature>();
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null) PlayerTransform = player.transform;
@@ -77,7 +81,10 @@ public class Creature_Mushroom : MonoBehaviour
     {
         isAware = true;
         TotalAwareTime = 0f;
-        ChangeState(MushroomState.Emitting);
+
+        anim.SetTrigger("OnDiscovered");
+
+        ChangeState(MushroomState.Charging);
     }
 
     private void HandleStateTimers(float distanceToPlayer)
@@ -86,6 +93,13 @@ public class Creature_Mushroom : MonoBehaviour
 
         switch (CurrentState)
         {
+            case MushroomState.Charging:
+                if (StateTimer >= ChargeDuration)
+                {
+                    ChangeState(MushroomState.Emitting);
+                }
+                break;
+
             case MushroomState.Emitting:
                 if (distanceToPlayer <= CurrentSporeRadius)
                 {
@@ -99,7 +113,7 @@ public class Creature_Mushroom : MonoBehaviour
             case MushroomState.Stopped:
                 if (StateTimer >= StopDuration)
                 {
-                    ChangeState(MushroomState.Emitting);
+                    ChangeState(MushroomState.Charging);
                 }
                 break;
             case MushroomState.Weakness:

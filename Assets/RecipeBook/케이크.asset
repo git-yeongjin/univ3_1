@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016f87c1501cb7b4babda27e91b31117, type: 3}
   m_Name: "\uCF00\uC774\uD06C"
   m_EditorClassIdentifier: 
-  moldCategory: 1
   Result: 1
   BreadName: "\uCF00\uC774\uD06C"
   BreadMaterial:
-  - "\uB2E8\uCD94 \uCD08\uCF5C\uB9BF"
-  - "\uB9AC\uBCF8 \uC0AC\uD0D5"
-  - "\uD06C\uB9BC \uC19C"
-  - "\uBC14\uB298 \uC2A4\uD06C\uB9C1\uD074"
-  RequiredMold: 1
-  PerfectBakeTime: 15
-  ErrorMargin: 1
+  - ButtonChocolate
+  - RibbonCandy
+  - CreamCotton
+  - NeedleSpringcle
+  PerfectBakeTime: 3

@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.isBakingTime = true;
+            //GameManager.Instance.isBakingTime = false;
         }
         else
         {

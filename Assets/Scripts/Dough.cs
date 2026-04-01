@@ -7,12 +7,7 @@ public class Dough : MonoBehaviour
 
     [Header("반죽에 들어간 재료")]
     public List<string> BreadMaterial = new List<string>();
-
-    void Start()
-    {
-
-    }
-
+    
     public void AddMaterial(string BreadMaterialName)
     {
         if (!GameManager.Instance.isBakingTime)
