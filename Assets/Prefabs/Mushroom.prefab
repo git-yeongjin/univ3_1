@@ -113,6 +113,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentState: 0
   DetectRadius: 6
+  DiscoverDuration: 2
+  ChargeDuration: 1.5
   EmitDuration: 2
   StopDuration: 2
   WeaknessThreshold: 50

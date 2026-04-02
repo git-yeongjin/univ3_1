@@ -5,7 +5,7 @@ public class Creature_SlimeHorse : MonoBehaviour
     private Creature BaseCreature;
     private Transform PlayerTransform;
 
-    public enum SlimeHorseState { Idle, Explore, Stare, Capturable, Alert, Attack, Down }
+    public enum SlimeHorseState { Idle, Explore, Stare, Capturable, Alert, Attack, Down, Retreat }
     [Header("현재 상태")]
     public SlimeHorseState CurrentState = SlimeHorseState.Idle;
 
@@ -17,6 +17,10 @@ public class Creature_SlimeHorse : MonoBehaviour
     public float DistanceFromPlayer = 5.0f;
     //포획 실패시 도망가는 거리
     public float RetreatDistance = 10.0f;
+    public float RetreatSpeed = 15.0f;
+    public float TurnSpeed = 10.0f;
+
+    private Vector3 TargetRetreatPosition;
 
     [Header("전투 및 공격 설정")]
     //최대 공격 횟수 -> 이후 다운
@@ -78,7 +82,13 @@ public class Creature_SlimeHorse : MonoBehaviour
                 transform.RotateAround(PlayerTransform.position, Vector3.up, CircleSpeed * Time.deltaTime);
 
                 Vector3 moveDir = (transform.position - beforePos).normalized;
-                if (moveDir != Vector3.zero) transform.rotation = Quaternion.LookRotation(moveDir);
+                moveDir.y = 0;
+
+                if (moveDir != Vector3.zero)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, TurnSpeed * Time.deltaTime);
+                }
 
                 break;
 
@@ -115,6 +125,23 @@ public class Creature_SlimeHorse : MonoBehaviour
                 if (StateTimer >= DownDuration)
                 {
                     BaseCreature.Escape();
+                }
+                break;
+
+            case SlimeHorseState.Retreat:
+                Vector3 lookDir = (TargetRetreatPosition - transform.position).normalized;
+                lookDir.y = 0;
+
+                if (lookDir != Vector3.zero)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, TurnSpeed * Time.deltaTime);
+                }
+                transform.position = Vector3.MoveTowards(transform.position, TargetRetreatPosition, RetreatSpeed * Time.deltaTime);
+
+                if (Vector3.Distance(transform.position, TargetRetreatPosition) <= 2.0f)
+                {
+                    ChangeState(SlimeHorseState.Explore);
                 }
                 break;
         }
@@ -172,8 +199,11 @@ public class Creature_SlimeHorse : MonoBehaviour
         {
             //10m 밖으로 도망
             Vector3 retreatDir = (transform.position - PlayerTransform.position).normalized;
-            transform.position = PlayerTransform.position + (retreatDir * RetreatDistance);
-            ChangeState(SlimeHorseState.Explore);
+            retreatDir.y = 0;
+
+            TargetRetreatPosition = PlayerTransform.position + (retreatDir.normalized * RetreatDistance);
+            //transform.position = PlayerTransform.position + (retreatDir * RetreatDistance);
+            ChangeState(SlimeHorseState.Retreat);
         }
     }
 

@@ -17,12 +17,12 @@ public class PackagingStation : MonoBehaviour
             return false;
         }
 
-        if (stationname == "포장")
+        if (stationname == "tray2")
         {
             Debug.Log("[PackagingStation] 포장으로 판매했습니다.");
             return currentCustomer.ReceiveBread(bread, true);
         }
-        else if (stationname == "매장")
+        else if (stationname == "tray1")
         {
             Debug.Log("[PackagingStation] 매장으로 판매했습니다");
             return currentCustomer.ReceiveBread(bread, false);

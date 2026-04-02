@@ -12,7 +12,7 @@ public class Creature_Mushroom : MonoBehaviour
 
     [Header("거리 및 시간 설정")]
     public float DetectRadius = 6.0f;
-    public float DiscoverDuration = 3.0f;
+    public float DiscoverDuration = 2.0f;
     public float ChargeDuration = 2.0f;
     public float EmitDuration = 2.0f;
     public float StopDuration = 2.0f;

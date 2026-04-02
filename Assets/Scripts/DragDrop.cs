@@ -17,10 +17,13 @@ public class DragDrop : MonoBehaviour
 
     [Header("물건 들기 설정")]
     public Transform PlayerTransform;
-    public float HoldHeight = -1.2f;
-    public float HoldDistance = 1.5f;
+    public Transform HoldPoint;
+
+    public float MaxInteractDistance = 6.0f;
 
     private float holdZ;
+    private Quaternion RotationOffset;
+    private Quaternion InitialRotation;
 
     void Update()
     {
@@ -103,9 +106,10 @@ public class DragDrop : MonoBehaviour
             BeforePosition = clickObj.transform.position;
 
             Vector3 holdPos = clickObj.transform.position;
-            if (PlayerTransform != null)
+
+            if (HoldPoint != null)
             {
-                holdPos = PlayerTransform.position + (PlayerTransform.forward * HoldDistance) + (Vector3.up * HoldHeight);
+                holdPos = HoldPoint.position;
             }
             FinishedBread breadInfo = clickObj.GetComponent<FinishedBread>();
 
@@ -122,6 +126,16 @@ public class DragDrop : MonoBehaviour
                 MoveObj = clickObj;
                 MoveObj.transform.position = holdPos;
             }
+
+            if (HoldPoint != null)
+            {
+                RotationOffset = Quaternion.Inverse(HoldPoint.rotation) * MoveObj.transform.rotation;
+            }
+            else
+            {
+                InitialRotation = MoveObj.transform.rotation;
+            }
+
             holdZ = Camera.main.WorldToScreenPoint(holdPos).z;
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, holdZ));
 
@@ -139,13 +153,26 @@ public class DragDrop : MonoBehaviour
     {
         if (MoveObj != null)
         {
-            Vector3 TouchPos = Input.mousePosition;
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(TouchPos.x, TouchPos.y, holdZ));
-            MoveObj.transform.position = worldPos + Offset;
+            if (HoldPoint != null)
+            {
+                MoveObj.transform.position = HoldPoint.position;
+                MoveObj.transform.rotation = HoldPoint.rotation * RotationOffset;
+            }
+            else
+            {
+                Vector3 TouchPos = Input.mousePosition;
+                Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(TouchPos.x, TouchPos.y, holdZ));
+                MoveObj.transform.position = worldPos + Offset;
+            }
         }
     }
     private void TouchStayEvent()
     {
+        if (MoveObj != null && HoldPoint != null)
+        {
+            MoveObj.transform.position = HoldPoint.position;
+            MoveObj.transform.rotation = HoldPoint.rotation * RotationOffset;
+        }
     }
     private void TouchEndedEvent()
     {
@@ -157,6 +184,17 @@ public class DragDrop : MonoBehaviour
         if (Physics.Raycast(ray, out HitInfo))
         {
             Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
+
+            if (PlayerTransform != null)
+            {
+                Vector3 closestPoint = HitInfo.collider.ClosestPoint(PlayerTransform.position);
+                float distance = Vector3.Distance(PlayerTransform.position, closestPoint);
+                if (distance > MaxInteractDistance)
+                {
+                    Debug.Log("상호작용 할 수 있는 거리보다 멉니다.");
+                    goto FAIL_INTERACT;
+                }
+            }
 
             Oven targetOven = HitInfo.collider.GetComponent<Oven>();
             Dough targetDough = HitInfo.collider.GetComponent<Dough>();
@@ -224,6 +262,8 @@ public class DragDrop : MonoBehaviour
             }
         }
 
+    FAIL_INTERACT:
+
         if (MoveObj.CompareTag("FinishedBread"))
         {
             Destroy(MoveObj);
@@ -256,6 +296,17 @@ public class DragDrop : MonoBehaviour
         {
             GameObject hitObject = HitInfo.collider.gameObject;
 
+            if (PlayerTransform != null)
+            {
+                Vector3 closestPoint = HitInfo.collider.ClosestPoint(PlayerTransform.position);
+                float distance = Vector3.Distance(PlayerTransform.position, closestPoint);
+                if (distance > MaxInteractDistance)
+                {
+                    Debug.Log("잡을 오브젝트가 멀리 있습니다.");
+                    return null;
+                }
+            }
+
             foreach (string tag in targetTags)
             {
                 if (hitObject.CompareTag(tag))
@@ -266,5 +317,14 @@ public class DragDrop : MonoBehaviour
         }
 
         return null;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        if (PlayerTransform != null)
+        {
+            Gizmos.DrawWireSphere(PlayerTransform.position, MaxInteractDistance);
+        }
     }
 }

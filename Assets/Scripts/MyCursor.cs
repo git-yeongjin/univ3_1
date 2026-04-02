@@ -40,11 +40,11 @@ public class MyCursor : MonoBehaviour
 
         if (Physics.Raycast(ray, out HitInfo))
         {
-            if (HitInfo.collider.gameObject.name == "포장")
+            if (HitInfo.collider.gameObject.name == "tray2")
             {
                 if (cursorSprites.Length > 2) cursorImage.sprite = cursorSprites[2];
             }
-            else if (HitInfo.collider.gameObject.name == "매장")
+            else if (HitInfo.collider.gameObject.name == "tray1")
             {
                 if (cursorSprites.Length > 3) cursorImage.sprite = cursorSprites[3];
             }
