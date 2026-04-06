@@ -124,6 +124,7 @@ public class Creature_SlimeHorse : MonoBehaviour
                 StateTimer += Time.deltaTime;
                 if (StateTimer >= DownDuration)
                 {
+                    //탈출
                     BaseCreature.Escape();
                 }
                 break;

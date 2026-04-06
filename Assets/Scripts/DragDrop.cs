@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class DragDrop : MonoBehaviour
@@ -10,6 +11,8 @@ public class DragDrop : MonoBehaviour
     private Vector3 PrePos = Vector3.zero;
     private Vector3 BeforePosition;
     private Vector3 Offset = new Vector3(0.0f, 0.0f, 0.0f);
+
+    private bool isHolding = false;
 
     [SerializeField]
     private GameObject MoveObj;
@@ -27,33 +30,27 @@ public class DragDrop : MonoBehaviour
 
     void Update()
     {
-        LastTouchPos = CurrentTouchPos;
-        CurrentTouchPos = Input.mousePosition;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            TouchBeganEvent();
-            PrePos = Input.mousePosition;
-        }
-        if (Input.GetMouseButton(0))
-        {
-            if (Input.mousePosition != PrePos)
-            {
-                TouchMovedEvent();
-            }
-            else
-            {
-                TouchStayEvent();
-            }
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            TouchEndedEvent();
-        }
-
         if (Input.GetKeyDown(KeyCode.F))
         {
-            ShowCaseSetting();
+            if (!isHolding) // 손이 비어있다면?
+            {
+                // 줍기를 시도해보고, 성공했으면 isHolding을 true로!
+                if (TryPickUp())
+                {
+                    isHolding = true;
+                }
+                else
+                {
+                    // 줍기에 실패했다면(앞에 빵이 없다면) 진열대 기능인지 확인
+                    ShowCaseSetting();
+                }
+            }
+            else // 물건을 들고 있다면?
+            {
+                // 내려놓기 (또는 상호작용)
+                TryDrop();
+                isHolding = false; // 물건을 놨으니 다시 빈손으로!
+            }
         }
 
 
@@ -74,6 +71,15 @@ public class DragDrop : MonoBehaviour
 #endif
     }
 
+    void LateUpdate()
+    {
+        if (isHolding && MoveObj != null && HoldPoint != null)
+        {
+            MoveObj.transform.position = HoldPoint.position;
+            MoveObj.transform.rotation = HoldPoint.rotation * RotationOffset;
+        }
+    }
+
     private void ShowCaseSetting()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -92,7 +98,7 @@ public class DragDrop : MonoBehaviour
         }
     }
 
-    private void TouchBeganEvent()
+    private bool TryPickUp()
     {
         GameObject clickObj = OnClickObjTag(MoveObjTAG);
 
@@ -101,7 +107,7 @@ public class DragDrop : MonoBehaviour
             if (clickObj.CompareTag("Dough") && GameManager.Instance.isBakingTime)
             {
                 Debug.Log($"반죽을 먼저 섞어야 합니다.");
-                return;
+                return false;
             }
             BeforePosition = clickObj.transform.position;
 
@@ -147,8 +153,11 @@ public class DragDrop : MonoBehaviour
                 moveObjCollider.enabled = false;
             }
 
+            return true;
         }
+        return false;
     }
+    /*
     private void TouchMovedEvent()
     {
         if (MoveObj != null)
@@ -174,7 +183,8 @@ public class DragDrop : MonoBehaviour
             MoveObj.transform.rotation = HoldPoint.rotation * RotationOffset;
         }
     }
-    private void TouchEndedEvent()
+    */
+    private void TryDrop()
     {
         if (MoveObj == null) return;
 

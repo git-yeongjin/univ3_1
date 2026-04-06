@@ -412,6 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CleanDayEvent: 0
+  CleanDayEventFin: 0
   CleanDayEvent_Clear: 0
   CleanDayEvent_Fail: 0
   CleanDayEvent_TimeLimit: 120
@@ -470,6 +471,7 @@ MonoBehaviour:
   MaxCustomer: 3
   CustomerScore: 0
   DayEventFin: 0
+  isCustomerPresent: 0
   BreadEvent: 0
   BreadSellCount: 0
   PerfectBread: 0
@@ -493,13 +495,13 @@ MonoBehaviour:
   DollCake: 0
   MushroomMuffin: 0
   SlimePudding: 0
-  CustomerToCreature: 1
   DollCakeCount: 0
   MushroomMuffinCount: 0
   SlimePuddingCount: 0
   CustomerCountDoubleEvent: 0
   CustomerCountPenaltyEvent: 0
   DayCount: 0
+  CustomerToCreature: 1
 --- !u!4 &395232494
 Transform:
   m_ObjectHideFlags: 0
@@ -529,9 +531,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NightTime: 0
   CurrentDayCount: 0
+  NightEventFin: 0
   CurrentCatchCount: 0
   MaxCatchCount: 10
-  NightEventFin: 0
   isCreatureUnlockedToday: 0
   AllCreatureDatas: []
 --- !u!1 &419169669
@@ -1013,6 +1015,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726911704}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &957217886
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2099211036154919780, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_Name
+      value: "\uB9F5"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235702193207472072, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
 --- !u!1 &987198546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1730,3 +1789,4 @@ SceneRoots:
   - {fileID: 1510054270}
   - {fileID: 366247934}
   - {fileID: 395232494}
+  - {fileID: 957217886}
