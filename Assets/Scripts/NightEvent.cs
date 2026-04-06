@@ -21,6 +21,8 @@ public class NightEvent : MonoBehaviour
     [Header("크리쳐 데이터 목록")]
     public List<CreatureData> AllCreatureDatas = new List<CreatureData>();
 
+    public GameObject TutorialCreature;
+
     void Start()
     {
         if (GameManager.Instance == null)
@@ -28,6 +30,7 @@ public class NightEvent : MonoBehaviour
             Debug.LogError($"[NightEvent] GameManager.Instance가 존재하지 않습니다.");
             return;
         }
+        StartNightEvent();
     }
 
     void Update()
@@ -45,7 +48,27 @@ public class NightEvent : MonoBehaviour
 
         Debug.Log($"[NightEvent] {CurrentDayCount}일차 밤이 시작되었습니다.");
 
-        CheckUnlockCreature();
+        if (TutorialCreature == null)
+        {
+            TutorialCreature = GameObject.Find("TutorialCreature");
+            if (TutorialCreature == null && CurrentDayCount == 0)
+            {
+                Debug.LogError("[NightEvent] 'TutorialCreature'를 찾을 수 없습니다 하이어라키 이름과 Active 상태를 확인해주세요.");
+                return;
+            }
+        }
+
+        if (CurrentDayCount == 0)
+        {
+            Debug.Log("[NightEvent] 0일차 튜토리얼 크리쳐를 생성합니다.");
+
+            if (TutorialCreature != null) TutorialCreature.SetActive(true);
+        }
+        else
+        {
+            if (TutorialCreature != null) TutorialCreature.SetActive(false);
+            CheckUnlockCreature();
+        }
     }
 
     private void CheckUnlockCreature()

@@ -221,6 +221,11 @@ public class DragDrop : MonoBehaviour
                     else
                     {
                         targetOven.StartBaking(currentDough.recipe);
+                        if (GameManager.Instance.isTutorial)
+                        {
+                            BakeEventUI bakeEventUI = FindAnyObjectByType<BakeEventUI>();
+                            bakeEventUI.OpenCutSceneUI();
+                        }
                         //반죽을 오븐에 넣어서 반죽오브젝트 삭제
                         Destroy(MoveObj);
                     }

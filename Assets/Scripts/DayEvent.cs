@@ -62,7 +62,7 @@ public class DayEvent : MonoBehaviour
         }
 
         //테스트 용
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             CustomerRandomOrder();
         }

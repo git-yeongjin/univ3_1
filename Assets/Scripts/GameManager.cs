@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool Night = false;
     //빵 제작 씬 플레이어 조작
     public bool isBakingTime = false;
+    public bool isTutorial = false;
 
     [Header("빵 판매가능 여부")]
     public bool DollCake = false;
@@ -69,6 +70,17 @@ public class GameManager : MonoBehaviour
         {
             isBakingTime = false;
             Debug.Log($"[GameManager] {scene.name} 씬, isBakingTime = {isBakingTime}");
+        }
+
+        if (DayCount == 0)
+        {
+            isTutorial = true;
+            Debug.Log($"[GameManager] 0일차 isTutorial상태 => {isTutorial}");
+        }
+        else
+        {
+            isTutorial = false;
+            Debug.Log($"[GameManager] 0일차 isTutorial상태 => {isTutorial}");
         }
     }
 

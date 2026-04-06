@@ -25,6 +25,12 @@ public class CreatureSpawner : MonoBehaviour
 
     void Start()
     {
+        if (GameManager.Instance != null && GameManager.Instance.DayCount == 0)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         if (SpawnArea == null) SpawnArea = GetComponent<BoxCollider>();
         if (PlayerTransform == null) PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
