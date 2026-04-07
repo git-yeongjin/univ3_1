@@ -75,7 +75,7 @@ public class BakePlayer : MonoBehaviour
         yRotation += MouseX;
         xRotation -= MouseY;
 
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -25f, 70f);
 
         if (MainCamera != null)
         {

@@ -3364,6 +3364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944b11abe493c3e45a7d7b67b12c1342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NightSceneName: NightEventScene
   NightTime: 0
   CurrentDayCount: 0
   NightEventFin: 0
@@ -3686,7 +3687,7 @@ MonoBehaviour:
   BakeFailUI: {fileID: 989466803}
   FadePanelGroup: {fileID: 1805401888}
   FadeDuration: 1
-  BakeCutsceneUI: {fileID: 356270117}
+  BakeCutSceneUI: {fileID: 0}
   CutSceneSprites_1st:
   - {fileID: 522219511}
   - {fileID: 926961211}
@@ -5938,7 +5939,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1072466100818335619, guid: 3353577c401613446ae745efc268ea25, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1072466100818335619, guid: 3353577c401613446ae745efc268ea25, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6153,7 +6154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4764939806460559067, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6900861950582775794, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
       propertyPath: OvenUI

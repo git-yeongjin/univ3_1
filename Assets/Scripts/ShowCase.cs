@@ -2,56 +2,60 @@ using UnityEngine;
 
 public class ShowCase : MonoBehaviour
 {
-    private GameManager GM;
     private FinishedBread MyBread;
 
+    public BreadType MyBreadType;
+
     [Header("판매할 음식")]
-    public GameObject Bread;
+    public GameObject[] Breads;
 
 
     void Start()
     {
-        GM = FindAnyObjectByType<GameManager>();
-        if (GM == null)
+        foreach (GameObject bread in Breads)
         {
-            Debug.LogError("GM을 찾지 못했습니다.");
-            return;
+            if (bread != null) bread.SetActive(false);
         }
-
-        if (Bread == null)
-        {
-            Debug.LogError("[Showcase] Bread 오브젝트를 찾지 못함");
-            return;
-        }
-
-        MyBread = Bread.GetComponent<FinishedBread>();
-        if (MyBread == null)
-        {
-            Debug.LogError("[Showcase] FinishedBread를 찾지 못함");
-            return;
-        }
-
-        Bread.SetActive(false);
     }
 
     public void DisplayBread()
     {
-        if (GM == null || MyBread == null) return;
+        if (Breads == null || Breads.Length == 0) return;
 
-        switch (MyBread.MyBreadType)
+        int currentCount = 0;
+        switch (MyBreadType)
         {
             case BreadType.DollCake:
-                Bread.SetActive(GM.DollCake);
+                currentCount = GameManager.Instance.DollCakeCount;
                 break;
             case BreadType.MushroomMuffin:
-                Bread.SetActive(GM.MushroomMuffin);
+                currentCount = GameManager.Instance.MushroomMuffinCount;
                 break;
             case BreadType.SlimePudding:
-                Bread.SetActive(GM.SlimePudding);
+                currentCount = GameManager.Instance.SlimePuddingCount;
                 break;
         }
 
-        Debug.Log($"빵을 진열 했습니다.");
+        int displayAmount = GetDisplayAmount(currentCount);
+
+        for (int i = 0; i < Breads.Length; i++)
+        {
+            if (Breads[i] != null)
+            {
+                Breads[i].SetActive(i < displayAmount);
+            }
+        }
+
+        Debug.Log($"[ShowCase] [{MyBreadType}] 재고: {currentCount}개 -> 진열된 빵: {displayAmount}개");
     }
 
+    private int GetDisplayAmount(int count)
+    {
+        if (count >= 8) return 5;
+        else if (count >= 6) return 4;
+        else if (count >= 4) return 3;
+        else if (count >= 2) return 2;
+        else if (count >= 1) return 1;
+        else return 0;
+    }
 }

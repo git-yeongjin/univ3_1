@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 public class NightEvent : MonoBehaviour
 {
+    [Header("씬 이름")]
+    public string NightSceneName = "NightEventScene";
+
     [Header("밤 시간 및 진행 상태")]
     //밤 시간
     public int NightTime = 0;
@@ -30,7 +35,6 @@ public class NightEvent : MonoBehaviour
             Debug.LogError($"[NightEvent] GameManager.Instance가 존재하지 않습니다.");
             return;
         }
-        StartNightEvent();
     }
 
     void Update()
@@ -39,6 +43,24 @@ public class NightEvent : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             GameManager.Instance.IncreaseCustomer();
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == NightSceneName)
+        {
+            StartNightEvent();
         }
     }
 

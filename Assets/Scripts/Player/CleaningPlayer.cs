@@ -10,13 +10,10 @@ public class CleaningPlayer : MonoBehaviour
     }
     public PlayerTools CurrentTool;
 
-
-
     void Start()
     {
         CurrentTool = PlayerTools.Hand;
     }
-
 
     void Update()
     {
@@ -27,15 +24,34 @@ public class CleaningPlayer : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 2.0f);
 
-            if (Physics.Raycast(ray, out hit))
+            RaycastHit[] hits = Physics.RaycastAll(ray);
+
+            foreach (RaycastHit hit in hits)
             {
+                Debug.DrawLine(ray.origin, hit.point, Color.green, 2.0f);
                 Debug.Log($"{hit.collider.gameObject.name}");
+
                 Dirt TargetDirt = hit.collider.GetComponent<Dirt>();
                 if (TargetDirt != null)
                 {
                     TargetDirt.CleanDirt(CurrentTool);
+                    return;
+                }
+
+                CleanEventNPC inspector = hit.collider.GetComponent<CleanEventNPC>();
+                if (inspector != null)
+                {
+                    if (CurrentTool == PlayerTools.Hand)
+                    {
+                        Debug.Log($"[CleaningPlayer] 위생관리원에게 말을 걸었습니다.");
+                        inspector.StartInspection();
+                    }
+                    else
+                    {
+                        Debug.Log($"[CleaningPlayer] 맨손으로 말을 걸어야 합니다.");
+                    }
                 }
             }
         }
@@ -46,4 +62,6 @@ public class CleaningPlayer : MonoBehaviour
         CurrentTool = tools;
         Debug.Log($"{CurrentTool}로 변경함");
     }
+
+
 }

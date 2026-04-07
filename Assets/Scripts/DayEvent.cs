@@ -148,20 +148,6 @@ public class DayEvent : MonoBehaviour
         int randomIndex = Random.Range(0, SellableBreads.Count);
         BreadType orderedBread = SellableBreads[randomIndex];
 
-        //주문한 빵 차감
-        switch (orderedBread)
-        {
-            case BreadType.DollCake:
-                GameManager.Instance.DollCakeCount--;
-                break;
-            case BreadType.MushroomMuffin:
-                GameManager.Instance.MushroomMuffinCount--;
-                break;
-            case BreadType.SlimePudding:
-                GameManager.Instance.SlimePuddingCount--;
-                break;
-        }
-
         bool isPackaging = (Random.Range(0, 2) == 1);
 
         Debug.Log($"[DayEvent] {ActualCustomer}번째 손님 주문 주문한 빵 : {orderedBread}, 포장 : {isPackaging}");
@@ -180,6 +166,25 @@ public class DayEvent : MonoBehaviour
             dayEvnetUI.OrderedBread(orderedBread, isPackaging);
             customer.SetOrder(orderedBread, isPackaging);
         }
+    }
+
+    public void SellBread(BreadType soldBread)
+    {
+        //주문한 빵 차감
+        switch (soldBread)
+        {
+            case BreadType.DollCake:
+                GameManager.Instance.DollCakeCount--;
+                break;
+            case BreadType.MushroomMuffin:
+                GameManager.Instance.MushroomMuffinCount--;
+                break;
+            case BreadType.SlimePudding:
+                GameManager.Instance.SlimePuddingCount--;
+                break;
+        }
+
+        UpdateAllShowcases();
     }
 
     public void CustomerLeft(int score)
@@ -217,5 +222,15 @@ public class DayEvent : MonoBehaviour
     {
         SceneManager.LoadScene("CleanEventScene");
         Debug.Log("[DayEvent] 위생 점검 이벤트로 이동");
+    }
+
+    private void UpdateAllShowcases()
+    {
+        ShowCase[] allShowcases = FindObjectsByType<ShowCase>(FindObjectsSortMode.None);
+
+        foreach (ShowCase showcase in allShowcases)
+        {
+            showcase.DisplayBread();
+        }
     }
 }

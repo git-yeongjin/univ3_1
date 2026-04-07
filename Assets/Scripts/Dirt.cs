@@ -12,8 +12,6 @@ public class Dirt : MonoBehaviour
         creature2,
     }
 
-    public DayEvent DE;
-
     [Header("기본 설정")]
     public DirtType dirtType;
     public string DirtName;
@@ -22,20 +20,12 @@ public class Dirt : MonoBehaviour
     public int HP = 0;
 
     bool trace;
+    private CleanEvent cleanEvent;
 
     void Start()
     {
-        //DE = gameObject.GetComponent<DayEvent>();
-    }
-
-    void Update()
-    {
-        /*
-        if (DE.CleanDayEvent_TimeLimit <= 0)
-        {
-            DE.CheckCreatureTrace(CreatureTrace());
-        }
-        */
+        cleanEvent = FindAnyObjectByType<CleanEvent>();
+        if (cleanEvent == null) Debug.LogError($"[Dirt] CleanEvent스크립트를 찾을 수 없습니다.");
     }
 
     void OnValidate()
@@ -61,7 +51,7 @@ public class Dirt : MonoBehaviour
     private void CleanUP()
     {
         Debug.Log($"{DirtName}청소 완료");
-        //DE.IncreaseCount();
+        cleanEvent.IncreaseCount();
 
         Destroy(gameObject);
     }

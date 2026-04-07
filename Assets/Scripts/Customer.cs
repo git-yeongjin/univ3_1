@@ -28,14 +28,17 @@ public class Customer : MonoBehaviour
 
     public bool ReceiveBread(FinishedBread bread, bool isPackaged)
     {
-        if (bread.MyBreadType != MyOrder)
+        DE.SellBread(bread.MyBreadType);
+
+        if (bread.MyBreadType != MyOrder || wantsPackaging != isPackaged)
         {
             Debug.LogWarning($"[Customer] 주문 불일치 : 빵 종류가 다릅니다.");
-            return false;
-        }
-        if (wantsPackaging != isPackaged)
-        {
-            Debug.LogWarning($"[Customer] 포장 불일치 : 포장 여부가 다릅니다.");
+
+            if (DE != null)
+            {
+                DE.CustomerLeft(0);
+            }
+            Destroy(gameObject);
             return false;
         }
 
@@ -65,6 +68,7 @@ public class Customer : MonoBehaviour
             DE.CustomerLeft(score);
             Destroy(gameObject);
         }
+
         return true;
     }
 }
