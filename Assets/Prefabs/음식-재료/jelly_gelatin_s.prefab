@@ -121,4 +121,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775261b612a13bb49ae0d637aa3aaed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Material: 7
+  Material: 8
