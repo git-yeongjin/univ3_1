@@ -309,7 +309,7 @@ public class BakeEventUI : MonoBehaviour
             }
             else
             {
-                Debug.Log($"반죽을 섞었습니다. 현재 레시피 : {currentDough.recipe}");
+                Debug.Log($"반죽을 섞었습니다. 현재 레시피 : {currentDough.recipe.BreadName}");
                 GM.isBakingTime = false;
             }
         }

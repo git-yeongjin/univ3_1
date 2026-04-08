@@ -1,161 +1,117 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum SpawnCreatureType
+{
+    Doll,
+    Mushroom,
+    Horse
+}
 
 public class CreatureSpawner : MonoBehaviour
 {
     [Header("스폰 설정")]
+    public SpawnCreatureType MyCreatureType;
     public GameObject CreaturePrefab;
-    public BoxCollider SpawnArea;
+    public Transform[] SpawnPoints;
 
     [Header("리스폰 조건")]
     public Transform PlayerTransform;
     public float RespawnDistance = 15f;
-    public float MinRespawnTime = 5f;
-    public float MaxRespawnTime = 10f;
 
-    [Header("패널티")]
+    [Header("정보")]
     public int MaxRespawnCount;
-    private int CurrentRespawnCount = 0;
-    private int ConsecutiveEscapes = 0;
-    private float AlertnessBonus = 0f;
 
-    private GameObject SpawnedCreature;
-    private bool isWaitingToRespawn = false;
-    private Camera MainCamera;
+    private int CurrentRespawnCount = 0;
+
 
     void Start()
     {
-        if (GameManager.Instance != null && GameManager.Instance.DayCount == 0)
+        if (PlayerTransform == null) PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
+        int currentDay = GameManager.Instance != null ? GameManager.Instance.DayCount : 0;
+        MaxRespawnCount = GetSpawnCountByDay(currentDay, MyCreatureType);
+
+        if (MaxRespawnCount <= 0)
         {
+            Debug.Log($"[CreatureSpawner] {currentDay}일차: {MyCreatureType} 스폰 없음 (비활성화)");
             gameObject.SetActive(false);
             return;
         }
 
-        if (SpawnArea == null) SpawnArea = GetComponent<BoxCollider>();
-        if (PlayerTransform == null) PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        Debug.Log($"[CreatureSpawner] {currentDay}일차 - {MyCreatureType} 스폰 마릿수: {MaxRespawnCount}마리");
 
-        MainCamera = Camera.main;
 
-        Creature creatureScript = CreaturePrefab.GetComponent<Creature>();
-        if (creatureScript != null && creatureScript.creatureData != null)
-        {
-            if (GameManager.Instance != null)
-            {
-                if (creatureScript.creatureData.UnLockDay > GameManager.Instance.DayCount)
-                {
-                    Debug.Log($"[CreatureSpawner] {creatureScript.creatureData.name}은 아직 해금되지 않았습니다.");
-                    gameObject.SetActive(false);
-                    return;
-                }
-            }
-        }
-        else
-        {
-            Debug.LogError("[CreatureSpawner] 스폰할 프리팹에 Creature 스크립트나 데이터가 없습니다.");
-            return;
-        }
-        MaxRespawnCount = Random.Range(2, 5);
-        Debug.Log($"[CreatureSpawner] 최대 스폰 가능횟수 {MaxRespawnCount}");
-
-        SpawnCreature();
+        StartCoroutine(SpawnAllCreaturesRoutine());
     }
 
-    void Update()
+    private IEnumerator SpawnAllCreaturesRoutine()
     {
-        if (SpawnedCreature == null && !isWaitingToRespawn)
+        List<Transform> spawnablePoints = new List<Transform>(SpawnPoints);
+
+        for (int i = 0; i < MaxRespawnCount; i++)
         {
-            if (CurrentRespawnCount >= MaxRespawnCount)
+            if (spawnablePoints.Count == 0)
             {
-                Debug.Log($"[CreatureSpawner] {gameObject.name}의 스폰 횟수가 소진되었습니다.");
-                gameObject.SetActive(false);
-                return;
+                spawnablePoints = new List<Transform>(SpawnPoints);
             }
 
-            StartCoroutine(RespawnRoutine());
+            int randomIndex = Random.Range(0, spawnablePoints.Count);
+            Transform targetPoint = spawnablePoints[randomIndex];
+
+            spawnablePoints.RemoveAt(randomIndex);
+
+            SpawnCreatureAt(targetPoint);
+
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
-    private Vector3 GetRandomPosition()
+    private int GetSpawnCountByDay(int day, SpawnCreatureType type)
     {
-        Bounds bounds = SpawnArea.bounds;
-        float randomX = Random.Range(bounds.min.x, bounds.max.x);
-        float randomZ = Random.Range(bounds.min.z, bounds.max.z);
+        if (day == 8) return 0;
+        if (day > 15) day = 15;
 
-        Vector3 rayStartPos = new Vector3(randomX, bounds.max.y + 2f, randomZ);
+        int[] dollCounts = { 0, 10, 10, 10, 10, 12, 11, 9, 0, 8, 7, 8, 8, 6, 2, 1 };
+        int[] mushroomCounts = { 0, 0, 0, 0, 0, 3, 4, 6, 0, 7, 8, 10, 8, 8, 8, 9 };
+        int[] horseCounts = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 6, 10, 10 };
 
-        RaycastHit[] hits = Physics.RaycastAll(rayStartPos, Vector3.down, 100f);
-        foreach (RaycastHit hit in hits)
+        switch (type)
         {
-            if (hit.collider == SpawnArea)
-            {
-                continue;
-            }
-            if (hit.collider.GetComponent<Creature>() != null)
-            {
-                continue;
-            }
-            return hit.point;
+            case SpawnCreatureType.Doll: return dollCounts[day];
+            case SpawnCreatureType.Mushroom: return mushroomCounts[day];
+            case SpawnCreatureType.Horse: return horseCounts[day];
         }
-        float fallbackY = bounds.min.y;
-
-        return new Vector3(randomX, fallbackY, randomZ);
+        return 0;
     }
 
-    private void SpawnCreature()
+    private void SpawnCreatureAt(Transform targetPoint)
     {
         CurrentRespawnCount++;
-        Vector3 spawnPos = GetRandomPosition();
-        SpawnedCreature = Instantiate(CreaturePrefab, spawnPos, Quaternion.identity);
 
-        Creature creatureScript = SpawnedCreature.GetComponent<Creature>();
+        GameObject spawnedCreature = Instantiate(CreaturePrefab, targetPoint.position, targetPoint.rotation);
+
+        Creature creatureScript = spawnedCreature.GetComponent<Creature>();
         if (creatureScript != null)
         {
-            creatureScript.SetupSpawnInfo(this, AlertnessBonus);
+            creatureScript.SetupSpawnInfo(this, 0f);
         }
 
-        Debug.Log($"[CreatureSpawner] 크리쳐 스폰 완료 ({CurrentRespawnCount} / {MaxRespawnCount}), {spawnPos}");
-    }
-
-    private IEnumerator RespawnRoutine()
-    {
-        isWaitingToRespawn = true;
-
-        float waitTime = Random.Range(MinRespawnTime, MaxRespawnTime);
-
-        if (ConsecutiveEscapes > 0)
+        if (MyCreatureType == SpawnCreatureType.Doll)
         {
-            float penaltyTime = ConsecutiveEscapes * 10f;
-            waitTime += penaltyTime;
+            Creature_Doll dollScript = spawnedCreature.GetComponent<Creature_Doll>();
+            if (dollScript != null)
+            {
+                List<Transform> itemPoints = new List<Transform>();
+                foreach (Transform child in targetPoint)
+                {
+                    itemPoints.Add(child);
+                }
+
+                dollScript.SetItemSpawnLocations(itemPoints.ToArray());
+            }
         }
-
-        Debug.Log($"[CreatureSpawner] {waitTime:F1}초 뒤에 리스폰 됩니다.");
-
-        yield return new WaitForSeconds(waitTime);
-
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, PlayerTransform.position) >= RespawnDistance || IsOutofCameraView());
-        Debug.Log("[CreatureSpawner] 플레이어 시야 밖 확인, 스폰");
-
-        SpawnCreature();
-        isWaitingToRespawn = false;
-    }
-
-    public void ReportEscape()
-    {
-        ConsecutiveEscapes++;
-        AlertnessBonus += 0.1f;
-    }
-
-    public void ReportCapture()
-    {
-        ConsecutiveEscapes = 0;
-    }
-
-    private bool IsOutofCameraView()
-    {
-        if (MainCamera == null) return true;
-
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
-
-        return viewPos.x < 0 || viewPos.x > 1 || viewPos.y < 0 || viewPos.y > 1 || viewPos.z < 0;
+        Debug.Log($"[CreatureSpawner] 크리쳐 스폰 완료 ({CurrentRespawnCount} / {MaxRespawnCount}), 위치: {targetPoint.name}");
     }
 }

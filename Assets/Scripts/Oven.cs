@@ -10,13 +10,13 @@ public class Oven : MonoBehaviour
     private RecipeData CurrentRecipe;
 
     [Header("UI")]
-    public GameObject OvenUI;
-    public TMP_Text CurrentBakeText;
+    //public GameObject OvenUI;
+    //public TMP_Text CurrentBakeText;
     public GameObject OpenSceneBT;
 
     void Start()
     {
-        if (OvenUI != null) OvenUI.SetActive(false);
+        //if (OvenUI != null) OvenUI.SetActive(false);
         if (OpenSceneBT != null) OpenSceneBT.SetActive(false);
     }
     void Update()
@@ -24,11 +24,11 @@ public class Oven : MonoBehaviour
         if (isBaking)
         {
             CurrentBakeTime += Time.deltaTime;
-            if (CurrentBakeText != null) CurrentBakeText.text = $"{CurrentBakeTime:F1}";
+            //if (CurrentBakeText != null) CurrentBakeText.text = $"{CurrentBakeTime:F1}";
 
             if (CurrentBakeTime >= CurrentRecipe.PerfectBakeTime)
             {
-                if (CurrentBakeText != null) CurrentBakeText.text = $"굽기 완료";
+                //if (CurrentBakeText != null) CurrentBakeText.text = $"굽기 완료";
                 if (OpenSceneBT != null) OpenSceneBT.SetActive(true);
 
                 isBaking = false;
@@ -43,7 +43,7 @@ public class Oven : MonoBehaviour
         CurrentBakeTime = 0f;
         isBaking = true;
 
-        if (OvenUI != null) OvenUI.SetActive(true);
+        //if (OvenUI != null) OvenUI.SetActive(true);
         if (OpenSceneBT != null) OpenSceneBT.SetActive(false);
         Debug.Log($"[Oven] {CurrentRecipe.BreadName} 굽기 시작");
 
@@ -67,6 +67,6 @@ public class Oven : MonoBehaviour
     public void EndBaking()
     {
         Debug.Log($"[Oven] {CurrentRecipe.Result}제작 완료");
-        if (OvenUI != null) OvenUI.SetActive(false);
+        //if (OvenUI != null) OvenUI.SetActive(false);
     }
 }

@@ -58,14 +58,14 @@ public class NightEventUI : MonoBehaviour
 
                 if (CurrentDialogueIndex < TutorialDialogues.Length)
                 {
-                    Debug.Log($"[BakeEventUI] 대사 출력중 {CurrentDialogueIndex} / {TutorialDialogues.Length}");
+                    Debug.Log($"[NightEventUI] 대사 출력중 {CurrentDialogueIndex} / {TutorialDialogues.Length}");
 
                     NightTutorialText.text = TutorialDialogues[CurrentDialogueIndex];
                     CurrentDialogueIndex++;
                 }
                 else
                 {
-                    Debug.Log($"[BakeEventUI] 대사 종료");
+                    Debug.Log($"[NightEventUI] 대사 종료");
                     NightTutorialUI.SetActive(false);
                     CurrentDialogueIndex = 0;
                 }

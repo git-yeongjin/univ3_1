@@ -20,6 +20,11 @@ public class DayEvent : MonoBehaviour
     //손님 스폰 위치
     public Transform CustomerSpawnPoint;
 
+    [Header("손님 등장 타이머")]
+    public float MinSpawnDelay = 3.0f;
+    public float MaxSpawnDelay = 5.0f;
+    private float currentSpawnTimer = 0f;
+
     [Header("손님 및 영업 정보")]
     //현재까지 스폰 된 손님
     public int ActualCustomer = 0;
@@ -28,11 +33,12 @@ public class DayEvent : MonoBehaviour
     //총 손님 수
     public int MaxCustomer = 3;
     //손님 카운트
-    public int CustomerScore = 0;
+    public int CurrentCustomerScore = 0;
     //영업종료 -> 밤으로 전환
     public bool DayEventFin = false;
-
     public bool isCustomerPresent = false;
+
+    private bool isDayEventScene = false;
 
     [Header("빵 이벤트")]
     public bool BreadEvent = false;
@@ -61,8 +67,20 @@ public class DayEvent : MonoBehaviour
             StartCleanDayEvent();
         }
 
+        if (isDayEventScene && !DayEventFin && !isCustomerPresent && ActualCustomer < MaxCustomer)
+        {
+            currentSpawnTimer -= Time.deltaTime;
+
+            if (currentSpawnTimer <= 0f)
+            {
+                CustomerRandomOrder();
+
+                currentSpawnTimer = Random.Range(MinSpawnDelay, MaxSpawnDelay);
+            }
+        }
+
         //테스트 용
-        if (Input.GetKeyDown(KeyCode.K))
+        if (isDayEventScene && Input.GetKeyDown(KeyCode.K))
         {
             CustomerRandomOrder();
         }
@@ -82,8 +100,13 @@ public class DayEvent : MonoBehaviour
     {
         if (scene.name == "DayEventScene")
         {
+            isDayEventScene = true;
             Debug.Log($"[DayEvent] {scene.name} 씬,  낮 영업 세팅을 초기화합니다.");
             ResetDayEvent();
+        }
+        else
+        {
+            isDayEventScene = false;
         }
     }
 
@@ -91,10 +114,11 @@ public class DayEvent : MonoBehaviour
     {
         ActualCustomer = 0;
         ProcessedCustomer = 0;
-        CustomerScore = 0;
+        CurrentCustomerScore = 0;
         DayEventFin = false;
         hasTriggeredCleanEvent = false;
         isCustomerPresent = false;
+        currentSpawnTimer = Random.Range(MinSpawnDelay, MaxSpawnDelay);
 
         if (GameManager.Instance.DayCount == 0)
         {
@@ -189,7 +213,7 @@ public class DayEvent : MonoBehaviour
 
     public void CustomerLeft(int score)
     {
-        CustomerScore += score;
+        CurrentCustomerScore += score;
         ProcessedCustomer++;
         isCustomerPresent = false;
 

@@ -9,6 +9,9 @@ public class CleanDayUI : MonoBehaviour
     [Header("위생 관리 타이머")]
     public TMP_Text CleanDayEvent_TimeLimitText;
 
+    [Header("크리쳐 흔적 발견 시 엔딩")]
+    public GameObject CleanEnding;
+
     void Start()
     {
         CE = FindAnyObjectByType<CleanEvent>();
@@ -16,6 +19,7 @@ public class CleanDayUI : MonoBehaviour
         {
             Debug.LogError("DayEvent스크립트를 찾을 수 없음");
         }
+        if (CleanEnding != null) CleanEnding.SetActive(false);
     }
 
 

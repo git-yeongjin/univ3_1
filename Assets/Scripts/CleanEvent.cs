@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CleanEvent : MonoBehaviour
 {
     private GameManager GM;
+    public CleanDayUI cleanDayUI;
 
     public bool CleanDayEvent = false;
     public bool CleanDayEventFin = false;
@@ -10,14 +12,38 @@ public class CleanEvent : MonoBehaviour
     public bool CleanDayEvent_Fail = false;
     //제한 시간
     public float CleanDayEvent_TimeLimit = 120.0f;
+
     public int CleanDayEvent_Count = 0;
+    public int RemainingCreatureTraces = 3;
+
+    [Header("스폰 설정")]
+    public GameObject NormalTrashPrefab;
+    public GameObject CreatureTracePrefab;
+    public Transform TracePointRoot;
+    public CleanEventNPC InspectorNPC;
+
+    private List<Transform> SpawnPoints = new List<Transform>();
+
 
     void Start()
     {
         GM = FindAnyObjectByType<GameManager>();
         if (GM == null) Debug.LogError("[CleanEvent] GameManager를 찾을 수 없습니다.");
-    }
 
+        if (TracePointRoot != null)
+        {
+            //Point_1,2 돌기
+            foreach (Transform pointGroup in TracePointRoot)
+            {
+                //CleanPoint_1, 2, 3 돌기
+                foreach (Transform cleanPoint in pointGroup)
+                {
+                    SpawnPoints.Add(cleanPoint);
+                }
+            }
+            Debug.Log($"[CleanEvent] 총 {SpawnPoints.Count}개의 청소 스폰 포인트를 찾았습니다");
+        }
+    }
 
     void Update()
     {
@@ -27,13 +53,75 @@ public class CleanEvent : MonoBehaviour
 
             if (CleanDayEvent_TimeLimit <= 0f)
             {
-                CheckTimeOutCleanEvent();
+                CleanDayEventFin = true;
+                if (InspectorNPC != null)
+                {
+                    InspectorNPC.StartInspection();
+                }
+                else
+                {
+                    CheckTimeOutCleanEvent(); // NPC가 없으면 그냥 바로 정산
+                }
             }
         }
+
+        //테스트
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            SpawnTrashes();
+        }
+    }
+
+    public void StartCleanEvent()
+    {
+        CleanDayEvent = true;
+        CleanDayEventFin = false;
+        CleanDayEvent_Clear = false;
+        CleanDayEvent_Fail = false;
+        CleanDayEvent_TimeLimit = 120f;
+
+        CleanDayEvent_Count = 0;
+        RemainingCreatureTraces = 3;
+
+        SpawnTrashes();
+    }
+
+    private void SpawnTrashes()
+    {
+        if (SpawnPoints.Count < 10)
+        {
+            Debug.LogWarning("[CleanEvent] 스폰 포인트가 10개 미만입니다)");
+        }
+
+        List<Transform> availablePoints = new List<Transform>(SpawnPoints);
+
+        //일반 쓰레기 7개 랜덤 스폰
+        for (int i = 0; i < 7; i++)
+        {
+            int randomIndex = Random.Range(0, availablePoints.Count);
+            Transform targetPoint = availablePoints[randomIndex];
+
+            Instantiate(NormalTrashPrefab, targetPoint.position, targetPoint.rotation, targetPoint);
+            availablePoints.RemoveAt(randomIndex);
+        }
+
+        //남은 자리에 크리쳐 흔적 3개 랜덤 스폰
+        for (int i = 0; i < 3; i++)
+        {
+            int randomIndex = Random.Range(0, availablePoints.Count);
+            Transform targetPoint = availablePoints[randomIndex];
+
+            Instantiate(CreatureTracePrefab, targetPoint.position, targetPoint.rotation, targetPoint);
+            availablePoints.RemoveAt(randomIndex);
+        }
+
+        Debug.Log("[CleanEvent] 일반 쓰레기 7개, 크리쳐 흔적 3개 랜덤 스폰 완료");
     }
 
     public void CheckTimeOutCleanEvent()
     {
+        CleanDayEventFin = true;
+
         if (CleanDayEvent_Count >= 7)
         {
             Debug.Log("매우 우수 : 다음날 손님 카운트 2배");
@@ -63,6 +151,11 @@ public class CleanEvent : MonoBehaviour
         {
             Debug.Log("위생 검사에서 크리쳐 흔적이 발견되어 게임 끝");
             CleanDayEvent_Fail = true;
+
+            if (cleanDayUI != null)
+            {
+                cleanDayUI.CleanEnding.SetActive(true);
+            }
         }
         else
         {

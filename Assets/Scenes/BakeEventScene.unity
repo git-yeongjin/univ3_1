@@ -595,17 +595,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161852856}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 290370911}
-  m_Father: {fileID: 1689543685}
+  m_Father: {fileID: 481342891}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -76}
+  m_AnchoredPosition: {x: 0, y: -126}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &161852858
@@ -1192,7 +1192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &356270118
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1745,6 +1745,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 161852857}
   - {fileID: 1058709714}
   - {fileID: 633909790}
   - {fileID: 950863740}
@@ -3351,7 +3352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1020038356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3389,12 +3390,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DayTime: 0
-  CustomerPrefab: {fileID: 0}
+  CustomerPrefab: {fileID: 615986444809659226, guid: eb8d06e13c32cb9458f6c742cfc411a9, type: 3}
   CustomerSpawnPoint: {fileID: 0}
+  MinSpawnDelay: 3
+  MaxSpawnDelay: 5
   ActualCustomer: 0
   ProcessedCustomer: 0
   MaxCustomer: 3
-  CustomerScore: 0
+  CurrentCustomerScore: 0
   DayEventFin: 0
   isCustomerPresent: 0
   BreadEvent: 0
@@ -3418,6 +3421,7 @@ MonoBehaviour:
   Night: 0
   isBakingTime: 0
   isTutorial: 0
+  CustomerScore: 0
   DollCake: 0
   MushroomMuffin: 0
   SlimePudding: 0
@@ -3687,7 +3691,7 @@ MonoBehaviour:
   BakeFailUI: {fileID: 989466803}
   FadePanelGroup: {fileID: 1805401888}
   FadeDuration: 1
-  BakeCutSceneUI: {fileID: 0}
+  BakeCutSceneUI: {fileID: 356270117}
   CutSceneSprites_1st:
   - {fileID: 522219511}
   - {fileID: 926961211}
@@ -4433,7 +4437,6 @@ RectTransform:
   m_Children:
   - {fileID: 818344987}
   - {fileID: 1278278939}
-  - {fileID: 161852857}
   m_Father: {fileID: 481342891}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5632,6 +5635,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d4f9352553981244b6fdf994eaf75e5, type: 3}
+--- !u!1001 &445384611758213803
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1459400102861111832, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_Name
+      value: muffin_chocoball
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.387
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.179
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4105568403103592019, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c06744f7e10ece74f8724fd1ae44f8e1, type: 3}
 --- !u!1001 &2311143869123419478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5701,6 +5761,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: cake_cream
       objectReference: {fileID: 0}
+    - target: {fileID: 1462588743764648402, guid: dbeaccfca32034e43ac2ba1691effb5e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bb5671fadfe988242843ab4eb23d7ac3, type: 2}
     - target: {fileID: 6885226472222905393, guid: dbeaccfca32034e43ac2ba1691effb5e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.319
@@ -6380,3 +6444,4 @@ SceneRoots:
   - {fileID: 4768695771240419223}
   - {fileID: 234092358316115901}
   - {fileID: 5903967186058711750}
+  - {fileID: 445384611758213803}

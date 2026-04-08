@@ -14,7 +14,9 @@ public class Creature_Mushroom : MonoBehaviour
     public float DetectRadius = 6.0f;
     public float DiscoverDuration = 2.0f;
     public float ChargeDuration = 2.0f;
-    public float EmitDuration = 2.0f;
+    //public float EmitDuration = 4.0f;
+    //포자가 퍼지는 속도
+    public float SmokeExpandSpeed = 2.0f;
     public float StopDuration = 2.0f;
     public float WeaknessThreshold = 50.0f;
     public float WeaknessDuration = 3.0f;
@@ -22,7 +24,9 @@ public class Creature_Mushroom : MonoBehaviour
     [Header("포자 범위")]
     public float MinSporeRadius = 2.0f;
     public float MaxSporeRadius = 6.0f;
+
     private float CurrentSporeRadius;
+    private float CurrentVisualRadius = 0f;
 
     [Header("이펙트 및 시작 요소")]
     public GameObject SporeSmokeEffect;
@@ -112,16 +116,28 @@ public class Creature_Mushroom : MonoBehaviour
                 break;
 
             case MushroomState.Emitting:
+                CurrentVisualRadius += SmokeExpandSpeed * Time.deltaTime;
+
+                if (SporeSmokeEffect != null)
+                {
+                    SporeSmokeEffect.transform.localScale = Vector3.one * (CurrentVisualRadius * 2f);
+                }
+                if (distanceToPlayer <= CurrentVisualRadius)
+                {
+                    ApplySporeDebuffToPlayer();
+                }
+                if (CurrentVisualRadius >= CurrentSporeRadius)
+                {
+                    ChangeState(MushroomState.Stopped);
+                }
+                break;
+
+            case MushroomState.Stopped:
                 if (distanceToPlayer <= CurrentSporeRadius)
                 {
                     ApplySporeDebuffToPlayer();
                 }
-                if (StateTimer >= EmitDuration)
-                {
-                    ChangeState(MushroomState.Charging);
-                }
-                break;
-            case MushroomState.Stopped:
+
                 if (StateTimer >= StopDuration)
                 {
                     ChangeState(MushroomState.Charging);
@@ -143,11 +159,30 @@ public class Creature_Mushroom : MonoBehaviour
 
         switch (CurrentState)
         {
+            case MushroomState.Charging:
+                //차징 상태일 때는 포자 이펙트 끄기
+                if (SporeSmokeEffect != null) SporeSmokeEffect.SetActive(false);
+                if (CreatureRenderer != null) CreatureRenderer.material.color = OriginalColor;
+                break;
+
             case MushroomState.Emitting:
                 CurrentSporeRadius = Random.Range(MinSporeRadius, MaxSporeRadius);
+                CurrentVisualRadius = 0f;
 
                 if (CreatureRenderer != null) CreatureRenderer.material.color = OriginalColor;
-                if (SporeSmokeEffect != null) SporeSmokeEffect.SetActive(true);
+                if (SporeSmokeEffect != null)
+                {
+                    SporeSmokeEffect.transform.localScale = Vector3.zero;
+                    SporeSmokeEffect.SetActive(true);
+
+                    ParticleSystem[] particleSystems = SporeSmokeEffect.GetComponentsInChildren<ParticleSystem>();
+
+                    foreach (ParticleSystem ps in particleSystems)
+                    {
+                        ps.Clear();
+                        ps.Play();
+                    }
+                }
 
                 if (SporeExplosionEffect != null)
                 {
@@ -156,7 +191,7 @@ public class Creature_Mushroom : MonoBehaviour
                 break;
 
             case MushroomState.Stopped:
-                if (SporeSmokeEffect != null) SporeSmokeEffect.SetActive(false);
+                //if (SporeSmokeEffect != null) SporeSmokeEffect.SetActive(false);
                 break;
 
             case MushroomState.Weakness:
@@ -196,7 +231,10 @@ public class Creature_Mushroom : MonoBehaviour
 
     private void ApplySporeDebuffToPlayer()
     {
-
+        if (SporeScreenEffect.Instance != null)
+        {
+            SporeScreenEffect.Instance.ApplyFog();
+        }
     }
 
     void OnDrawGizmos()
@@ -207,7 +245,7 @@ public class Creature_Mushroom : MonoBehaviour
         if (Application.isPlaying && CurrentState == MushroomState.Emitting)
         {
             Gizmos.color = new Color(1, 0, 0, 0.3f);
-            Gizmos.DrawSphere(transform.position, CurrentSporeRadius);
+            Gizmos.DrawSphere(transform.position, CurrentVisualRadius);
         }
     }
 }

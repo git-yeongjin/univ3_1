@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     //빵 제작 씬 플레이어 조작
     public bool isBakingTime = false;
     public bool isTutorial = false;
+    public int CustomerScore = 0;
 
     [Header("빵 판매가능 여부")]
     public bool DollCake = false;
@@ -101,18 +102,27 @@ public class GameManager : MonoBehaviour
 
     public void ChangeDayNight()
     {
+        if (DayCount == 15)
+        {
+            DayEventUI dayEventUI = FindAnyObjectByType<DayEventUI>();
+            if (dayEventUI != null) dayEventUI.CheckGameEnding();
+
+            return;
+        }
         if (Day)
         {
             Debug.Log($"[GameManager] 낮에서 밤으로 이동합니다.");
             Day = false;
             Night = true;
 
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            CustomerScore += DE.CurrentCustomerScore;
             //위생 이벤트 버프&디버프, 손님 카운트 초기화
             CustomerCountDoubleEvent = false;
             CustomerCountPenaltyEvent = false;
             CustomerToCreature = 0;
-
-            if (NE != null) NE.StartNightEvent();
         }
         else if (Night)
         {
@@ -138,4 +148,5 @@ public class GameManager : MonoBehaviour
             Debug.Log("[GameManager] 최대 수에 도달했습니다.");
         }
     }
+
 }

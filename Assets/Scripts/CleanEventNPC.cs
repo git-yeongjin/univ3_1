@@ -9,9 +9,6 @@ public enum TraceState { Clean, NormalDirt, CreatureTrace }
 public class InspectionPoint
 {
     public Transform PointTransform;
-
-    [Tooltip("청소 할 오브젝트 넣기")]
-    public Dirt[] TargetDirts;
 }
 
 public class CleanEventNPC : MonoBehaviour
@@ -38,6 +35,7 @@ public class CleanEventNPC : MonoBehaviour
     private bool isInspecting;
 
     private CleanEvent cleanEvent;
+    private CleanDayUI cleanDayUI;
 
     void Start()
     {
@@ -48,6 +46,8 @@ public class CleanEventNPC : MonoBehaviour
 
         cleanEvent = FindAnyObjectByType<CleanEvent>();
         if (cleanEvent == null) Debug.LogError($"[CleanEventNPC] CleanEvent 스크립트를 찾을 수 없습니다.");
+        cleanDayUI = FindAnyObjectByType<CleanDayUI>();
+        if (cleanDayUI == null) Debug.LogError($"[CleanEventNPC] CleanEvent 스크립트를 찾을 수 없습니다.");
     }
 
     public void StartInspection()
@@ -55,6 +55,12 @@ public class CleanEventNPC : MonoBehaviour
         if (isInspecting) return;
 
         Debug.Log($"[CleanEventNPC] 곧 위생점검을 시작합니다.");
+
+        if (cleanEvent != null)
+        {
+            cleanEvent.CleanDayEventFin = true;
+        }
+
         StartCoroutine(InspectionRoutine());
     }
 
@@ -85,7 +91,9 @@ public class CleanEventNPC : MonoBehaviour
 
             bool hasNormalDirt = false;
             bool hasCreatureTrace = false;
-            foreach (Dirt dirt in currentPoint.TargetDirts)
+
+            Dirt[] dirtsHere = currentPoint.PointTransform.GetComponentsInChildren<Dirt>();
+            foreach (Dirt dirt in dirtsHere)
             {
                 if (dirt != null)
                 {
@@ -133,6 +141,7 @@ public class CleanEventNPC : MonoBehaviour
                     {
                         cleanEvent.CheckCreatureTrace(true);
                     }
+                    InspectorDialogueUI.SetActive(false);
                     yield break;
             }
         }
@@ -142,7 +151,7 @@ public class CleanEventNPC : MonoBehaviour
         yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.1f);
 
         if (anim != null) anim.SetTrigger("Think");
-        ShowDialogue("음... 검사 결과를 정리 중입니다...");
+        ShowDialogue("검사 결과를 정리 중입니다...");
         yield return new WaitForSeconds(2.0f);
 
         ShowDialogue("완료 대사");

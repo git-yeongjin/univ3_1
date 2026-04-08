@@ -47,6 +47,10 @@ public class DayEventUI : MonoBehaviour
     [Header("낮 종료 UI")]
     public GameObject DayFinUI;
 
+    [Header("엔딩 이미지")]
+    public GameObject GoodEnding;
+    public GameObject BadEnding;
+
     private Coroutine HideTextCoroutine;
 
     void Start()
@@ -58,6 +62,8 @@ public class DayEventUI : MonoBehaviour
         OrderDetailPanel.SetActive(false);
         DayFinUI.SetActive(false);
         OrderedBreadWindow.SetActive(false);
+        if (GoodEnding != null) GoodEnding.SetActive(false);
+        if (BadEnding != null) BadEnding.SetActive(false);
     }
 
     void Update()
@@ -72,7 +78,7 @@ public class DayEventUI : MonoBehaviour
             if (CustomerCountText != null)
             {
                 //CustomerCountText.text = $"남은 손님\n{DE.MaxCustomer - DE.ActualCustomer}명, 카운트 : {DE.CustomerScore}";
-                CustomerCountText.text = $"{DE.CustomerScore}";
+                CustomerCountText.text = $"{DE.CurrentCustomerScore}";
             }
         }
 
@@ -164,7 +170,9 @@ public class DayEventUI : MonoBehaviour
         if (GM == null) return;
 
         GM.ChangeDayNight();
-        SceneManager.LoadScene("NightEventScene");
+
+        if (GameManager.Instance.DayCount != 15)
+            SceneManager.LoadScene("NightEventScene");
     }
 
     private IEnumerator HideOrderedBreadText()
@@ -176,4 +184,21 @@ public class DayEventUI : MonoBehaviour
             OrderedBreadWindow.SetActive(false);
         }
     }
+
+    public void CheckGameEnding()
+    {
+        int totalScore = GameManager.Instance.CustomerScore;
+
+        Debug.Log($"[엔딩 정산] 최종 누적 점수 : {totalScore}");
+
+        if (totalScore >= 150)
+        {
+            if (GoodEnding != null) GoodEnding.SetActive(true);
+        }
+        else
+        {
+            if (BadEnding != null) BadEnding.SetActive(true);
+        }
+    }
+
 }

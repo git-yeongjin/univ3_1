@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8333757589660611331}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-forearm.R.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,9 +41,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5640812102533414645}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-thigh.L.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,9 +73,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8905935059298697861}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap2_L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,9 +104,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7486196652907889392}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rig
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,9 +137,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7186591657750045178}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-pelvis.L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,9 +168,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5625349822397623096}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-shoulder.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -200,9 +200,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8447589743402363029}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-toe.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -232,9 +232,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8752001835876167468}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.hair_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,9 +264,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7481450043823702672}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap2_R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -295,9 +295,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2976242250563844298}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.3_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -327,9 +327,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7477632003662610949}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tweak_spine.003
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -359,9 +359,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4292067892253429013}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: spine_fk
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -391,9 +391,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2681386546290434762}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.004
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -423,9 +423,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2939119231435862658}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORG-spine
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -458,9 +458,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2087316083062232812}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-foot.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -490,9 +490,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5469633134299000262}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-forearm.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -522,9 +522,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2925348527241057650}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.003
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -554,9 +554,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9184454780174469620}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -586,9 +586,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 617442410634143303}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-shin.L.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -618,9 +618,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6052233187922688672}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-forearm.L.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -650,9 +650,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 257238666171140417}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-shin.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -682,9 +682,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8953655834257329443}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.1_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -714,9 +714,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2503034901651725544}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-breast.L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -745,9 +745,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1270528736319755983}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.3_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -777,9 +777,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5711977366424051117}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.hair.2_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -809,9 +809,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1467862470378632214}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.006
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -848,9 +848,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4641920686454118449}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORG-shoulder.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -882,9 +882,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4926047894655647959}
   - component: {fileID: 7742406032269877439}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: maincha_cap
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1054,9 +1054,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 670835392055778456}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.5_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1086,9 +1086,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3097077978617121368}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORG-breast.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1118,9 +1118,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3910465330234598659}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORG-breast.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1150,9 +1150,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7997446634865316374}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MCH-spine.002
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1182,9 +1182,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7224404547987454902}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.2_L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1216,7 +1216,7 @@ GameObject:
   - component: {fileID: 8483741837720069427}
   - component: {fileID: 6947953846020998667}
   - component: {fileID: 2070960358800420064}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1350,9 +1350,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2800140428378177514}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-shoulder.R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1381,9 +1381,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8298243554027102591}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MCH-spine
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1413,9 +1413,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2427376315222247727}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-pelvis.R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1444,9 +1444,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 811306520299386958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-sideH3_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1476,9 +1476,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4099065366522763573}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-pelvis.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1508,9 +1508,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2213051542774832463}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-breast.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1540,9 +1540,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7305636019947125993}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.002
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1572,9 +1572,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1217233281759706827}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.5_L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1603,9 +1603,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256872514935519178}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-shin.R.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1635,9 +1635,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4749421655529944298}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.hair.3_L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1666,9 +1666,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3355697015036784944}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-upper_arm.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1698,9 +1698,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4018822806052058478}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-hand.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1730,9 +1730,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5221728453935919966}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-sideH2_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1762,9 +1762,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1780074100682564197}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.5_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1794,9 +1794,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6365270990821029497}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MCH-spine.003
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1826,9 +1826,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 86426753492856004}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.hair.3_R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1857,9 +1857,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2738110215265374644}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tweak_spine
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1889,9 +1889,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4773877043761563966}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-thigh.R.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1921,9 +1921,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 831657943923921775}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-thigh.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1953,9 +1953,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7052932397433347891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HoldPos
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1984,9 +1984,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6006568571804259045}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.5_R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2019,9 +2019,9 @@ GameObject:
   - component: {fileID: 557422548234639714}
   - component: {fileID: 798375372561471949}
   - component: {fileID: 4273234645634154695}
-  m_Layer: 0
-  m_Name: player
-  m_TagString: Untagged
+  m_Layer: 8
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2133,9 +2133,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8213342264616036193}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.hair.3_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2165,9 +2165,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 20023111307837481}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2200,9 +2200,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5246887878786160729}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-sideH3_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2232,9 +2232,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2722655355417212281}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: maincha_BODY
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2270,9 +2270,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3609298681711069051}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.hair_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2302,9 +2302,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 527863605045863626}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-sideH3_R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2333,9 +2333,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5742606151103004029}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-forearm.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2365,9 +2365,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5175654467335677296}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-toe.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2397,9 +2397,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7299788522983924180}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-upper_arm.R.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2429,9 +2429,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3273381220153604911}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: root
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2462,9 +2462,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6668213571998408607}
   - component: {fileID: 1327965724438109596}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: maincha_eye
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2636,9 +2636,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4768643732625009144}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: spine_fk.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2668,9 +2668,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7721957560902009580}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: spine_fk.002
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2700,9 +2700,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2644311610479286682}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-breast.R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2731,9 +2731,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 530496273047726388}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORG-shoulder.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2764,9 +2764,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 329168331380697537}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-upper_arm.L.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2796,9 +2796,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1474440153881530160}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-pelvis.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2829,9 +2829,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7729977088950304316}
   - component: {fileID: 8766006274493049583}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: maincha_hair
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3001,9 +3001,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9008318768070398464}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORG-pelvis.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3033,9 +3033,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1377658478502001659}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3065,9 +3065,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8572289476835077613}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.2_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3097,9 +3097,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1074331294007986092}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap1_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3129,9 +3129,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1707138180663652600}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MCH-spine.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3161,9 +3161,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4159313084411672915}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-sideH_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3193,9 +3193,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6734699339606795231}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORG-spine.003
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3228,9 +3228,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8466989948988300523}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.hair.2_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3260,9 +3260,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5393070443605817805}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.2_R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3291,9 +3291,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5476608357814909455}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: spine_fk.003
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3323,9 +3323,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9184915210741962251}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.001
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3355,9 +3355,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1449024692753710326}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-sideH2_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3387,9 +3387,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2061921640307444287}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.4_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3420,9 +3420,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8423483692861101266}
   - component: {fileID: 4373842903141437270}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: maincha_body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3592,9 +3592,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7412967088251186237}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-hand.L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3623,9 +3623,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4685272403379751256}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-toe.R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3654,9 +3654,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3147226611877608170}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MCH-torso.parent
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3686,9 +3686,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8764497923966788211}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-upper_arm.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3718,9 +3718,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5361197619914044149}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-foot.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3750,9 +3750,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1575854534178038484}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.2_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3782,9 +3782,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1962922854629823886}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-shoulder.L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3814,9 +3814,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1084487766980681654}
   - component: {fileID: 9109334248849363212}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: maincha_sideH
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3986,9 +3986,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 966642279261561661}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap2_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4017,9 +4017,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7509263476921989653}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap2_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4049,9 +4049,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3500844608440470221}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: torso
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4082,9 +4082,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8825205517028625020}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-thigh.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4114,9 +4114,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5902451441363577100}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.4_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4146,9 +4146,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7103448321050635105}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.hair.3_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4179,9 +4179,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7806887004774165161}
   - component: {fileID: 700532041970402260}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: maincha_ribon
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4351,9 +4351,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2869951434039548371}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap1_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4383,9 +4383,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1935936620131816698}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine.005
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4415,9 +4415,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4929481234121547061}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-hand.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4447,9 +4447,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1484384000819039954}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-shin.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4479,9 +4479,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3550899035185068238}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-shoulder.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4511,9 +4511,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2230040995518652980}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap2_L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4543,9 +4543,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5044159297218466805}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-Cap1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4575,9 +4575,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6039209087504377031}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-toe.L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4606,9 +4606,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4096129277586918640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ORG-pelvis.R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4638,9 +4638,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6908853929878252983}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-hand.R_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4669,9 +4669,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 33478722220572836}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-breast.L
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4701,9 +4701,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3695927264142704663}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-spine_ribon.1_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4733,9 +4733,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2609783222728428556}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-sideH3_L_end
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4764,9 +4764,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8297000090578177819}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DEF-sideH_R
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

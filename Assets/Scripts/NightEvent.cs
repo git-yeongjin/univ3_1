@@ -72,7 +72,8 @@ public class NightEvent : MonoBehaviour
 
         if (TutorialCreature == null)
         {
-            TutorialCreature = GameObject.Find("TutorialCreature");
+            TutorialCreature = FindInactiveTutorialCreature("TutorialCreature");
+
             if (TutorialCreature == null && CurrentDayCount == 0)
             {
                 Debug.LogError("[NightEvent] 'TutorialCreature'를 찾을 수 없습니다 하이어라키 이름과 Active 상태를 확인해주세요.");
@@ -91,6 +92,30 @@ public class NightEvent : MonoBehaviour
             if (TutorialCreature != null) TutorialCreature.SetActive(false);
             CheckUnlockCreature();
         }
+    }
+
+    private GameObject FindInactiveTutorialCreature(string objName)
+    {
+        //씬 정보 가져오기
+        Scene nightScene = SceneManager.GetSceneByName(NightSceneName);
+        if (!nightScene.isLoaded) return null;
+
+        //해당 씬에 최상위 부모 오브젝트 가져오기
+        GameObject[] rootObjects = nightScene.GetRootGameObjects();
+
+        //자식까지 뒤지기
+        foreach (GameObject rootObj in rootObjects)
+        {
+            Transform[] allChildren = rootObj.GetComponentsInChildren<Transform>(true);
+            foreach (Transform child in allChildren)
+            {
+                if (child.name == objName)
+                {
+                    return child.gameObject;
+                }
+            }
+        }
+        return null;
     }
 
     private void CheckUnlockCreature()

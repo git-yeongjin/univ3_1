@@ -76,7 +76,7 @@ public class Dirt : MonoBehaviour
                 DirtName = "크리쳐 얼룩";
                 isCreatureTrace = true;
                 RequiredTool = CleaningPlayer.PlayerTools.Rag;
-                HP = 7;
+                HP = 5;
                 break;
             case DirtType.creature2:
                 DirtName = "크리쳐 털";

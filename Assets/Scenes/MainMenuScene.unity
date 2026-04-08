@@ -738,6 +738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944b11abe493c3e45a7d7b67b12c1342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NightSceneName: NightEventScene
   NightTime: 0
   CurrentDayCount: 0
   NightEventFin: 0
@@ -748,6 +749,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef732f86990464e43984c0ef82cfc9b5, type: 2}
   - {fileID: 11400000, guid: 8707a6e797b40aa4e99e98296fc7815d, type: 2}
   - {fileID: 11400000, guid: 18fe51e9b77ab6646b891057175df501, type: 2}
+  TutorialCreature: {fileID: 0}
 --- !u!114 &1436307687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,12 +763,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DayTime: 0
-  CustomerPrefab: {fileID: 615986444809659226, guid: eb8d06e13c32cb9458f6c742cfc411a9, type: 3}
+  CustomerPrefab: {fileID: 5459797251201325961, guid: 4a30d5ab59ce4804880e622b52d9c117, type: 3}
   CustomerSpawnPoint: {fileID: 0}
+  MinSpawnDelay: 3
+  MaxSpawnDelay: 5
   ActualCustomer: 0
   ProcessedCustomer: 0
   MaxCustomer: 3
-  CustomerScore: 0
+  CurrentCustomerScore: 0
   DayEventFin: 0
   isCustomerPresent: 0
   BreadEvent: 0
@@ -789,6 +793,8 @@ MonoBehaviour:
   Day: 0
   Night: 0
   isBakingTime: 0
+  isTutorial: 0
+  CustomerScore: 0
   DollCake: 0
   MushroomMuffin: 0
   SlimePudding: 0
@@ -798,7 +804,7 @@ MonoBehaviour:
   CustomerCountDoubleEvent: 0
   CustomerCountPenaltyEvent: 0
   DayCount: 0
-  CustomerToCreature: 1
+  CustomerToCreature: 0
 --- !u!1 &1484513841
 GameObject:
   m_ObjectHideFlags: 0

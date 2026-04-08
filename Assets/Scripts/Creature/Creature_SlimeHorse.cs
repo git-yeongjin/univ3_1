@@ -21,6 +21,8 @@ public class Creature_SlimeHorse : MonoBehaviour
     public float TurnSpeed = 10.0f;
 
     private Vector3 TargetRetreatPosition;
+    //플레이어가 벗어날 때 감속  시키는 변수
+    private float CurrentCircleSpeed = 0f;
 
     [Header("전투 및 공격 설정")]
     //최대 공격 횟수 -> 이후 다운
@@ -76,10 +78,32 @@ public class Creature_SlimeHorse : MonoBehaviour
                 }
                 break;
             case SlimeHorseState.Explore:
+                //플레이어와 거리 계산하기
+                float currentDist = Vector3.Distance(transform.position, PlayerTransform.position);
+
+                //안쪽이면 뺑뺑이
+                if (currentDist <= DetectRadius)
+                {
+                    CurrentCircleSpeed = Mathf.Lerp(CurrentCircleSpeed, CircleSpeed, Time.deltaTime * 2f);
+                }
+                else
+                {
+                    CurrentCircleSpeed = Mathf.Lerp(CurrentCircleSpeed, 0f, Time.deltaTime * 2f);
+
+                    //거의 멈추면
+                    if (CurrentCircleSpeed <= 1.0f)
+                    {
+                        Debug.Log($"[슬라임 말] 플레이어를 놓쳤습니다. 대기 상태로 복귀합니다.");
+                        CurrentCircleSpeed = 0f;
+                        ChangeState(SlimeHorseState.Idle);
+                        break;
+                    }
+                }
+
                 Vector3 beforePos = transform.position;
 
                 //플레이어 주변을 원형으로 달림
-                transform.RotateAround(PlayerTransform.position, Vector3.up, CircleSpeed * Time.deltaTime);
+                transform.RotateAround(PlayerTransform.position, Vector3.up, CurrentCircleSpeed * Time.deltaTime);
 
                 Vector3 moveDir = (transform.position - beforePos).normalized;
                 moveDir.y = 0;
@@ -217,7 +241,11 @@ public class Creature_SlimeHorse : MonoBehaviour
         {
             GameObject proj = Instantiate(SlimeProjectilePrefab, FirePoint.position, FirePoint.rotation);
             //투사체에 플레이어 방향을 알려주는 초기화 함수 호출 (SlimeProjectile 스크립트 필요)
-            //proj.GetComponent<SlimeProjectile>().Setup(PlayerTransform.position);
+            SlimeProjectile projectileScript = proj.GetComponent<SlimeProjectile>();
+            if (projectileScript != null)
+            {
+                projectileScript.Setup(PlayerTransform.position);
+            }
         }
 
         if (CheekTransform != null) CheekTransform.localScale = OriginalCheekScale;

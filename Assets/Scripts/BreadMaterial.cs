@@ -13,6 +13,7 @@ public class BreadMaterial : MonoBehaviour
 
         SporePowder,
         MushroomCream,
+        Chocoball,
 
         SlimeGelatin,
         BrainFruit

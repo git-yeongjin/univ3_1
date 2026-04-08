@@ -23,27 +23,30 @@ public class Creature : MonoBehaviour
 
     public void Escape()
     {
-        if (mySpawner != null)
-        {
-            mySpawner.ReportEscape();
-        }
         Debug.Log($"[Creature] {gameObject.name} 크리쳐가 도망갔습니다.");
         Destroy(gameObject);
     }
 
     public void Capture()
     {
-        if (mySpawner != null)
-        {
-            mySpawner.ReportCapture();
-        }
         if (GameManager.Instance != null && creatureData != null)
         {
             switch (creatureData.type)
             {
                 case CreatureType.Doll:
-                    GameManager.Instance.DollCakeCount++;
-                    Debug.Log($"[Creature] 케이크 판매 갯수가 증가했습니다.");
+                    if (gameObject.name == "TutorialCreature")
+                    {
+                        NightEventUI nightEventUI = FindAnyObjectByType<NightEventUI>();
+                        if (nightEventUI != null)
+                        {
+                            nightEventUI.NightFinUI.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        GameManager.Instance.DollCakeCount++;
+                        Debug.Log($"[Creature] 케이크 판매 갯수가 증가했습니다.");
+                    }
                     break;
                 case CreatureType.Mushroom:
                     GameManager.Instance.MushroomMuffinCount++;

@@ -21,12 +21,15 @@ public class Slimehorse_Anim : MonoBehaviour
         switch (horse.CurrentState)
         {
             case Creature_SlimeHorse.SlimeHorseState.Idle:
+                anim.SetInteger("HorseState", 0);
                 break;
             case Creature_SlimeHorse.SlimeHorseState.Stare:
+                anim.SetInteger("HorseState", 0);
                 break;
             case Creature_SlimeHorse.SlimeHorseState.Alert:
                 break;
             case Creature_SlimeHorse.SlimeHorseState.Capturable:
+                anim.SetInteger("HorseState", 0);
                 break;
             case Creature_SlimeHorse.SlimeHorseState.Explore:
                 anim.SetInteger("HorseState", 1);
