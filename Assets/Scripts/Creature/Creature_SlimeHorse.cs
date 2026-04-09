@@ -14,14 +14,22 @@ public class Creature_SlimeHorse : MonoBehaviour
     //원형 이동 속도
     public float CircleSpeed = 50.0f;
     //플레이어 주변을 도는 거리
-    public float DistanceFromPlayer = 5.0f;
+    public float DistanceFromPlayer = 10.0f;
     //포획 실패시 도망가는 거리
-    public float RetreatDistance = 10.0f;
+    public float RetreatDistance = 20.0f;
     public float RetreatSpeed = 15.0f;
     public float TurnSpeed = 10.0f;
 
+    [Header("웨이브 이동 설정")]
+    //웨이브 속도
+    public float WaveFrequency = 3.0f;
+    //웨이브 폭
+    public float WaveAmplitude = 3.0f;
+    //현재 각도 추적용
+    private float CurrentAngle = 0f;
+
     private Vector3 TargetRetreatPosition;
-    //플레이어가 벗어날 때 감속  시키는 변수
+    //플레이어가 벗어날 때 감속 시키는 변수
     private float CurrentCircleSpeed = 0f;
 
     [Header("전투 및 공격 설정")]
@@ -82,7 +90,7 @@ public class Creature_SlimeHorse : MonoBehaviour
                 float currentDist = Vector3.Distance(transform.position, PlayerTransform.position);
 
                 //안쪽이면 뺑뺑이
-                if (currentDist <= DetectRadius)
+                if (currentDist <= DetectRadius + WaveAmplitude + 1f)
                 {
                     CurrentCircleSpeed = Mathf.Lerp(CurrentCircleSpeed, CircleSpeed, Time.deltaTime * 2f);
                 }
@@ -99,14 +107,23 @@ public class Creature_SlimeHorse : MonoBehaviour
                         break;
                     }
                 }
+                //각도 증가
+                CurrentAngle += CurrentCircleSpeed * Time.deltaTime;
+                //유니티(Unity)에서 도(Degree, 60분법)를 라디안(Radian, 호도법)으로 변환하는 데 사용되는 읽기 전용 상수
+                float rad = CurrentAngle * Mathf.Deg2Rad;
 
-                Vector3 beforePos = transform.position;
+                float waveOffset = Mathf.Sin(Time.time * WaveFrequency) * WaveAmplitude;
+                float dynamicRadius = DistanceFromPlayer + waveOffset;
 
-                //플레이어 주변을 원형으로 달림
-                transform.RotateAround(PlayerTransform.position, Vector3.up, CurrentCircleSpeed * Time.deltaTime);
+                Vector3 targetOffset = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad)) * dynamicRadius;
+                Vector3 targetPos = PlayerTransform.position + targetOffset;
+                targetPos.y = transform.position.y;
 
-                Vector3 moveDir = (transform.position - beforePos).normalized;
+                Vector3 moveDir = (targetPos - transform.position).normalized;
                 moveDir.y = 0;
+
+                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 4f);
+                Vector3 beforePos = transform.position;
 
                 if (moveDir != Vector3.zero)
                 {
@@ -118,7 +135,30 @@ public class Creature_SlimeHorse : MonoBehaviour
 
             case SlimeHorseState.Stare:
                 //플레이어 응시
-                transform.LookAt(PlayerTransform);
+                CurrentCircleSpeed = Mathf.Lerp(CurrentCircleSpeed, 0f, Time.deltaTime * 3f);
+
+                if (CurrentCircleSpeed > 0.1f)
+                {
+                    CurrentAngle += CurrentCircleSpeed * Time.deltaTime;
+                    float stareRad = CurrentAngle * Mathf.Deg2Rad;
+                    float stareWaveOffset = Mathf.Sin(Time.time * WaveFrequency);
+                    float stareDynamicRadius = DistanceFromPlayer + stareWaveOffset;
+
+                    Vector3 stareTargetOffset = new Vector3(Mathf.Sin(stareRad), 0, Mathf.Cos(stareRad) * stareDynamicRadius);
+                    Vector3 stareTargetPos = PlayerTransform.position + stareTargetOffset;
+                    stareTargetPos.y = transform.position.y;
+
+                    transform.position = Vector3.Lerp(transform.position, stareTargetPos, Time.deltaTime * 4f);
+                }
+
+                Vector3 stareLookDir = (PlayerTransform.position - transform.position).normalized;
+                stareLookDir.y = 0;
+
+                if (stareLookDir != Vector3.zero)
+                {
+                    Quaternion stareRotation = Quaternion.LookRotation(stareLookDir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, stareRotation, TurnSpeed * Time.deltaTime);
+                }
                 break;
 
             case SlimeHorseState.Alert:
@@ -130,7 +170,14 @@ public class Creature_SlimeHorse : MonoBehaviour
                 break;
 
             case SlimeHorseState.Attack:
-                transform.LookAt(PlayerTransform);
+                Vector3 attackLookDir = (PlayerTransform.position - transform.position).normalized;
+                attackLookDir.y = 0;
+
+                if (attackLookDir != Vector3.zero)
+                {
+                    Quaternion stareRotation = Quaternion.LookRotation(attackLookDir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, stareRotation, TurnSpeed * Time.deltaTime);
+                }
 
                 if (CheekTransform != null)
                 {
@@ -267,6 +314,13 @@ public class Creature_SlimeHorse : MonoBehaviour
 
         switch (state)
         {
+            case SlimeHorseState.Explore:
+                if (PlayerTransform != null)
+                {
+                    Vector3 dirToCreature = transform.position - PlayerTransform.position;
+                    CurrentAngle = Mathf.Atan2(dirToCreature.x, dirToCreature.z) * Mathf.Rad2Deg;
+                }
+                break;
             case SlimeHorseState.Capturable:
                 if (HeartEffect != null) HeartEffect.SetActive(true);
                 break;

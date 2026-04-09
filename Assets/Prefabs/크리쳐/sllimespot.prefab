@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1128843611088741752}
   - component: {fileID: 146695465546476087}
   - component: {fileID: 3986598995916029713}
+  - component: {fileID: 4747958855609772341}
   m_Layer: 0
   m_Name: sllimespot
   m_TagString: Untagged
@@ -109,6 +110,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.01849478, y: 0.01849478, z: 0.00222347}
   m_Center: {x: 0, y: 0, z: 0.001111735}
+--- !u!114 &4747958855609772341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4785884345758251157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29e2a938a269c740b5e0d59076f0812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SlowValue: 5
 --- !u!1 &8526099194037023644
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +150,7 @@ Transform:
   m_GameObject: {fileID: 8526099194037023644}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.28233442, w: 0.95931613}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0029}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00141}
   m_LocalScale: {x: 1.1901355, y: 1.1901356, z: 1.754237}
   m_ConstrainProportionsScale: 0
   m_Children: []

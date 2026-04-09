@@ -116,8 +116,8 @@ MonoBehaviour:
   CurrentState: 0
   DetectRadius: 15
   CircleSpeed: 50
-  DistanceFromPlayer: 5
-  RetreatDistance: 10
+  DistanceFromPlayer: 10
+  RetreatDistance: 20
   RetreatSpeed: 15
   TurnSpeed: 10
   MaxAttackCount: 5

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: HuntingMap Volume
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 2870643811895930936}
---- !u!114 &2870643811895930936
+  - {fileID: 5798992129323481808}
+--- !u!114 &5798992129323481808
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,15 +32,15 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.13
   intensity:
     m_OverrideState: 1
-    m_Value: 1.32
+    m_Value: 4
   scatter:
     m_OverrideState: 1
-    m_Value: 0.543
+    m_Value: 0.562
   clamp:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 65472
   tint:
     m_OverrideState: 1
@@ -60,4 +60,4 @@ MonoBehaviour:
     dimension: 1
   dirtIntensity:
     m_OverrideState: 0
-    m_Value: 5.1
+    m_Value: 0
