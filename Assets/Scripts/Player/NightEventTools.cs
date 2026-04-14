@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class NightEventTools : MonoBehaviour
@@ -7,12 +6,15 @@ public class NightEventTools : MonoBehaviour
     public enum NightTools
     {
         none,
-        GlassTube,
-        WaterGun,
-        BugNet,
+        //GlassTube,
+        //WaterGun,
+        //BugNet,
         Ocarina
     }
-    public NightTools Tools;
+    public NightTools Tools = NightTools.none;
+
+    [Header("도구 3D 모델")]
+    public GameObject OcarinaModel;
 
     [Header("도구 선택 창")]
     public bool isToolWindowOpen;
@@ -44,20 +46,56 @@ public class NightEventTools : MonoBehaviour
 
     void Start()
     {
-
+        UpdateToolModels();
     }
-
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) // 알파벳 위의 숫자 1
+        {
+            SwitchTool(NightTools.none);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) // 알파벳 위의 숫자 2
+        {
+            SwitchTool(NightTools.Ocarina);
+        }
+
         if (CurrentOcarinaTimer > 0)
         {
             CurrentOcarinaTimer -= Time.deltaTime;
         }
 
-        if (Input.GetMouseButtonDown(0) && !isToolWindowOpen)
+        if (Input.GetKeyDown(KeyCode.F) && !isToolWindowOpen)
         {
             UseCurrentTool();
+        }
+    }
+
+    private void SwitchTool(NightTools newTool)
+    {
+        if (Tools == newTool) return; // 이미 들고 있는 도구면 무시
+
+        Tools = newTool;
+        Debug.Log($"[도구 변경] 현재 장착 무기: {Tools}");
+
+        UpdateToolModels();
+    }
+
+    private void UpdateToolModels()
+    {
+        if (OcarinaModel == null)
+        {
+            Debug.LogWarning("[NightEventTools] OcarinaModel이 인스펙터에 연결되지 않았습니다!");
+            return;
+        }
+
+        if (Tools == NightTools.Ocarina)
+        {
+            OcarinaModel.SetActive(true);
+        }
+        else
+        {
+            OcarinaModel.SetActive(false);
         }
     }
 
@@ -65,6 +103,10 @@ public class NightEventTools : MonoBehaviour
     {
         switch (Tools)
         {
+            case NightTools.none:
+                Debug.Log("[도구 사용] 맨손입니다.");
+                break;
+
             case NightTools.Ocarina:
                 PlayOcarina();
                 break;

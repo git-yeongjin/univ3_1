@@ -54,9 +54,10 @@ public class CleanEvent : MonoBehaviour
             if (CleanDayEvent_TimeLimit <= 0f)
             {
                 CleanDayEventFin = true;
+
                 if (InspectorNPC != null)
                 {
-                    InspectorNPC.StartInspection();
+                    InspectorNPC.AppearAndReady();
                 }
                 else
                 {
@@ -68,7 +69,7 @@ public class CleanEvent : MonoBehaviour
         //테스트
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            SpawnTrashes();
+            StartCleanEvent();
         }
     }
 
@@ -122,21 +123,27 @@ public class CleanEvent : MonoBehaviour
     {
         CleanDayEventFin = true;
 
+        int resultLevel = 0;
         if (CleanDayEvent_Count >= 7)
         {
             Debug.Log("매우 우수 : 다음날 손님 카운트 2배");
             if (GM != null) GM.CustomerCountDoubleEvent = true;
+            resultLevel = 0;
         }
         else if (CleanDayEvent_Count < 7 && CleanDayEvent_Count >= 4)
         {
             Debug.Log("우수 : 손님 카운트 변화 없음");
+            resultLevel = 1;
         }
         else if (CleanDayEvent_Count < 4)
         {
             Debug.Log("보통 : 다음날 모든 빵 손님 카운트 1로 변경");
             if (GM != null) GM.CustomerCountPenaltyEvent = true;
+            resultLevel = 2;
         }
 
+        // CleanDayUI를 통해 결과창 팝업
+        if (cleanDayUI != null) cleanDayUI.ShowResultUI(resultLevel);
         CleanDayEventFin = true;
     }
 
@@ -154,7 +161,7 @@ public class CleanEvent : MonoBehaviour
 
             if (cleanDayUI != null)
             {
-                cleanDayUI.CleanEnding.SetActive(true);
+                cleanDayUI.TriggerCleanEnding();
             }
         }
         else

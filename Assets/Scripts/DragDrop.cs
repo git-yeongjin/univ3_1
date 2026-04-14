@@ -21,15 +21,24 @@ public class DragDrop : MonoBehaviour
     [Header("물건 들기 설정")]
     public Transform PlayerTransform;
     public Transform HoldPoint;
-
     public float MaxInteractDistance = 6.0f;
+
+    [Header("UI 설정")]
+    public GameObject InteractUI;
 
     private float holdZ;
     private Quaternion RotationOffset;
     private Quaternion InitialRotation;
 
+    void Start()
+    {
+        if (InteractUI != null) InteractUI.SetActive(false);
+    }
+
     void Update()
     {
+        CheckInteractableUI();
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (!isHolding) // 손이 비어있다면?
@@ -78,6 +87,58 @@ public class DragDrop : MonoBehaviour
             MoveObj.transform.position = HoldPoint.position;
             MoveObj.transform.rotation = HoldPoint.rotation * RotationOffset;
         }
+    }
+
+    private void CheckInteractableUI()
+    {
+        if (InteractUI == null) return;
+
+        Vector3 touchPos = Input.mousePosition;
+        Ray ray = Camera.main.ScreenPointToRay(touchPos);
+        RaycastHit HitInfo;
+
+        if (Physics.Raycast(ray, out HitInfo))
+        {
+            GameObject hitObject = HitInfo.collider.gameObject;
+
+            if (PlayerTransform != null)
+            {
+                Vector3 closestPoint = HitInfo.collider.ClosestPoint(PlayerTransform.position);
+                float distance = Vector3.Distance(PlayerTransform.position, closestPoint);
+
+                if (distance <= MaxInteractDistance)
+                {
+                    // 2. 줍기 가능한 태그인지 확인
+                    foreach (string tag in MoveObjTAG)
+                    {
+                        if (hitObject.CompareTag(tag))
+                        {
+                            // 범위 안이고, 태그도 맞으면 UI 켜기!
+                            InteractUI.SetActive(true);
+                            return;
+                        }
+                    }
+
+                    if (hitObject.GetComponent<ShowCase>() != null)
+                    {
+                        InteractUI.SetActive(true);
+                        return;
+                    }
+                    if (hitObject.GetComponent<Oven>() != null)
+                    {
+                        InteractUI.SetActive(true);
+                        return;
+                    }
+                    if (hitObject.GetComponent<PackagingStation>() != null)
+                    {
+                        InteractUI.SetActive(true);
+                        return;
+                    }
+                }
+            }
+        }
+
+        InteractUI.SetActive(false);
     }
 
     private void ShowCaseSetting()
@@ -224,7 +285,7 @@ public class DragDrop : MonoBehaviour
                         if (GameManager.Instance.isTutorial)
                         {
                             BakeEventUI bakeEventUI = FindAnyObjectByType<BakeEventUI>();
-                            bakeEventUI.OpenCutSceneUI();
+                            bakeEventUI.OnOvenBakeFinishedInTutorial();
                         }
                         //반죽을 오븐에 넣어서 반죽오브젝트 삭제
                         Destroy(MoveObj);

@@ -19,6 +19,7 @@ public class Oven : MonoBehaviour
         //if (OvenUI != null) OvenUI.SetActive(false);
         if (OpenSceneBT != null) OpenSceneBT.SetActive(false);
     }
+
     void Update()
     {
         if (isBaking)

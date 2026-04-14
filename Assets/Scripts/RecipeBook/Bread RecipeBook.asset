@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca934ec7c8c9e4438c49dbcb9ba4f0c, type: 3}
   m_Name: Bread RecipeBook
   m_EditorClassIdentifier: 
-  NormalBread: {fileID: 11400000, guid: b092b72f314ce324db948ba44eaa5227, type: 2}
   AllRecipes:
   - {fileID: 11400000, guid: 990e9ba1f6a829448b694424ea5e32dc, type: 2}
   - {fileID: 11400000, guid: 8c3940bfa77451542b6aa192821fae58, type: 2}
   - {fileID: 11400000, guid: 91b485408c7f16446be75a36cbcff407, type: 2}
+  - {fileID: 11400000, guid: 98a70fc1ffaac654998683bffb86500b, type: 2}

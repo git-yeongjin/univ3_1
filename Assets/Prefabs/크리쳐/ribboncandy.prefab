@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6588870198475345690}
   - component: {fileID: 3929276477555886293}
   - component: {fileID: -3743201422623606662}
+  - component: {fileID: -1016325262610734947}
   m_Layer: 0
   m_Name: ribboncandy
   m_TagString: BreadMaterial
@@ -103,7 +104,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -122,3 +123,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Material: 2
+--- !u!114 &-1016325262610734947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4314174820732373509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c023391af9aab4a948560843f50c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myItemType: 1
+  OwnerDoll: {fileID: 0}

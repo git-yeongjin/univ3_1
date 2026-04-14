@@ -13,7 +13,8 @@ public class NightEvent : MonoBehaviour
 
     [Header("밤 시간 및 진행 상태")]
     //밤 시간
-    public int NightTime = 0;
+    public float MaxNightTime = 300f;
+    public float CurrentNightTime = 0f;
     public int CurrentDayCount;
     //밤 이벤트 종료
     public bool NightEventFin = false;
@@ -44,6 +45,17 @@ public class NightEvent : MonoBehaviour
         {
             GameManager.Instance.IncreaseCustomer();
         }
+
+        if (CurrentDayCount > 0 && !NightEventFin)
+        {
+            CurrentNightTime -= Time.deltaTime;
+
+            if (CurrentNightTime <= 0f)
+            {
+                CurrentNightTime = 0f;
+                TimeOutNightEvent();
+            }
+        }
     }
 
     void OnEnable()
@@ -68,6 +80,9 @@ public class NightEvent : MonoBehaviour
     {
         CurrentDayCount = GameManager.Instance.DayCount;
 
+        CurrentNightTime = MaxNightTime;
+        NightEventFin = false;
+
         Debug.Log($"[NightEvent] {CurrentDayCount}일차 밤이 시작되었습니다.");
 
         if (TutorialCreature == null)
@@ -91,6 +106,21 @@ public class NightEvent : MonoBehaviour
         {
             if (TutorialCreature != null) TutorialCreature.SetActive(false);
             CheckUnlockCreature();
+        }
+    }
+
+    private void TimeOutNightEvent()
+    {
+        if (NightEventFin) return;
+
+        NightEventFin = true;
+        Debug.Log("[NightEvent] 밤 사냥 제한 시간이 종료되었습니다!");
+
+        // UI 스크립트를 찾아서 결과창 열기
+        NightEventUI nightEventUI = FindAnyObjectByType<NightEventUI>();
+        if (nightEventUI != null)
+        {
+            nightEventUI.ShowNightResult();
         }
     }
 

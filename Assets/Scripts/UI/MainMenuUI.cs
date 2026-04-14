@@ -42,7 +42,8 @@ public class MainMenuUI : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("BakeEventScene");
+        //SceneManager.LoadScene("BakeEventScene");
+        LoadingUIManager.Instance.LoadScene("BakeEventScene");
     }
 
     public void EndGame()

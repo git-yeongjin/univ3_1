@@ -127,7 +127,7 @@ public class Creature_Doll : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+    public void OnPlayerInteract()
     {
         if (isCapturable)
         {
@@ -331,24 +331,27 @@ public class Creature_Doll : MonoBehaviour
 
     private void CreateArrows()
     {
-        if (HintArrowPrefab == null) return;
-
         foreach (GameObject item in SpawnedItems)
         {
             // 아직 먹지 않은(null이 아닌) 아이템 위에만 화살표 생성
             if (item != null)
             {
-                Vector3 arrowPos = item.transform.position + Vector3.up * 2.0f;
-
-                GameObject arrow = Instantiate(HintArrowPrefab, arrowPos, Quaternion.identity);
-                SpawnedArrows.Add(arrow);
+                if (HintArrowPrefab != null)
+                {
+                    Vector3 arrowPos = item.transform.position + Vector3.up * 2.0f;
+                    GameObject arrow = Instantiate(HintArrowPrefab, arrowPos, Quaternion.identity);
+                    SpawnedArrows.Add(arrow);
+                }
             }
 
             if (UIArrowPrefab != null && UICanvasTransform != null)
             {
-                RectTransform uiArrow = Instantiate(UIArrowPrefab, UICanvasTransform);
-                uiArrow.gameObject.SetActive(false); // 처음엔 숨겨둡니다.
-                OffScreenUIArrows.Add(item, uiArrow); // 사전(Dictionary)에 연결해둡니다.
+                if (!OffScreenUIArrows.ContainsKey(item))
+                {
+                    RectTransform uiArrow = Instantiate(UIArrowPrefab, UICanvasTransform);
+                    uiArrow.gameObject.SetActive(true);
+                    OffScreenUIArrows.Add(item, uiArrow);
+                }
             }
         }
     }

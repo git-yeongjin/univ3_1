@@ -7,7 +7,8 @@ public enum BreadType
     None,
     DollCake,
     MushroomMuffin,
-    SlimePudding
+    SlimePudding,
+    Rollcake
 }
 
 public class DayEvent : MonoBehaviour
@@ -17,8 +18,10 @@ public class DayEvent : MonoBehaviour
     public int DayTime = 0;
     //손님 프리팹
     public GameObject CustomerPrefab;
+    public GameObject SpecialCustomerPrefab;
     //손님 스폰 위치
     public Transform CustomerSpawnPoint;
+    public Transform PickupPoint;
 
     [Header("손님 등장 타이머")]
     public float MinSpawnDelay = 3.0f;
@@ -102,6 +105,17 @@ public class DayEvent : MonoBehaviour
         {
             isDayEventScene = true;
             Debug.Log($"[DayEvent] {scene.name} 씬,  낮 영업 세팅을 초기화합니다.");
+
+            // 씬에 만든 스폰 오브젝트 이름
+            GameObject spawnObj = GameObject.Find("CustomerSpawnPoint");
+            if (spawnObj != null) CustomerSpawnPoint = spawnObj.transform;
+            else Debug.LogError("[DayEvent] 씬에서 'CustomerSpawnPoint' 오브젝트를 찾을 수 없습니다.");
+
+            // 씬에 만든 픽업 오브젝트 이름
+            GameObject pickupObj = GameObject.Find("PickupPoint");
+            if (pickupObj != null) PickupPoint = pickupObj.transform;
+            else Debug.LogError("[DayEvent] 씬에서 'PickupPoint' 오브젝트를 찾을 수 없습니다.");
+
             ResetDayEvent();
         }
         else
@@ -151,44 +165,101 @@ public class DayEvent : MonoBehaviour
             return;
         }
 
-        List<BreadType> SellableBreads = new List<BreadType>();
+        int currentDay = GameManager.Instance.DayCount;
+        bool isSpecialDay = (currentDay == 7 || currentDay == 9 || currentDay == 11);
+        bool isFirstCustomer = (ActualCustomer == 0); // 오늘 온 손님이 0명이면 첫 번째 손님
 
-        if (GameManager.Instance.DollCakeCount > 0) SellableBreads.Add(BreadType.DollCake);
-        if (GameManager.Instance.MushroomMuffinCount > 0) SellableBreads.Add(BreadType.MushroomMuffin);
-        if (GameManager.Instance.SlimePuddingCount > 0) SellableBreads.Add(BreadType.SlimePudding);
+        BreadType orderedBread = BreadType.None;
+        bool isPackaging = false;
+        string finalDialogue = "";
 
-        if (SellableBreads.Count == 0)
+        GameObject prefabToSpawn = CustomerPrefab;
+
+        // 조건: 7,9,11일차 이면서 && 오늘의 첫 번째 손님일 때
+        if (isSpecialDay && isFirstCustomer)
         {
-            Debug.LogWarning("[DayEvnet] 판매 가능한 빵이 없습니다.");
-            MaxCustomer = ProcessedCustomer;
-            CheckDayFinish();
-            return;
+            ActualCustomer++;
+            isCustomerPresent = true;
+            isPackaging = false; // 연구원은 매장 식사로 처리
+
+            if (SpecialCustomerPrefab != null)
+            {
+                prefabToSpawn = SpecialCustomerPrefab;
+            }
+            else
+            {
+                Debug.LogWarning("[DayEvent] 특수 손님 프리팹이 등록되지 않아 일반 손님으로 대체합니다.");
+            }
+
+            if (currentDay == 7)
+            {
+                orderedBread = BreadType.SlimePudding; // 푸딩 주문
+                // \n 으로 기획서의 A/B 말풍선을 한 번에 띄어쓰기해서 보여줍니다.
+                finalDialogue = "<color=#fbe9ff>안녕하신지요~ 빵집이 생겼다길래 호다닥 달려 왔어요~\n오! 푸딩이 맛있어보이네요!</color>";
+            }
+            else if (currentDay == 9)
+            {
+                orderedBread = BreadType.DollCake; // 케이크 주문
+                finalDialogue = "<color=#fbe9ff>안녕하세요~ 저번에 푸딩이 너무 너무 맛있길래 또 왔어요~ 와하하! 엄청 크던데요~\n오늘은 케이크 먹을래요</color>";
+            }
+            else if (currentDay == 11)
+            {
+                orderedBread = BreadType.MushroomMuffin; // 머핀 주문
+                finalDialogue = "<color=#fbe9ff>안녕하세요오오 머핀. 주세요</color>";
+            }
+
+            Debug.Log($"[DayEvent] 특수 손님(연구원)이 등장했습니다! 주문: {orderedBread}");
+        }
+        else
+        {
+            List<BreadType> SellableBreads = new List<BreadType>();
+
+            if (GameManager.Instance.DollCakeCount > 0) SellableBreads.Add(BreadType.DollCake);
+            if (GameManager.Instance.MushroomMuffinCount > 0) SellableBreads.Add(BreadType.MushroomMuffin);
+            if (GameManager.Instance.SlimePuddingCount > 0) SellableBreads.Add(BreadType.SlimePudding);
+
+            if (SellableBreads.Count == 0)
+            {
+                Debug.LogWarning("[DayEvnet] 판매 가능한 빵이 없습니다.");
+                MaxCustomer = ProcessedCustomer;
+                CheckDayFinish();
+                return;
+            }
+
+            //손님 한명 들어옴
+            ActualCustomer++;
+            isCustomerPresent = true;
+
+            int randomIndex = Random.Range(0, SellableBreads.Count);
+            orderedBread = SellableBreads[randomIndex];
+            isPackaging = (Random.Range(0, 2) == 1);
+
+            DayEventUI dayEventUI = FindAnyObjectByType<DayEventUI>();
+            if (dayEventUI != null)
+            {
+                finalDialogue = dayEventUI.GetCustomerDialogue(orderedBread, isPackaging);
+            }
         }
 
-        //손님 한명 들어옴
-        ActualCustomer++;
-        isCustomerPresent = true;
-
-        int randomIndex = Random.Range(0, SellableBreads.Count);
-        BreadType orderedBread = SellableBreads[randomIndex];
-
-        bool isPackaging = (Random.Range(0, 2) == 1);
+        if (CustomerSpawnPoint == null)
+        {
+            Debug.LogError("[DayEvent] 스폰 포인트가 설정되지 않아 손님을 소환할 수 없습니다.");
+            return;
+        }
 
         Debug.Log($"[DayEvent] {ActualCustomer}번째 손님 주문 주문한 빵 : {orderedBread}, 포장 : {isPackaging}");
 
         //아래에 손님 소환 or 주문UI 코드짜기
-        GameObject newCustomer = Instantiate(CustomerPrefab, CustomerSpawnPoint.position, Quaternion.identity);
+        GameObject newCustomer = Instantiate(prefabToSpawn, CustomerSpawnPoint.position, Quaternion.identity);
         Customer customer = newCustomer.GetComponent<Customer>();
-
         PackagingStation station = FindAnyObjectByType<PackagingStation>();
-        DayEventUI dayEvnetUI = FindAnyObjectByType<DayEventUI>();
 
-        if (dayEvnetUI != null && station != null)
+        Vector3 targetPosition = PickupPoint != null ? PickupPoint.position : CustomerSpawnPoint.position;
+
+        if (station != null && customer != null)
         {
             station.FindCustomer(customer);
-            //주문UI 출력하기
-            dayEvnetUI.OrderedBread(orderedBread, isPackaging);
-            customer.SetOrder(orderedBread, isPackaging);
+            customer.SetOrder(orderedBread, isPackaging, finalDialogue, targetPosition);
         }
     }
 
@@ -244,7 +315,8 @@ public class DayEvent : MonoBehaviour
 
     public void StartCleanDayEvent()
     {
-        SceneManager.LoadScene("CleanEventScene");
+        //SceneManager.LoadScene("CleanEventScene");
+        LoadingUIManager.Instance.LoadScene("CleanEventScene");
         Debug.Log("[DayEvent] 위생 점검 이벤트로 이동");
     }
 

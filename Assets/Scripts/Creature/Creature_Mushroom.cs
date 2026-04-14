@@ -201,7 +201,7 @@ public class Creature_Mushroom : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+    public void OnPlayerInteract()
     {
         if (!isAware) return;
 

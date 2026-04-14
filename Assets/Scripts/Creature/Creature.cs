@@ -39,7 +39,7 @@ public class Creature : MonoBehaviour
                         NightEventUI nightEventUI = FindAnyObjectByType<NightEventUI>();
                         if (nightEventUI != null)
                         {
-                            nightEventUI.NightFinUI.SetActive(true);
+                            nightEventUI.StartNightEndingCutScene();
                         }
                     }
                     else

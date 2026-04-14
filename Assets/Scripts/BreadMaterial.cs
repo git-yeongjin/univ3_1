@@ -16,7 +16,11 @@ public class BreadMaterial : MonoBehaviour
         Chocoball,
 
         SlimeGelatin,
-        BrainFruit
+        BrainFruit,
+
+        Rollcake_cookie,
+        Rollcake_cream,
+        Rollcake_eyeball
     }
 
     public BreadMaterialName Material;

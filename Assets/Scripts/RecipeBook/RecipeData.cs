@@ -7,6 +7,8 @@ public enum ResultBread
     DollCake,
     MushroomMuffin,
     SlimePudding,
+
+    Rollcake
 }
 
 [CreateAssetMenu(fileName = "Bread Recipe", menuName = "Bakery/Recipe")]

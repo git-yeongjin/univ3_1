@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class DayEventUI : MonoBehaviour
@@ -47,9 +48,62 @@ public class DayEventUI : MonoBehaviour
     [Header("낮 종료 UI")]
     public GameObject DayFinUI;
 
+    [Header("엔딩 연출 설정")]
+    public CanvasGroup EndingFadeGroup;     // 화면을 까맣게 만들 페이드 패널
+    public GameObject EndingDialogueUI;     // 까만 화면 위에 띄울 대사창 UI
+    public TMP_Text EndingDialogueText;     // 대사 텍스트
+
     [Header("엔딩 이미지")]
     public GameObject GoodEnding;
     public GameObject BadEnding;
+
+    [Header("엔딩 대사 목록")]
+    [TextArea]
+    public string[] GoodEndingDialogues = {
+        "마을 사람들이 모두 사랑둥이가 되었어!",
+        "가게를 차려서 모두를 사랑둥이로 만들겠다는 꿈에 한 발짝 다가간거야!",
+        "너무 행복해",
+        "앞으로도 더 많은 사람들을 사랑둥이로 만들자",
+        "세상 사람들 모두를 사랑둥이로 만드는 거야!"
+    };
+
+    [TextArea]
+    public string[] BadEndingDialogues = {
+        "가게를 차려서 세상 사람들 모두를 사랑둥이로 만든다!",
+        "...라는 원대한 꿈을 결국 이루지 못했다",
+        "하지만 괜찮아!",
+        "내 옆엔 사랑둥이로 변해버린 자기도 있고",
+        "모두가 사랑둥이인 세상에 가면 된다",
+        "세상 사람들을 사랑둥이로 만드는 꿈이 지금은 어려웠지만",
+        "괜찮다",
+        "기회는 언젠가 다시 오기 마련이니까"
+    };
+
+    [Header("손님 대사 데이터")]
+    public string[] HallDialogues = {
+        "매장이 너무 예뻐요!",
+        "먹고 가려고요",
+        "여기서 먹고 가도 되죠?"
+    };
+
+    public string[] PackagingDialogues = {
+        "포장도 가능한가요?",
+        "집에 가져가서 먹으려고요!",
+        "ㅁㅁ 포장해주세요"
+    };
+
+    public string[] CommonDialogues = {
+        "지금 영업 하나요? ㅁㅁ 하나 주세요",
+        "좋은 냄새 난다! ㅁㅁ하나 주시겠어요?",
+        "ㅁㅁ 주세요",
+        "**...아니 ㅁㅁ이요. 아 아닌가? **? 그냥 ㅁㅁ으로 주세요",
+        "ㅁㅁ 주세요. 어 자기야 주문하느라 응"
+    };
+
+    public string[] LateCommonDialogues = {
+        "요즘 길에 사람이 적어진 것 같아요. ㅁㅁ 주세요",
+        "동네가 좀 한산해진 느낌이에요. 장사는 잘 되나요?"
+    };
 
     private Coroutine HideTextCoroutine;
 
@@ -69,6 +123,11 @@ public class DayEventUI : MonoBehaviour
     void Update()
     {
         SettingUI();
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (OrderDetailPanel != null) OrderDetailPanel.SetActive(!OrderDetailPanel.activeSelf);
+        }
     }
 
     private void SettingUI()
@@ -94,10 +153,12 @@ public class DayEventUI : MonoBehaviour
 
     public void OrderedBread(BreadType order, bool isPackaging)
     {
+        /*
         OrderedBreadWindow.SetActive(true);
         OrderedBreadText.text = $"주문한 빵 : {order} / 포장 : {isPackaging}";
-
         if (OrderedBreadText != null) OrderedBreadText.gameObject.SetActive(true);
+        */
+        OrderDetailPanel.SetActive(true);
         if (HideTextCoroutine != null) StopCoroutine(HideTextCoroutine);
 
         HideTextCoroutine = StartCoroutine(HideOrderedBreadText());
@@ -172,7 +233,7 @@ public class DayEventUI : MonoBehaviour
         GM.ChangeDayNight();
 
         if (GameManager.Instance.DayCount != 15)
-            SceneManager.LoadScene("NightEventScene");
+            LoadingUIManager.Instance.LoadScene("NightEventScene");
     }
 
     private IEnumerator HideOrderedBreadText()
@@ -191,14 +252,125 @@ public class DayEventUI : MonoBehaviour
 
         Debug.Log($"[엔딩 정산] 최종 누적 점수 : {totalScore}");
 
-        if (totalScore >= 150)
+        StartCoroutine(EndingSequenceRoutine(totalScore));
+    }
+
+    private IEnumerator EndingSequenceRoutine(int totalScore)
+    {
+        bool isGoodEnding = totalScore >= 150;
+        string[] selectedDialogues = isGoodEnding ? GoodEndingDialogues : BadEndingDialogues;
+        GameObject selectedEndingImage = isGoodEnding ? GoodEnding : BadEnding;
+
+        if (EndingFadeGroup != null)
         {
-            if (GoodEnding != null) GoodEnding.SetActive(true);
+            EndingFadeGroup.gameObject.SetActive(true);
+            float timer = 0f;
+            while (timer < 1.5f)
+            {
+                timer += Time.deltaTime;
+                EndingFadeGroup.alpha = Mathf.Lerp(0f, 1f, timer / 1.5f);
+                yield return null;
+            }
+            EndingFadeGroup.alpha = 1f;
         }
-        else
+
+        if (EndingDialogueUI != null)
         {
-            if (BadEnding != null) BadEnding.SetActive(true);
+            EndingDialogueUI.SetActive(true);
+
+            foreach (string dialogue in selectedDialogues)
+            {
+                if (EndingDialogueText != null) EndingDialogueText.text = dialogue;
+
+                // 한 프레임 대기
+                yield return null;
+
+                // 마우스 좌클릭 또는 스페이스바를 누를 때까지 코루틴 일시정지
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0));
+            }
+
+            //대사가 모두 끝났으니 대사창 끄기
+            EndingDialogueUI.SetActive(false);
+
+            //까만 화면 뒤에서 엔딩 이미지 켜두기
+            if (selectedEndingImage != null) selectedEndingImage.SetActive(true);
+        }
+
+        //화면 다시 밝아지기 (페이드 아웃) -> 엔딩 일러스트가 드러남
+        if (EndingFadeGroup != null)
+        {
+            float timer = 0f;
+            while (timer < 1.5f)
+            {
+                timer += Time.deltaTime;
+                EndingFadeGroup.alpha = Mathf.Lerp(1f, 0f, timer / 1.5f);
+                yield return null;
+            }
+            EndingFadeGroup.alpha = 0f;
+            EndingFadeGroup.gameObject.SetActive(false);
         }
     }
 
+
+    public string GetCustomerDialogue(BreadType orderedBread, bool isPackaging)
+    {
+        List<string> dialoguePool = new List<string>();
+
+        if (isPackaging)
+        {
+            dialoguePool.AddRange(PackagingDialogues);
+        }
+        else
+        {
+            dialoguePool.AddRange(HallDialogues);
+        }
+
+        if (GameManager.Instance.DayCount >= 7)
+        {
+            // 7일차 이후면 후반용 대사 사용 (기존 대사 미사용)
+            dialoguePool.AddRange(LateCommonDialogues);
+        }
+        else
+        {
+            // 7일차 이전이면 기존 공통 대사 사용
+            dialoguePool.AddRange(CommonDialogues);
+        }
+
+        //풀 안의 대사들(상황별 + 공통) 중 딱 하나만 랜덤으로 뽑기
+        string selectedDialogue = dialoguePool[Random.Range(0, dialoguePool.Count)];
+
+        string breadName = GetBreadNameKorean(orderedBread);
+        selectedDialogue = selectedDialogue.Replace("ㅁㅁ", breadName);
+
+        if (selectedDialogue.Contains("**"))
+        {
+            string otherBread = GetRandomOtherBreadName(orderedBread);
+            selectedDialogue = selectedDialogue.Replace("**", otherBread);
+        }
+
+        return selectedDialogue;
+    }
+
+    private string GetBreadNameKorean(BreadType type)
+    {
+        switch (type)
+        {
+            case BreadType.DollCake: return "인형 케이크";
+            case BreadType.MushroomMuffin: return "버섯 머핀";
+            case BreadType.SlimePudding: return "슬라임 푸딩";
+            case BreadType.Rollcake: return "롤케이크";
+            default: return "빵";
+        }
+    }
+
+    private string GetRandomOtherBreadName(BreadType excludeType)
+    {
+        List<string> others = new List<string>();
+        if (excludeType != BreadType.DollCake) others.Add("인형 케이크");
+        if (excludeType != BreadType.MushroomMuffin) others.Add("버섯 머핀");
+        if (excludeType != BreadType.SlimePudding) others.Add("슬라임 푸딩");
+
+        if (others.Count == 0) return "아무 빵";
+        return others[Random.Range(0, others.Count)];
+    }
 }

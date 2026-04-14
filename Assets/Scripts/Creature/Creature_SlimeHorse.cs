@@ -242,7 +242,7 @@ public class Creature_SlimeHorse : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+    public void OnPlayerInteract()
     {
         if (CurrentState == SlimeHorseState.Capturable ||
             CurrentState == SlimeHorseState.Down)
