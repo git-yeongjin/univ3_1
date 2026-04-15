@@ -5,6 +5,11 @@ public class Creature : MonoBehaviour
     [Header("크리쳐 세팅")]
     public CreatureData creatureData;
 
+    [Header("이펙트 세팅")]
+    public GameObject CaptureEffectPrefab;
+    public GameObject EscapeEffectPrefab;
+    public float EffectYOffset = 2.0f;
+
     private CreatureSpawner mySpawner;
 
     void OnValidate()
@@ -24,6 +29,13 @@ public class Creature : MonoBehaviour
     public void Escape()
     {
         Debug.Log($"[Creature] {gameObject.name} 크리쳐가 도망갔습니다.");
+
+        if (EscapeEffectPrefab != null)
+        {
+            Vector3 spawnPos = transform.position + new Vector3(0, EffectYOffset, 0);
+            Instantiate(EscapeEffectPrefab, spawnPos, Quaternion.identity);
+        }
+
         Destroy(gameObject);
     }
 
@@ -60,6 +72,13 @@ public class Creature : MonoBehaviour
 
             GameManager.Instance.IncreaseCustomer();
         }
+
+        if (CaptureEffectPrefab != null)
+        {
+            Vector3 spawnPos = transform.position + new Vector3(0, EffectYOffset, 0);
+            Instantiate(CaptureEffectPrefab, spawnPos, Quaternion.identity);
+        }
+
         Destroy(gameObject);
     }
 

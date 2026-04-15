@@ -239,6 +239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureData: {fileID: 11400000, guid: ef732f86990464e43984c0ef82cfc9b5, type: 2}
+  CaptureEffectPrefab: {fileID: 5531460029133612789, guid: b97dc56d9f36fb74dad324d1157c5f5e, type: 3}
+  EscapeEffectPrefab: {fileID: 8668003475334743985, guid: 4a23abc01be59eb4db7055f11b1e3622, type: 3}
 --- !u!114 &7163515275026341499
 MonoBehaviour:
   m_ObjectHideFlags: 0

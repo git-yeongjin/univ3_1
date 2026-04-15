@@ -15,16 +15,6 @@ public class NightEventUI : MonoBehaviour
     [Header("사냥 타이머 UI")]
     public Slider NightTimerSlider;
 
-    [Header("0일차 튜토리얼")]
-    public GameObject NightTutorialUI;
-    public TMP_Text NightTutorialText;
-
-    private int CurrentDialogueIndex = 0;
-    public string[] TutorialDialogues =
-    {
-        "임시 텍스트"
-    };
-
     [Header("페이드 및 컷신 설정")]
     public CanvasGroup FadePanelGroup;
     public float FadeDuration = 1.0f;
@@ -49,17 +39,7 @@ public class NightEventUI : MonoBehaviour
 
         if (GameManager.Instance.DayCount == 0)
         {
-            NightTutorialUI.SetActive(true);
 
-            if (NightTutorialText != null && TutorialDialogues.Length > 0)
-            {
-                NightTutorialText.text = TutorialDialogues[0];
-                CurrentDialogueIndex = 1;
-            }
-            else
-            {
-                NightTutorialUI.SetActive(false);
-            }
         }
 
         NightFinUI.SetActive(false);
@@ -80,25 +60,7 @@ public class NightEventUI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (NightTutorialUI != null && NightTutorialUI.activeSelf)
-            {
-                if (TutorialDialogues == null) return;
-
-                if (CurrentDialogueIndex < TutorialDialogues.Length)
-                {
-                    Debug.Log($"[NightEventUI] 대사 출력중 {CurrentDialogueIndex} / {TutorialDialogues.Length}");
-
-                    NightTutorialText.text = TutorialDialogues[CurrentDialogueIndex];
-                    CurrentDialogueIndex++;
-                }
-                else
-                {
-                    Debug.Log($"[NightEventUI] 대사 종료");
-                    NightTutorialUI.SetActive(false);
-                    CurrentDialogueIndex = 0;
-                }
-            }
-            else if (NightCutSceneUI != null && NightCutSceneUI.activeSelf && isPlayingEndingCutScene)
+            if (NightCutSceneUI != null && NightCutSceneUI.activeSelf && isPlayingEndingCutScene)
             {
                 if (CurrentCutScenePhase == 1)
                 {
