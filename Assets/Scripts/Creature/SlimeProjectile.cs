@@ -11,6 +11,9 @@ public class SlimeProjectile : MonoBehaviour
     [Header("이펙트 설정")]
     public GameObject SlimePuddlePrefab;
 
+    [Header("사운드 설정")]
+    public AudioClip HitSound;
+
     private Rigidbody rb;
     private Vector3 MoveDirection;
 
@@ -44,6 +47,11 @@ public class SlimeProjectile : MonoBehaviour
             Quaternion prefabFixRotation = Quaternion.Euler(-90, 0, 0);
 
             Quaternion finalSapwnRatation = surfaceRotation * prefabFixRotation;
+
+            if (SoundManager.Instance != null && HitSound != null)
+            {
+                SoundManager.Instance.PlaySFX(HitSound);
+            }
 
             // 지정된 위치와 회전값으로 웅덩이 소환
             GameObject puddle = Instantiate(SlimePuddlePrefab, contact.point, finalSapwnRatation);

@@ -10,6 +10,10 @@ public class Creature : MonoBehaviour
     public GameObject EscapeEffectPrefab;
     public float EffectYOffset = 2.0f;
 
+    [Header("포획&탈출 사운드")]
+    public AudioClip CaptureSound;
+    public AudioClip EscapeSound;
+
     private CreatureSpawner mySpawner;
 
     void OnValidate()
@@ -30,6 +34,11 @@ public class Creature : MonoBehaviour
     {
         Debug.Log($"[Creature] {gameObject.name} 크리쳐가 도망갔습니다.");
 
+        if (SoundManager.Instance != null && EscapeSound != null)
+        {
+            SoundManager.Instance.PlaySFX(EscapeSound);
+        }
+
         if (EscapeEffectPrefab != null)
         {
             Vector3 spawnPos = transform.position + new Vector3(0, EffectYOffset, 0);
@@ -41,6 +50,11 @@ public class Creature : MonoBehaviour
 
     public void Capture()
     {
+        if (SoundManager.Instance != null && CaptureSound != null)
+        {
+            SoundManager.Instance.PlaySFX(CaptureSound);
+        }
+
         if (GameManager.Instance != null && creatureData != null)
         {
             switch (creatureData.type)

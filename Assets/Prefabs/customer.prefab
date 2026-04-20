@@ -391,6 +391,7 @@ MonoBehaviour:
   turnSpeed: 10
   MyOrder: 0
   wantsPackaging: 0
+  CustomerChatterSound: {fileID: 8300000, guid: 56fe3c756a011cd49a6a4df0e8f65793, type: 3}
 --- !u!1001 &4796663003057548612
 PrefabInstance:
   m_ObjectHideFlags: 0

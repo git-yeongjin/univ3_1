@@ -30,6 +30,9 @@ public class DragDrop : MonoBehaviour
     private Quaternion RotationOffset;
     private Quaternion InitialRotation;
 
+    [Header("사운드")]
+    public AudioClip DropDoughSound;
+
     void Start()
     {
         if (InteractUI != null) InteractUI.SetActive(false);
@@ -218,33 +221,7 @@ public class DragDrop : MonoBehaviour
         }
         return false;
     }
-    /*
-    private void TouchMovedEvent()
-    {
-        if (MoveObj != null)
-        {
-            if (HoldPoint != null)
-            {
-                MoveObj.transform.position = HoldPoint.position;
-                MoveObj.transform.rotation = HoldPoint.rotation * RotationOffset;
-            }
-            else
-            {
-                Vector3 TouchPos = Input.mousePosition;
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(TouchPos.x, TouchPos.y, holdZ));
-                MoveObj.transform.position = worldPos + Offset;
-            }
-        }
-    }
-    private void TouchStayEvent()
-    {
-        if (MoveObj != null && HoldPoint != null)
-        {
-            MoveObj.transform.position = HoldPoint.position;
-            MoveObj.transform.rotation = HoldPoint.rotation * RotationOffset;
-        }
-    }
-    */
+
     private void TryDrop()
     {
         if (MoveObj == null) return;
@@ -302,6 +279,11 @@ public class DragDrop : MonoBehaviour
             //재료를 반죽에 넣을 때
             else if (targetDough != null && MoveObj.CompareTag("BreadMaterial"))
             {
+                if (SoundManager.Instance != null && DropDoughSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(DropDoughSound);
+                }
+
                 BreadMaterial breadMaterial = MoveObj.GetComponent<BreadMaterial>();
                 if (breadMaterial != null)
                 {

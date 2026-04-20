@@ -9,6 +9,9 @@ public class NightEventUI : MonoBehaviour
     private NightEvent NE;
     private GameManager GM;
 
+    [Header("사운드")]
+    public AudioClip UIClickSound;
+
     [Header("밤 종료 UI")]
     public GameObject NightFinUI;
 
@@ -164,6 +167,12 @@ public class NightEventUI : MonoBehaviour
     public void OpenDayEventScene()
     {
         if (GM == null) return;
+
+        if (SoundManager.Instance != null && UIClickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(UIClickSound);
+        }
+
         GM.ChangeDayNight();
 
         if (NE != null && NE.isCreatureUnlockedToday && GM.DayCount != 1)
@@ -171,11 +180,15 @@ public class NightEventUI : MonoBehaviour
             Debug.Log("새로운 크리쳐 해금으로 빵 제작씬으로 이동");
             //SceneManager.LoadScene("BakeEventScene");
             LoadingUIManager.Instance.LoadScene("BakeEventScene");
+
+            SoundManager.Instance.PlayDayBGM();
         }
         else
         {
             //SceneManager.LoadScene("DayEventScene");
             LoadingUIManager.Instance.LoadScene("DayEventScene");
+
+            SoundManager.Instance.PlayDayBGM();
         }
     }
 }

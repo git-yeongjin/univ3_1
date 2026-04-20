@@ -32,6 +32,9 @@ public class CleanEventNPC : MonoBehaviour
     public Sprite[] DirtySprites;       // 2개 중 랜덤
     public Sprite CreatureTraceSprite;  // 1개 (게임오버)
 
+    [Header("사운드")]
+    public AudioClip SpawnSound;
+
     private NavMeshAgent agent;
     private Animator anim;
     private bool isInspecting;
@@ -78,6 +81,11 @@ public class CleanEventNPC : MonoBehaviour
     //120초 타이머 끝났을때 호출 할 함수
     public void AppearAndReady()
     {
+        if (SoundManager.Instance != null && SpawnSound != null)
+        {
+            SoundManager.Instance.PlaySFX(SpawnSound);
+        }
+
         gameObject.SetActive(true);
         Debug.Log("[CleanEventNPC] 위생검사원 등장. 마우스 클릭 대기 중");
 

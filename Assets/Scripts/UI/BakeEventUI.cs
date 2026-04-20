@@ -30,6 +30,12 @@ public class BakeEventUI : MonoBehaviour
     [Header("버튼 설정")]
     public GameObject BakeFinishButton;
 
+    [Header("사운드 효과음")]
+    public AudioClip BookOpenSound;
+    public AudioClip BookCloseSound;
+    public AudioClip PageTurnSound;
+    public AudioClip UIClickSound;
+
 
     [Header("페이드 및 컷신 설정")]
     public CanvasGroup FadePanelGroup;
@@ -441,6 +447,11 @@ public class BakeEventUI : MonoBehaviour
     {
         if (!isOpenRecipeBook)
         {
+            if (SoundManager.Instance != null && BookOpenSound != null)
+            {
+                SoundManager.Instance.PlaySFX(BookOpenSound);
+            }
+
             RecipeBookUI.SetActive(true);
             isOpenRecipeBook = true;
 
@@ -454,6 +465,11 @@ public class BakeEventUI : MonoBehaviour
     {
         if (isOpenRecipeBook)
         {
+            if (SoundManager.Instance != null && BookCloseSound != null)
+            {
+                SoundManager.Instance.PlaySFX(BookCloseSound);
+            }
+
             RecipeBookUI.SetActive(false);
             isOpenRecipeBook = false;
         }
@@ -462,6 +478,11 @@ public class BakeEventUI : MonoBehaviour
     public void OnClickRight()
     {
         if (GameManager.Instance.DayCount == 0) return;
+
+        if (SoundManager.Instance != null && PageTurnSound != null)
+        {
+            SoundManager.Instance.PlaySFX(PageTurnSound);
+        }
 
         if (CurrentRecipeSprite < Sprites.Length - 1)
         {
@@ -479,6 +500,11 @@ public class BakeEventUI : MonoBehaviour
     {
         if (GameManager.Instance.DayCount == 0) return;
 
+        if (SoundManager.Instance != null && PageTurnSound != null)
+        {
+            SoundManager.Instance.PlaySFX(PageTurnSound);
+        }
+
         if (CurrentRecipeSprite > 0)
         {
             CurrentRecipeSprite--;
@@ -493,6 +519,11 @@ public class BakeEventUI : MonoBehaviour
 
     public void OnClickBakeFinish()
     {
+        if (SoundManager.Instance != null && UIClickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(UIClickSound);
+        }
+
         Dough currentDough = FindAnyObjectByType<Dough>();
         if (currentDough != null)
         {
@@ -529,6 +560,11 @@ public class BakeEventUI : MonoBehaviour
 
     public void OpenDayEventScene()
     {
+        if (SoundManager.Instance != null && UIClickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(UIClickSound);
+        }
+
         //SceneManager.LoadScene("DayEventScene");
         LoadingUIManager.Instance.LoadScene("DayEventScene");
     }

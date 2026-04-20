@@ -692,122 +692,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1436307684
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1436307685}
-  - component: {fileID: 1436307688}
-  - component: {fileID: 1436307687}
-  - component: {fileID: 1436307686}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1436307685
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1436307684}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.313421, y: 8.861279, z: -3.3895888}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1436307686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1436307684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 944b11abe493c3e45a7d7b67b12c1342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NightSceneName: NightEventScene
-  MaxNightTime: 300
-  CurrentNightTime: 0
-  CurrentDayCount: 0
-  NightEventFin: 0
-  CurrentCatchCount: 0
-  MaxCatchCount: 10
-  isCreatureUnlockedToday: 0
-  AllCreatureDatas:
-  - {fileID: 11400000, guid: ef732f86990464e43984c0ef82cfc9b5, type: 2}
-  - {fileID: 11400000, guid: 8707a6e797b40aa4e99e98296fc7815d, type: 2}
-  - {fileID: 11400000, guid: 18fe51e9b77ab6646b891057175df501, type: 2}
-  TutorialCreature: {fileID: 0}
---- !u!114 &1436307687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1436307684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba85efb2da1e35d459cb6ad642302101, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DayTime: 0
-  CustomerPrefab: {fileID: 5459797251201325961, guid: 4a30d5ab59ce4804880e622b52d9c117, type: 3}
-  SpecialCustomerPrefab: {fileID: 5459797251201325961, guid: e4e321c2e4d592a48be9c039a8b02531, type: 3}
-  CustomerSpawnPoint: {fileID: 0}
-  PickupPoint: {fileID: 0}
-  MinSpawnDelay: 3
-  MaxSpawnDelay: 5
-  ActualCustomer: 0
-  ProcessedCustomer: 0
-  MaxCustomer: 3
-  CurrentCustomerScore: 0
-  DayEventFin: 0
-  isCustomerPresent: 0
-  BreadEvent: 0
-  BreadSellCount: 0
-  PerfectBread: 0
---- !u!114 &1436307688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1436307684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5755909cb9f036d4d81accce997dcdec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameStart: 0
-  GameFin: 0
-  Day: 0
-  Night: 0
-  isBakingTime: 0
-  isTutorial: 0
-  CustomerScore: 0
-  DollCake: 0
-  MushroomMuffin: 0
-  SlimePudding: 0
-  DollCakeCount: 0
-  MushroomMuffinCount: 0
-  SlimePuddingCount: 0
-  CustomerCountDoubleEvent: 0
-  CustomerCountPenaltyEvent: 0
-  DayCount: 0
-  CustomerToCreature: 0
 --- !u!1 &1484513841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,6 +1412,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e920e3d36a9af184d91f0ad3558865b8, type: 3}
+--- !u!1001 &4256744744323614082
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 177448507152885319, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.313421
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.861279
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.3895888
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1537,5 +1478,5 @@ SceneRoots:
   - {fileID: 753537588}
   - {fileID: 1500953491}
   - {fileID: 1484513843}
-  - {fileID: 1436307685}
+  - {fileID: 4256744744323614082}
   - {fileID: 3428654065898875849}

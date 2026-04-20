@@ -34,6 +34,9 @@ public class Creature_Mushroom : MonoBehaviour
     public Renderer CreatureRenderer;
     private Color OriginalColor;
 
+    [Header("포자 사운드")]
+    public AudioClip SporeSound;
+
     private float StateTimer = 0f;
     private float TotalAwareTime = 0f;
     private int FailCount = 0;
@@ -182,6 +185,11 @@ public class Creature_Mushroom : MonoBehaviour
                         ps.Clear();
                         ps.Play();
                     }
+                }
+
+                if (SoundManager.Instance != null && SporeSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(SporeSound);
                 }
 
                 if (SporeExplosionEffect != null)

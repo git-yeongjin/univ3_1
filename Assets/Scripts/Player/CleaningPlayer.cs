@@ -10,6 +10,9 @@ public class CleaningPlayer : MonoBehaviour
     }
     public PlayerTools CurrentTool;
 
+    [Header("행주 사운드")]
+    public AudioClip RagWipeSound;
+
     void Start()
     {
         CurrentTool = PlayerTools.Hand;
@@ -19,7 +22,7 @@ public class CleaningPlayer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeTool(PlayerTools.Hand);
         if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeTool(PlayerTools.Rag);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeTool(PlayerTools.Broom);
+        //if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeTool(PlayerTools.Broom);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -36,6 +39,10 @@ public class CleaningPlayer : MonoBehaviour
                 Dirt TargetDirt = hit.collider.GetComponent<Dirt>();
                 if (TargetDirt != null)
                 {
+                    if (SoundManager.Instance != null && RagWipeSound != null && CurrentTool == PlayerTools.Rag)
+                    {
+                        SoundManager.Instance.PlaySFX(RagWipeSound);
+                    }
                     TargetDirt.CleanDirt(CurrentTool);
                     return;
                 }

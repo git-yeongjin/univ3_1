@@ -14,6 +14,8 @@ public class MainMenuUI : MonoBehaviour
 
     void Start()
     {
+        SoundManager.Instance.PlayMainMenuBGM();
+
         if (PressKeyUI != null)
         {
             StartCoroutine(BlinkRoutine());
@@ -44,6 +46,8 @@ public class MainMenuUI : MonoBehaviour
     {
         //SceneManager.LoadScene("BakeEventScene");
         LoadingUIManager.Instance.LoadScene("BakeEventScene");
+
+        SoundManager.Instance.PlayDayBGM();
     }
 
     public void EndGame()

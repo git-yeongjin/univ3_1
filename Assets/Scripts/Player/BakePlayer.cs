@@ -16,6 +16,11 @@ public class BakePlayer : MonoBehaviour
     float h;
     float v;
 
+    [Header("사운드 설정")]
+    public AudioClip[] FootstepSounds;
+    public float FootstepInterval = 0.4f;
+    private float FootstepTimer = 0f;
+
     private bool isCursorLocked = true;
 
     void Start()
@@ -39,6 +44,8 @@ public class BakePlayer : MonoBehaviour
 
     void Update()
     {
+        HandleFootsteps();
+
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
             LockCursor(!isCursorLocked); // 현재 상태의 반대로 전환
@@ -97,6 +104,33 @@ public class BakePlayer : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None; // 마우스 자유롭게 풀기
             Cursor.visible = true; // 마우스 커서 보이게 하기
+        }
+    }
+
+    private void HandleFootsteps()
+    {
+        // 플레이어가 이동 중일 때 (방향 벡터가 0이 아닐 때)
+        if (MoveDirection != Vector3.zero)
+        {
+            FootstepTimer += Time.deltaTime;
+
+            // 지정한 간격(FootstepInterval)마다 한 번씩 소리 재생
+            if (FootstepTimer >= FootstepInterval)
+            {
+                FootstepTimer = 0f; // 타이머 초기화
+
+                if (FootstepSounds != null && FootstepSounds.Length > 0 && SoundManager.Instance != null)
+                {
+                    // 4개의 소리 중 하나를 랜덤으로 뽑아서 재생
+                    AudioClip randomStep = FootstepSounds[Random.Range(0, FootstepSounds.Length)];
+                    SoundManager.Instance.PlaySFX(randomStep, 0.5f); // 볼륨은 0.5로 약간 줄임
+                }
+            }
+        }
+        else
+        {
+            // 가만히 멈춰있을 때는 타이머를 리셋해서, 다음에 움직일 때 즉시 소리가 나도록 함
+            FootstepTimer = 0f;
         }
     }
 }

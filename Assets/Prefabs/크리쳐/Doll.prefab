@@ -241,6 +241,9 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: ef732f86990464e43984c0ef82cfc9b5, type: 2}
   CaptureEffectPrefab: {fileID: 5531460029133612789, guid: b97dc56d9f36fb74dad324d1157c5f5e, type: 3}
   EscapeEffectPrefab: {fileID: 8668003475334743985, guid: 4a23abc01be59eb4db7055f11b1e3622, type: 3}
+  EffectYOffset: 2
+  CaptureSound: {fileID: 8300000, guid: 4f863b6d032a1e14b8536e5bf3869e8f, type: 3}
+  EscapeSound: {fileID: 8300000, guid: e790c8bc1b8459d4d96a84dd71b9b05d, type: 3}
 --- !u!114 &7163515275026341499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +286,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8bbcdc25479fa3a428581c34417a4e7c, type: 3}
   - {fileID: 21300000, guid: b56d82ad814ccc747b40ea233deae0df, type: 3}
   - {fileID: 21300000, guid: 1019c065a6124ed4ab9eec652b1852b2, type: 3}
+  DeliverItemSound: {fileID: 8300000, guid: 78e6c265dfa3d884d96397a3e6ead047, type: 3}
+  DeliverCompletedSound: {fileID: 8300000, guid: 2a7fb62302654c144ad53faaf10ebb5e, type: 3}
   HintArrowPrefab: {fileID: 1874147113252058452, guid: d77f4a608f9e3e7488ee5c8b40059993, type: 3}
   UIArrowPrefab: {fileID: 7116951021073762392, guid: b01043eaf90324f429fc0292a6a09191, type: 3}
   UICanvasTransform: {fileID: 0}

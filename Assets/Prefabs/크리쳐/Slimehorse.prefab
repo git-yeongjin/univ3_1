@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2217968026574184907
 Transform:
   m_ObjectHideFlags: 0
@@ -103,6 +103,9 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 18fe51e9b77ab6646b891057175df501, type: 2}
   CaptureEffectPrefab: {fileID: 5531460029133612789, guid: b97dc56d9f36fb74dad324d1157c5f5e, type: 3}
   EscapeEffectPrefab: {fileID: 8668003475334743985, guid: 4a23abc01be59eb4db7055f11b1e3622, type: 3}
+  EffectYOffset: 2
+  CaptureSound: {fileID: 8300000, guid: 4f863b6d032a1e14b8536e5bf3869e8f, type: 3}
+  EscapeSound: {fileID: 8300000, guid: e790c8bc1b8459d4d96a84dd71b9b05d, type: 3}
 --- !u!114 &2912164386052526381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +137,14 @@ MonoBehaviour:
   HeartEffect: {fileID: 2591065213381445050}
   BurstEffect: {fileID: 0}
   CheekTransform: {fileID: 0}
+  DownSound: {fileID: 8300000, guid: 23cacf683516e094390dbbf52bc3c268, type: 3}
+  AttackSound: {fileID: 8300000, guid: 2086480222f55d4428e09e2f4c64dbfe, type: 3}
+  FootstepSounds:
+  - {fileID: 8300000, guid: 97c9440c22595ff4e809ddcc6d812e87, type: 3}
+  - {fileID: 8300000, guid: fdae8f0dd11382b428c2f093b02c3e33, type: 3}
+  - {fileID: 8300000, guid: b615bd29675a44d4b8a9388814f5d266, type: 3}
+  - {fileID: 8300000, guid: 82699012f479aa0498b5b537514bf8ff, type: 3}
+  FootstepInterval: 0.5
 --- !u!95 &7988227849634794438
 Animator:
   serializedVersion: 7

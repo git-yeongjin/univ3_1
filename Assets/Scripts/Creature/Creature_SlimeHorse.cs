@@ -58,6 +58,15 @@ public class Creature_SlimeHorse : MonoBehaviour
     public Transform CheekTransform;
     private Vector3 OriginalCheekScale;
 
+    [Header("슬라임 말 사운드")]
+    public AudioClip DownSound;
+    public AudioClip AttackSound;
+
+    [Header("발소리(이동 사운드)")]
+    public AudioClip[] FootstepSounds;
+    public float FootstepInterval = 0.5f;
+    private float FootstepTimer = 0f;
+
     private float StateTimer = 0f;
     private int CurrentAttackCount = 0;
 
@@ -131,6 +140,10 @@ public class Creature_SlimeHorse : MonoBehaviour
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, TurnSpeed * Time.deltaTime);
                 }
 
+                if (CurrentCircleSpeed > 5.0f)
+                {
+                    PlayRandomFootstep();
+                }
                 break;
 
             case SlimeHorseState.Stare:
@@ -219,6 +232,22 @@ public class Creature_SlimeHorse : MonoBehaviour
         }
     }
 
+    private void PlayRandomFootstep()
+    {
+        FootstepTimer += Time.deltaTime;
+        if (FootstepTimer >= FootstepInterval)
+        {
+            FootstepTimer = 0f; // 타이머 초기화
+
+            if (FootstepSounds != null && FootstepSounds.Length > 0 && SoundManager.Instance != null)
+            {
+                // 배열에서 랜덤으로 하나 뽑기
+                AudioClip randomStep = FootstepSounds[Random.Range(0, FootstepSounds.Length)];
+                SoundManager.Instance.PlaySFX(randomStep, 0.5f); // 볼륨은 0.5로 약간 작게 세팅
+            }
+        }
+    }
+
     public void OnOcarinaused()
     {
         /*
@@ -284,6 +313,11 @@ public class Creature_SlimeHorse : MonoBehaviour
         CurrentAttackCount++;
         Debug.Log($"[슬라임 말] 투사체 발사, ({CurrentAttackCount} / {MaxAttackCount})");
 
+        if (AttackSound != null && SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX(AttackSound);
+        }
+
         if (SlimeProjectilePrefab != null && FirePoint != null)
         {
             GameObject proj = Instantiate(SlimeProjectilePrefab, FirePoint.position, FirePoint.rotation);
@@ -330,6 +364,11 @@ public class Creature_SlimeHorse : MonoBehaviour
                 break;
 
             case SlimeHorseState.Down:
+                if (DownSound != null && SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlaySFX(DownSound);
+                }
+
                 if (HeartEffect != null) HeartEffect.SetActive(false);
                 if (BurstEffect != null) Instantiate(BurstEffect, transform.position, Quaternion.identity);
                 break;

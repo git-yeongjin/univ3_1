@@ -115,6 +115,8 @@ public class GameManager : MonoBehaviour
             Day = false;
             Night = true;
 
+            SoundManager.Instance.PlayNightBGM();
+
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
@@ -129,6 +131,8 @@ public class GameManager : MonoBehaviour
             Debug.Log($"[GameManager] 밤에서 낮으로 이동하고 일차가 증가합니다.");
             Day = true;
             Night = false;
+
+            SoundManager.Instance.PlayDayBGM();
 
             DayCount++;
 

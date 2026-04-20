@@ -825,15 +825,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1072466100818335619, guid: 3353577c401613446ae745efc268ea25, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -122
+      value: -46.5
       objectReference: {fileID: 0}
     - target: {fileID: 1072466100818335619, guid: 3353577c401613446ae745efc268ea25, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 12.75
       objectReference: {fileID: 0}
     - target: {fileID: 1072466100818335619, guid: 3353577c401613446ae745efc268ea25, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -95
+      value: -48.1
       objectReference: {fileID: 0}
     - target: {fileID: 1072466100818335619, guid: 3353577c401613446ae745efc268ea25, type: 3}
       propertyPath: m_LocalRotation.w
@@ -936,6 +936,7 @@ MonoBehaviour:
   CurrentCoolDownTimer: 0
   OcarinaRange: 10
   OcarinaCoolDown: 5
+  PlayOcarinaSound: {fileID: 8300000, guid: f3d76bb322ac4844eb5febc0b5667b70, type: 3}
 --- !u!114 &334600146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,6 +955,12 @@ MonoBehaviour:
   CreatureLayer:
     serializedVersion: 2
     m_Bits: 4096
+  FootstepSounds:
+  - {fileID: 8300000, guid: fd45cb1b7a09eaa4390143d48feb26f9, type: 3}
+  - {fileID: 8300000, guid: c3960fae5be27f24baba6ed5efe01a8a, type: 3}
+  - {fileID: 8300000, guid: aa8e8fa16947f3b4aaa80eca93ea9ef8, type: 3}
+  - {fileID: 8300000, guid: cc3dba368e166704c9cf2e6a397add0a, type: 3}
+  FootstepInterval: 0.4
 --- !u!114 &334600147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1258,6 +1265,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.050323762, b: 0.015686274, a: 1}
   Radius: 0.75
+--- !u!1001 &531751930
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 177448507152885319, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 177448507152885319, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
 --- !u!1 &555915366
 GameObject:
   m_ObjectHideFlags: 0
@@ -2264,122 +2332,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 0
   sharedProfile: {fileID: 11400000, guid: 58dbefdd64baf5646ba598ac087f1acf, type: 2}
---- !u!1 &1006608567
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1006608568}
-  - component: {fileID: 1006608571}
-  - component: {fileID: 1006608569}
-  - component: {fileID: 1006608570}
-  m_Layer: 0
-  m_Name: "\uC784\uC2DC \uAC8C\uC784\uB9E4\uB2C8\uC800"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1006608568
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006608567}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1006608569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006608567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 944b11abe493c3e45a7d7b67b12c1342, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NightSceneName: NightEventScene
-  MaxNightTime: 300
-  CurrentNightTime: 0
-  CurrentDayCount: 0
-  NightEventFin: 0
-  CurrentCatchCount: 0
-  MaxCatchCount: 10
-  isCreatureUnlockedToday: 0
-  AllCreatureDatas:
-  - {fileID: 11400000, guid: ef732f86990464e43984c0ef82cfc9b5, type: 2}
-  - {fileID: 11400000, guid: 8707a6e797b40aa4e99e98296fc7815d, type: 2}
-  - {fileID: 11400000, guid: 18fe51e9b77ab6646b891057175df501, type: 2}
-  TutorialCreature: {fileID: 0}
---- !u!114 &1006608570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006608567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba85efb2da1e35d459cb6ad642302101, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DayTime: 0
-  CustomerPrefab: {fileID: 0}
-  SpecialCustomerPrefab: {fileID: 0}
-  CustomerSpawnPoint: {fileID: 0}
-  PickupPoint: {fileID: 0}
-  MinSpawnDelay: 3
-  MaxSpawnDelay: 5
-  ActualCustomer: 0
-  ProcessedCustomer: 0
-  MaxCustomer: 3
-  CurrentCustomerScore: 0
-  DayEventFin: 0
-  isCustomerPresent: 0
-  BreadEvent: 0
-  BreadSellCount: 0
-  PerfectBread: 0
---- !u!114 &1006608571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006608567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5755909cb9f036d4d81accce997dcdec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameStart: 0
-  GameFin: 0
-  Day: 0
-  Night: 0
-  isBakingTime: 0
-  isTutorial: 0
-  CustomerScore: 0
-  DollCake: 0
-  MushroomMuffin: 0
-  SlimePudding: 0
-  DollCakeCount: 0
-  MushroomMuffinCount: 0
-  SlimePuddingCount: 0
-  CustomerCountDoubleEvent: 0
-  CustomerCountPenaltyEvent: 0
-  DayCount: 0
-  CustomerToCreature: 0
 --- !u!1 &1039510988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2696,7 +2648,7 @@ Transform:
   m_GameObject: {fileID: 1116757202}
   serializedVersion: 2
   m_LocalRotation: {x: 0.25481105, y: 0.73015714, z: -0.35353145, w: 0.5262675}
-  m_LocalPosition: {x: -137, y: 25, z: -88.75}
+  m_LocalPosition: {x: -61.5, y: 37.75, z: -41.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3229,6 +3181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce05c3ea1fcf7e4d9548313bea1eae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIClickSound: {fileID: 8300000, guid: c907094b72f571143b30fef04035cfab, type: 3}
   NightFinUI: {fileID: 623802660}
   NightTimerSlider: {fileID: 1405308358}
   FadePanelGroup: {fileID: 1669364481}
@@ -3531,13 +3484,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 942524932370000619, guid: 6ed56745e75ac254aba7fa237cd1100a, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 3236923622188667688, guid: 6ed56745e75ac254aba7fa237cd1100a, type: 3}
       propertyPath: m_Name
       value: TutorialCreature
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236923622188667688, guid: 6ed56745e75ac254aba7fa237cd1100a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4436723299593862630, guid: 6ed56745e75ac254aba7fa237cd1100a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4558,6 +4511,7 @@ MonoBehaviour:
   HoldPoint: {fileID: 0}
   MaxInteractDistance: 6
   InteractUI: {fileID: 0}
+  DropDoughSound: {fileID: 0}
 --- !u!4 &2576947551428058451
 Transform:
   m_ObjectHideFlags: 0
@@ -4647,7 +4601,7 @@ Transform:
   m_GameObject: {fileID: 5510866336201417295}
   serializedVersion: 2
   m_LocalRotation: {x: 0.25481105, y: 0.73015714, z: -0.35353145, w: 0.5262675}
-  m_LocalPosition: {x: -137, y: 25, z: -88.75}
+  m_LocalPosition: {x: -61.5, y: 37.75, z: -41.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6147,7 +6101,6 @@ SceneRoots:
   - {fileID: 169939603}
   - {fileID: 1491755850}
   - {fileID: 1116757204}
-  - {fileID: 1006608568}
   - {fileID: 1039510990}
   - {fileID: 961079536}
   - {fileID: 658200770}
@@ -6158,3 +6111,4 @@ SceneRoots:
   - {fileID: 1444465626}
   - {fileID: 145175138}
   - {fileID: 603968628}
+  - {fileID: 531751930}

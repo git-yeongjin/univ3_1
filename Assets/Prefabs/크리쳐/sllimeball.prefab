@@ -152,3 +152,4 @@ MonoBehaviour:
   Speed: 15
   Lifetime: 5
   SlimePuddlePrefab: {fileID: 4785884345758251157, guid: 2f7910700f3309f469eb858e4b8068ad, type: 3}
+  HitSound: {fileID: 8300000, guid: 12f39b328a8b9944591dfce08d6106dd, type: 3}

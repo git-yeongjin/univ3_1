@@ -44,6 +44,9 @@ public class NightEventTools : MonoBehaviour
     public float OcarinaCoolDown = 5.0f;
     private float CurrentOcarinaTimer = 0f;
 
+    [Header("사운드")]
+    public AudioClip PlayOcarinaSound;
+
     void Start()
     {
         UpdateToolModels();
@@ -119,6 +122,11 @@ public class NightEventTools : MonoBehaviour
         {
             Debug.Log($"[오카리나] 쿨타임 중입니다. {CurrentOcarinaTimer:F1}초 남음");
             return;
+        }
+
+        if (SoundManager.Instance != null && PlayOcarinaSound != null)
+        {
+            SoundManager.Instance.PlaySFX(PlayOcarinaSound);
         }
 
         Debug.Log($"오카리나 연주 중");

@@ -59,6 +59,10 @@ public class Creature_Doll : MonoBehaviour
     public GameObject SpeechBubble;
     public Sprite[] SpeechBubbleSprites;
 
+    [Header("인형 사운드")]
+    public AudioClip DeliverItemSound;
+    public AudioClip DeliverCompletedSound;
+
     [Header("힌트 설정")]
     public GameObject HintArrowPrefab;
     private List<GameObject> SpawnedArrows = new List<GameObject>();
@@ -225,11 +229,20 @@ public class Creature_Doll : MonoBehaviour
 
         if (playerHasItem)
         {
+            if (SoundManager.Instance != null && DeliverItemSound != null)
+            {
+                SoundManager.Instance.PlaySFX(DeliverItemSound);
+            }
+
             CurrentDeliverd++;
             Debug.Log($"[인형 패턴] 물건 전달 완료 ({CurrentDeliverd} / {RequiredItemCount})");
 
             if (CurrentDeliverd >= RequiredItemCount)
             {
+                if (SoundManager.Instance != null && DeliverCompletedSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(DeliverCompletedSound);
+                }
                 SuccessPattern();
             }
         }

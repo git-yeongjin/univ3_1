@@ -19,6 +19,8 @@ public class Customer : MonoBehaviour
     public bool wantsPackaging;
     private string myDialogue;
 
+    public AudioClip CustomerChatterSound;
+
     private bool isWaitingForClick = false;
     private DayEvent DE;
     private DayEventUI dayEventUI;
@@ -52,6 +54,11 @@ public class Customer : MonoBehaviour
     {
         if (isWaitingForClick)
         {
+            if (SoundManager.Instance != null && CustomerChatterSound != null)
+            {
+                SoundManager.Instance.PlaySFX(CustomerChatterSound);
+            }
+
             isWaitingForClick = false; // 중복 클릭 방지
             StartCoroutine(ShowDialogueRoutine());
         }

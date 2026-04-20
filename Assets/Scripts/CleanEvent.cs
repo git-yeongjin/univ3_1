@@ -20,7 +20,7 @@ public class CleanEvent : MonoBehaviour
     public GameObject NormalTrashPrefab;
     public GameObject CreatureTracePrefab;
     public Transform TracePointRoot;
-    public CleanEventNPC InspectorNPC;
+    public CleanEventNPC InspectorNPC;  
 
     private List<Transform> SpawnPoints = new List<Transform>();
 
@@ -64,12 +64,6 @@ public class CleanEvent : MonoBehaviour
                     CheckTimeOutCleanEvent(); // NPC가 없으면 그냥 바로 정산
                 }
             }
-        }
-
-        //테스트
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            StartCleanEvent();
         }
     }
 

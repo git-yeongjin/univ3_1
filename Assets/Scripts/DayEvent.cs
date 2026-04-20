@@ -28,6 +28,10 @@ public class DayEvent : MonoBehaviour
     public float MaxSpawnDelay = 5.0f;
     private float currentSpawnTimer = 0f;
 
+    [Header("사운드")]
+    public AudioClip CustomerSpawnSound;
+    public AudioClip ResultPopupSound;
+
     [Header("손님 및 영업 정보")]
     //현재까지 스폰 된 손님
     public int ActualCustomer = 0;
@@ -80,12 +84,6 @@ public class DayEvent : MonoBehaviour
 
                 currentSpawnTimer = Random.Range(MinSpawnDelay, MaxSpawnDelay);
             }
-        }
-
-        //테스트 용
-        if (isDayEventScene && Input.GetKeyDown(KeyCode.K))
-        {
-            CustomerRandomOrder();
         }
     }
 
@@ -193,19 +191,19 @@ public class DayEvent : MonoBehaviour
 
             if (currentDay == 7)
             {
-                orderedBread = BreadType.SlimePudding; // 푸딩 주문
+                orderedBread = BreadType.DollCake; // 푸딩 주문
                 // \n 으로 기획서의 A/B 말풍선을 한 번에 띄어쓰기해서 보여줍니다.
-                finalDialogue = "<color=#fbe9ff>안녕하신지요~ 빵집이 생겼다길래 호다닥 달려 왔어요~\n오! 푸딩이 맛있어보이네요!</color>";
+                finalDialogue = "<color=#fbe9ff>안녕하신지요~ 빵집이 생겼다길래 호다닥 달려 왔어요~\n오! 케이크가 맛있어보이네요!</color>";
             }
             else if (currentDay == 9)
             {
-                orderedBread = BreadType.DollCake; // 케이크 주문
-                finalDialogue = "<color=#fbe9ff>안녕하세요~ 저번에 푸딩이 너무 너무 맛있길래 또 왔어요~ 와하하! 엄청 크던데요~\n오늘은 케이크 먹을래요</color>";
+                orderedBread = BreadType.MushroomMuffin; // 케이크 주문
+                finalDialogue = "<color=#fbe9ff>안녕하세요~ 저번에 케이크 너무 너무 맛있길래 또 왔어요~ 와하하! 엄청 크던데요~\n오늘은 머핀 먹을래요</color>";
             }
             else if (currentDay == 11)
             {
-                orderedBread = BreadType.MushroomMuffin; // 머핀 주문
-                finalDialogue = "<color=#fbe9ff>안녕하세요오오 머핀. 주세요</color>";
+                orderedBread = BreadType.SlimePudding; // 머핀 주문
+                finalDialogue = "<color=#fbe9ff>안녕하세요오오 푸딩. 주세요</color>";
             }
 
             Debug.Log($"[DayEvent] 특수 손님(연구원)이 등장했습니다! 주문: {orderedBread}");
@@ -229,6 +227,11 @@ public class DayEvent : MonoBehaviour
             //손님 한명 들어옴
             ActualCustomer++;
             isCustomerPresent = true;
+
+            if (SoundManager.Instance != null && CustomerSpawnSound != null)
+            {
+                SoundManager.Instance.PlaySFX(CustomerSpawnSound);
+            }
 
             int randomIndex = Random.Range(0, SellableBreads.Count);
             orderedBread = SellableBreads[randomIndex];
@@ -303,6 +306,10 @@ public class DayEvent : MonoBehaviour
             DayEventUI dayEventUI = FindAnyObjectByType<DayEventUI>();
             if (dayEventUI != null)
             {
+                if (SoundManager.Instance != null && ResultPopupSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(ResultPopupSound);
+                }
                 dayEventUI.DayFinUI.SetActive(true);
             }
         }

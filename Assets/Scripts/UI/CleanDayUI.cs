@@ -8,6 +8,9 @@ public class CleanDayUI : MonoBehaviour
     //위생 점검 제한시간 가져오기
     private CleanEvent CE;
 
+    [Header("사운드")]
+    public AudioClip UIClickSound;
+
     [Header("위생 관리 타이머")]
     //public TMP_Text CleanDayEvent_TimeLimitText;
     public Slider CleanDayEvent_TimeLimitSlider;
@@ -15,6 +18,7 @@ public class CleanDayUI : MonoBehaviour
     [Header("30초 경고 알림")]
     public GameObject WarningUI;
     public TMP_Text WarningText;
+    public AudioClip NoticeSound;
     private bool isWarningShown = false;
 
     [Header("최종 검사 결과창")]
@@ -41,6 +45,7 @@ public class CleanDayUI : MonoBehaviour
     public CanvasGroup EndingFadeGroup;     // 화면 까매지는 페이드 패널
     public GameObject EndingDialogueUI;     // 까만 화면 위에 띄울 대사창 UI
     public TMP_Text EndingDialogueText;     // 대사 텍스트
+    public AudioClip EndingSound;
 
     [TextArea]
     public string[] CleanEndingDialogues = {
@@ -121,6 +126,10 @@ public class CleanDayUI : MonoBehaviour
 
             if (currentTime <= 30f && currentTime > 0f && !isWarningShown)
             {
+                if (SoundManager.Instance != null && NoticeSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(NoticeSound);
+                }
                 isWarningShown = true;
                 ShowWarningMessage("위생 검사원이 곧 방문합니다!");
                 //bgm빠르게 하기
@@ -151,6 +160,11 @@ public class CleanDayUI : MonoBehaviour
 
     public void OpenNextDayScene()
     {
+        if (SoundManager.Instance != null && UIClickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(UIClickSound);
+        }
+
         if (GameManager.Instance.DayCount != 15)
         {
             Debug.Log("[CleanDayUI] 위생 점검 종료, 밤을 건너뛰고 다음 날로 넘어갑니다.");
@@ -205,6 +219,11 @@ public class CleanDayUI : MonoBehaviour
 
         // 3. 엔딩 일러스트 켜기
         if (CleanEnding != null) CleanEnding.SetActive(true);
+
+        if (SoundManager.Instance != null && EndingSound != null)
+        {
+            SoundManager.Instance.PlaySFX(EndingSound);
+        }
 
         // 4. 화면 밝아지기 (페이드 아웃)
         if (EndingFadeGroup != null)

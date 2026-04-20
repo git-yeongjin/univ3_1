@@ -5400,6 +5400,10 @@ MonoBehaviour:
   BakeFailUI: {fileID: 989466803}
   ControlsTutorialUI: {fileID: 1673462}
   BakeFinishButton: {fileID: 917611746}
+  BookOpenSound: {fileID: 8300000, guid: 14c6e7ac265772c4584ef6ff026d804b, type: 3}
+  BookCloseSound: {fileID: 8300000, guid: 94de108ae9891074d9e72bf284a85ce8, type: 3}
+  PageTurnSound: {fileID: 8300000, guid: 62120c97162d285439e9a591d9e575a6, type: 3}
+  UIClickSound: {fileID: 8300000, guid: c907094b72f571143b30fef04035cfab, type: 3}
   FadePanelGroup: {fileID: 1805401888}
   FadeDuration: 1
   BakeCutSceneUI: {fileID: 356270117}
@@ -8846,6 +8850,10 @@ PrefabInstance:
       propertyPath: InteractUI
       value: 
       objectReference: {fileID: 1686663265}
+    - target: {fileID: 4273234645634154695, guid: 3353577c401613446ae745efc268ea25, type: 3}
+      propertyPath: DropDoughSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 6498c56005250644da2e9251f69b07bb, type: 3}
     - target: {fileID: 4861061479619488955, guid: 3353577c401613446ae745efc268ea25, type: 3}
       propertyPath: m_Name
       value: player
@@ -9260,6 +9268,10 @@ PrefabInstance:
       propertyPath: OvenUI
       value: 
       objectReference: {fileID: 1689543684}
+    - target: {fileID: 6900861950582775794, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
+      propertyPath: OvenSound
+      value: 
+      objectReference: {fileID: 8300000, guid: b5b8eccff0136e841ac5aec408c6b97d, type: 3}
     - target: {fileID: 6900861950582775794, guid: f7ca04155de44fc4ea49d08376764800, type: 3}
       propertyPath: OpenSceneBT
       value: 

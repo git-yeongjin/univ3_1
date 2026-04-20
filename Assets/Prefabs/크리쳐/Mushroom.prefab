@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4251386246080846373
 Transform:
   m_ObjectHideFlags: 0
@@ -102,6 +102,9 @@ MonoBehaviour:
   creatureData: {fileID: 11400000, guid: 8707a6e797b40aa4e99e98296fc7815d, type: 2}
   CaptureEffectPrefab: {fileID: 5531460029133612789, guid: b97dc56d9f36fb74dad324d1157c5f5e, type: 3}
   EscapeEffectPrefab: {fileID: 8668003475334743985, guid: 4a23abc01be59eb4db7055f11b1e3622, type: 3}
+  EffectYOffset: 2
+  CaptureSound: {fileID: 0}
+  EscapeSound: {fileID: 0}
 --- !u!114 &770053374355845963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +130,7 @@ MonoBehaviour:
   SporeSmokeEffect: {fileID: 8864815648418462211}
   SporeExplosionEffect: {fileID: 0}
   CreatureRenderer: {fileID: 0}
+  SporeSound: {fileID: 8300000, guid: 36c68094a9705614ba9d35f0e1c3210c, type: 3}
 --- !u!95 &8222678556848778780
 Animator:
   serializedVersion: 7

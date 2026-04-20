@@ -14,6 +14,8 @@ public class Oven : MonoBehaviour
     //public TMP_Text CurrentBakeText;
     public GameObject OpenSceneBT;
 
+    public AudioClip OvenSound;
+
     void Start()
     {
         //if (OvenUI != null) OvenUI.SetActive(false);
@@ -31,6 +33,11 @@ public class Oven : MonoBehaviour
             {
                 //if (CurrentBakeText != null) CurrentBakeText.text = $"굽기 완료";
                 if (OpenSceneBT != null) OpenSceneBT.SetActive(true);
+
+                if (SoundManager.Instance != null && OvenSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(OvenSound);
+                }
 
                 isBaking = false;
                 Debug.Log($"[Oven] {CurrentRecipe.BreadName} 굽기 완료");

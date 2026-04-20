@@ -11,6 +11,11 @@ public class DayEventUI : MonoBehaviour
     private GameManager GM;
     private PackagingStation CurrentStation;
 
+    [Header("사운드")]
+    public AudioClip UIClickSound;
+    public AudioClip BillOpenSound;
+    public AudioClip BillCloseSound;
+
     [Header("일차 이미지")]
     public Sprite[] DayCountSprites;
     public Image DayTensImage;
@@ -126,6 +131,20 @@ public class DayEventUI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            if (OrderDetailPanel != null && OrderDetailPanel.activeSelf)
+            {
+                if (SoundManager.Instance != null && BillOpenSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(BillOpenSound);
+                }
+            }
+            else
+            {
+                if (SoundManager.Instance != null && BillCloseSound != null)
+                {
+                    SoundManager.Instance.PlaySFX(BillCloseSound);
+                }
+            }
             if (OrderDetailPanel != null) OrderDetailPanel.SetActive(!OrderDetailPanel.activeSelf);
         }
     }
@@ -153,11 +172,6 @@ public class DayEventUI : MonoBehaviour
 
     public void OrderedBread(BreadType order, bool isPackaging)
     {
-        /*
-        OrderedBreadWindow.SetActive(true);
-        OrderedBreadText.text = $"주문한 빵 : {order} / 포장 : {isPackaging}";
-        if (OrderedBreadText != null) OrderedBreadText.gameObject.SetActive(true);
-        */
         OrderDetailPanel.SetActive(true);
         if (HideTextCoroutine != null) StopCoroutine(HideTextCoroutine);
 
@@ -218,11 +232,21 @@ public class DayEventUI : MonoBehaviour
 
     public void CloseOrderDetail()
     {
+        if (SoundManager.Instance != null && BillCloseSound != null)
+        {
+            SoundManager.Instance.PlaySFX(BillCloseSound);
+        }
+
         if (OrderDetailPanel != null) OrderDetailPanel.SetActive(false);
     }
 
     public void OpenOrderDetail()
     {
+        if (SoundManager.Instance != null && BillOpenSound != null)
+        {
+            SoundManager.Instance.PlaySFX(BillOpenSound);
+        }
+
         if (OrderDetailPanel != null) OrderDetailPanel.SetActive(true);
     }
 
@@ -231,6 +255,11 @@ public class DayEventUI : MonoBehaviour
         if (GM == null) return;
 
         GM.ChangeDayNight();
+
+        if (SoundManager.Instance != null && UIClickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(UIClickSound);
+        }
 
         if (GameManager.Instance.DayCount != 15)
             LoadingUIManager.Instance.LoadScene("NightEventScene");

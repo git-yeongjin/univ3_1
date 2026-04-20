@@ -1265,7 +1265,7 @@ Transform:
   m_GameObject: {fileID: 3379840535745762095}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0.8}
+  m_LocalPosition: {x: 0, y: 2.969, z: 1.109}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2144,6 +2144,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MouseSpeed: 1000
   MoveSpeed: 10
+  FootstepSounds:
+  - {fileID: 8300000, guid: 1b12bfe32cceaff4281ca16da0e97182, type: 3}
+  - {fileID: 8300000, guid: b1aa000a629d39d46bd226b07b60c31d, type: 3}
+  FootstepInterval: 0.4
 --- !u!114 &4273234645634154695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2161,6 +2165,7 @@ MonoBehaviour:
   HoldPoint: {fileID: 7052932397433347891}
   MaxInteractDistance: 6
   InteractUI: {fileID: 0}
+  DropDoughSound: {fileID: 0}
 --- !u!95 &7620091170428874702
 Animator:
   serializedVersion: 7
