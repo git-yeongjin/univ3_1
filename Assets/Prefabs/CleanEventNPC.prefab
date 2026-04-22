@@ -361,18 +361,18 @@ MonoBehaviour:
   FinalPoint: {fileID: 0}
   MainDialogueUI: {fileID: 8066838520085103551}
   MainDialogueImage: {fileID: 7116322097252804358}
-  IntroSprite: {fileID: 21300000, guid: 39f99d48177f5d44db51a4e69db2be08, type: 3}
-  ThinkingSprite: {fileID: 21300000, guid: a676d1b1321b81c489195095ceb6f396, type: 3}
+  IntroSprites: []
+  ThinkingSprites: []
   FinalSprite: {fileID: 21300000, guid: 03d9340ab6456d54f972aae99dd7ede7, type: 3}
   ZoneDialogueUI: {fileID: 1421637248908776207}
   ZoneDialogueImage: {fileID: 1709404278543227644}
-  CheckingZoneSprite: {fileID: 21300000, guid: f0d0f25fe601b384a92247f7c034237e, type: 3}
-  CleanSprite: {fileID: 21300000, guid: 175ff360efaf5c64ba555629df970194, type: 3}
+  CleanSprites: []
   DirtySprites:
   - {fileID: 21300000, guid: 289044dcb1370094f9bdd784d15dbc6e, type: 3}
   - {fileID: 21300000, guid: f283b66b9a757f74c8534c240c69ed35, type: 3}
   - {fileID: 21300000, guid: 068deea364a5b944faf21b96a960102e, type: 3}
   CreatureTraceSprite: {fileID: 21300000, guid: b00fba5da23a39c47bd83af979a76132, type: 3}
+  SpawnSound: {fileID: 0}
 --- !u!195 &7393581122412653238
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -640,6 +640,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 144841c08cd21154e9cdc697d9641300, type: 2}
+    - target: {fileID: 6788439895520544450, guid: 44c36a4cc6040a04fac7963ad2b95631, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 797c31d3c536f454fabacdd55f99a0c6, type: 3}
     - target: {fileID: 6788439895520544450, guid: 44c36a4cc6040a04fac7963ad2b95631, type: 3}
       propertyPath: m_Enabled
       value: 0

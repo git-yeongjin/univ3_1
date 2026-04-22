@@ -96,6 +96,10 @@ public class NightEventUI : MonoBehaviour
 
     public void ShowNightResult()
     {
+        NightEventPlayer nightEventPlayer = FindFirstObjectByType<NightEventPlayer>();
+        if (nightEventPlayer != null)
+            nightEventPlayer.SetCameraControl(false);
+
         FinDollCount.text = $"{GameManager.Instance.DollCakeCount}";
         FinMushCount.text = $"{GameManager.Instance.MushroomMuffinCount}";
         FinHorseCount.text = $"{GameManager.Instance.SlimePuddingCount}";

@@ -256,6 +256,10 @@ public class DragDrop : MonoBehaviour
                     SoundManager.Instance.PlaySFX(DropDoughSound);
                 }
 
+                BakeEventUI bakeEventUI = FindAnyObjectByType<BakeEventUI>();
+                if (!bakeEventUI.BakeFinishButton.activeSelf)
+                    bakeEventUI.BakeFinishButton.SetActive(true);
+
                 BreadMaterial breadMaterial = MoveObj.GetComponent<BreadMaterial>();
                 if (breadMaterial != null)
                 {

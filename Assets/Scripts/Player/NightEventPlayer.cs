@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class NightEventPlayer : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class NightEventPlayer : MonoBehaviour
     public float FootstepInterval = 0.4f;
     private float FootstepTimer = 0f;
 
+    [Header("카메라 설정")]
+    public Transform virtualCameraViewPoint;
+    private CinemachineCamera virtualCamera;
+    private CinemachineInputAxisController inputController;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,6 +37,32 @@ public class NightEventPlayer : MonoBehaviour
         else
         {
             Debug.LogError($"[NightEventPlayer] 씬에 MainCamera 태그가 달린 카메라가 없습니다.");
+        }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        virtualCamera = FindFirstObjectByType<CinemachineCamera>();
+
+        if (virtualCamera != null)
+        {
+            if (virtualCameraViewPoint != null)
+            {
+                virtualCamera.Follow = virtualCameraViewPoint;
+                virtualCamera.LookAt = virtualCameraViewPoint;
+            }
+            else
+            {
+                virtualCamera.Follow = transform;
+                virtualCamera.LookAt = transform;
+            }
+
+
+            inputController = virtualCamera.GetComponent<CinemachineInputAxisController>();
+        }
+        else
+        {
+            Debug.LogWarning("[NightEventPlayer] 씬에 CinemachineCamera가 존재하지 않습니다.");
         }
     }
 
@@ -73,6 +105,30 @@ public class NightEventPlayer : MonoBehaviour
             camRight.Normalize();
 
             MoveDirection = (camForward * v + camRight * h).normalized;
+        }
+    }
+
+    /// <summary>
+    /// 다른 UI 스크립트에서 호출하면 카메라 조작을 끄고 마우스를 보이게 하는 함수
+    /// </summary>
+    /// <param name="isEnable"></param>
+    public void SetCameraControl(bool isEnable)
+    {
+        if (inputController != null)
+        {
+            inputController.enabled = isEnable;
+        }
+
+        if (isEnable)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            // 메뉴 조작을 위해 커서 제한을 풀고 보이게 함
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 

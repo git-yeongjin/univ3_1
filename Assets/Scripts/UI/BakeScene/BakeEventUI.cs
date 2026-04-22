@@ -48,6 +48,11 @@ public class BakeEventUI : MonoBehaviour
     private readonly int MISSION_MIX_DOUGH = 6;
     private readonly int MISSION_OVEN_BAKE = 9;
 
+    //미션을 미리 깻는지 확인하는 변수
+    private bool isBookOpened = false;
+    private bool isDoughMixed = false;
+    private bool isOvenBaked = false;
+
     [TextArea]
     public string[] TutorialDialogues =
     {
@@ -122,12 +127,19 @@ public class BakeEventUI : MonoBehaviour
 
                 int displayingIndex = CurrentDialogueIndex - 1;
 
-                //특정 미션구간에서 스페이스바 막기
-                if (displayingIndex == MISSION_OPEN_BOOK ||
-                    displayingIndex == MISSION_MIX_DOUGH ||
-                    displayingIndex == MISSION_OVEN_BAKE)
+                if (displayingIndex == MISSION_OPEN_BOOK && !isBookOpened)
                 {
                     Debug.Log($"[튜토리얼 대기] 미션을 수행해야 다음 대사로 넘어갑니다. (현재 대사 번호: {displayingIndex})");
+                    return;
+                }
+                if (displayingIndex == MISSION_MIX_DOUGH && !isDoughMixed)
+                {
+                    Debug.Log($"[튜토리얼 대기] 반죽을 섞어야 다음 대사로 넘어갑니다.");
+                    return;
+                }
+                if (displayingIndex == MISSION_OVEN_BAKE && !isOvenBaked)
+                {
+                    Debug.Log($"[튜토리얼 대기] 오븐을 구워야 다음 대사로 넘어갑니다.");
                     return;
                 }
 
@@ -440,8 +452,7 @@ public class BakeEventUI : MonoBehaviour
     /// </summary>
     public void OnOvenBakeFinishedInTutorial()
     {
-        if (GameManager.Instance.DayCount == 0 && (CurrentDialogueIndex - 1) == 9)
-            AdvanceTutorialDialogue();
+        CheckTutorialMission(MISSION_OVEN_BAKE);
     }
 
     /// <summary>
@@ -475,6 +486,10 @@ public class BakeEventUI : MonoBehaviour
     /// <param name="targetIndex">완수해야 할 목표 대사 인덱스 번호</param>
     public void CheckTutorialMission(int targetIndex)
     {
+        if (targetIndex == MISSION_OPEN_BOOK) isBookOpened = true;
+        if (targetIndex == MISSION_MIX_DOUGH) isDoughMixed = true;
+        if (targetIndex == MISSION_OVEN_BAKE) isOvenBaked = true;
+
         if (GameManager.Instance.DayCount == 0 && (CurrentDialogueIndex - 1) == targetIndex)
         {
             AdvanceTutorialDialogue();
