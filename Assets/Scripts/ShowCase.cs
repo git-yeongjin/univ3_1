@@ -34,6 +34,9 @@ public class ShowCase : MonoBehaviour
             case BreadType.SlimePudding:
                 currentCount = GameManager.Instance.SlimePuddingCount;
                 break;
+            case BreadType.Rollcake:
+                currentCount = 1;
+                break;
         }
 
         int displayAmount = GetDisplayAmount(currentCount);

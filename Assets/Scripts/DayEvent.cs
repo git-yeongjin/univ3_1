@@ -310,6 +310,7 @@ public class DayEvent : MonoBehaviour
                 {
                     SoundManager.Instance.PlaySFX(ResultPopupSound);
                 }
+                dayEventUI.FinCustomerCount.text = $"{CurrentCustomerScore}";
                 dayEventUI.DayFinUI.SetActive(true);
             }
         }

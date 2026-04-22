@@ -444,6 +444,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: guest_BODY_ani 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5325708214872221993, guid: 2b0b48df79b9aad4b872abeebcf58caf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

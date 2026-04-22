@@ -52,6 +52,7 @@ public class DayEventUI : MonoBehaviour
 
     [Header("낮 종료 UI")]
     public GameObject DayFinUI;
+    public TMP_Text FinCustomerCount;
 
     [Header("엔딩 연출 설정")]
     public CanvasGroup EndingFadeGroup;     // 화면을 까맣게 만들 페이드 패널

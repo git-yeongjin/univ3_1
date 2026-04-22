@@ -14,6 +14,9 @@ public class NightEventUI : MonoBehaviour
 
     [Header("밤 종료 UI")]
     public GameObject NightFinUI;
+    public TMP_Text FinDollCount;
+    public TMP_Text FinMushCount;
+    public TMP_Text FinHorseCount;
 
     [Header("사냥 타이머 UI")]
     public Slider NightTimerSlider;
@@ -93,6 +96,9 @@ public class NightEventUI : MonoBehaviour
 
     public void ShowNightResult()
     {
+        FinDollCount.text = $"{GameManager.Instance.DollCakeCount}";
+        FinMushCount.text = $"{GameManager.Instance.MushroomMuffinCount}";
+        FinHorseCount.text = $"{GameManager.Instance.SlimePuddingCount}";
         if (NightFinUI != null)
         {
             NightFinUI.SetActive(true);

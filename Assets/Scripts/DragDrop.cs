@@ -1,17 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public class DragDrop : MonoBehaviour
 {
-    private Vector2 LastTouchPos = Vector2.zero;
-    private Vector2 CurrentTouchPos = Vector2.zero;
-
-    private Vector3 PrePos = Vector3.zero;
-    private Vector3 BeforePosition;
-    private Vector3 Offset = new Vector3(0.0f, 0.0f, 0.0f);
-
     private bool isHolding = false;
 
     [SerializeField]
@@ -26,11 +16,13 @@ public class DragDrop : MonoBehaviour
     [Header("UI 설정")]
     public GameObject InteractUI;
 
+    private Vector3 BeforePosition;
     private float holdZ;
     private Quaternion RotationOffset;
     private Quaternion InitialRotation;
 
     [Header("사운드")]
+    //반죽에 재료를 넣을때 나오는 사운드
     public AudioClip DropDoughSound;
 
     void Start()
@@ -44,24 +36,21 @@ public class DragDrop : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (!isHolding) // 손이 비어있다면?
+            if (!isHolding)
             {
-                // 줍기를 시도해보고, 성공했으면 isHolding을 true로!
                 if (TryPickUp())
                 {
                     isHolding = true;
                 }
                 else
                 {
-                    // 줍기에 실패했다면(앞에 빵이 없다면) 진열대 기능인지 확인
                     ShowCaseSetting();
                 }
             }
-            else // 물건을 들고 있다면?
+            else
             {
-                // 내려놓기 (또는 상호작용)
                 TryDrop();
-                isHolding = false; // 물건을 놨으니 다시 빈손으로!
+                isHolding = false;
             }
         }
 
@@ -92,47 +81,46 @@ public class DragDrop : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 거리 계산 로직
+    /// </summary>
+    /// <param name="targetCollider"></param>
+    /// <returns></returns>
+    private bool IsWithinInteractDistance(Collider targetCollider)
+    {
+        if (PlayerTransform == null) return false;
+
+        Vector3 closestPoint = targetCollider.ClosestPoint(PlayerTransform.position);
+        float distance = Vector3.Distance(PlayerTransform.position, closestPoint);
+        return distance <= MaxInteractDistance;
+    }
+
     private void CheckInteractableUI()
     {
         if (InteractUI == null) return;
 
-        Vector3 touchPos = Input.mousePosition;
-        Ray ray = Camera.main.ScreenPointToRay(touchPos);
-        RaycastHit HitInfo;
-
-        if (Physics.Raycast(ray, out HitInfo))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit HitInfo))
         {
             GameObject hitObject = HitInfo.collider.gameObject;
 
             if (PlayerTransform != null)
             {
-                Vector3 closestPoint = HitInfo.collider.ClosestPoint(PlayerTransform.position);
-                float distance = Vector3.Distance(PlayerTransform.position, closestPoint);
-
-                if (distance <= MaxInteractDistance)
+                if (IsWithinInteractDistance(HitInfo.collider))
                 {
-                    // 2. 줍기 가능한 태그인지 확인
                     foreach (string tag in MoveObjTAG)
                     {
                         if (hitObject.CompareTag(tag))
                         {
-                            // 범위 안이고, 태그도 맞으면 UI 켜기!
+                            // 범위 안이고, 태그도 맞으면 UI 켜기
                             InteractUI.SetActive(true);
                             return;
                         }
                     }
 
-                    if (hitObject.GetComponent<ShowCase>() != null)
-                    {
-                        InteractUI.SetActive(true);
-                        return;
-                    }
-                    if (hitObject.GetComponent<Oven>() != null)
-                    {
-                        InteractUI.SetActive(true);
-                        return;
-                    }
-                    if (hitObject.GetComponent<PackagingStation>() != null)
+                    if (hitObject.GetComponent<ShowCase>() != null ||
+                    hitObject.GetComponent<Oven>() != null ||
+                    hitObject.GetComponent<PackagingStation>() != null)
                     {
                         InteractUI.SetActive(true);
                         return;
@@ -147,14 +135,9 @@ public class DragDrop : MonoBehaviour
     private void ShowCaseSetting()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit HitInfo;
-
-        if (Physics.Raycast(ray, out HitInfo))
+        if (Physics.Raycast(ray, out RaycastHit HitInfo))
         {
-            Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
-
             ShowCase showCase = HitInfo.collider.GetComponent<ShowCase>();
-
             if (showCase != null)
             {
                 showCase.DisplayBread();
@@ -173,22 +156,16 @@ public class DragDrop : MonoBehaviour
                 Debug.Log($"반죽을 먼저 섞어야 합니다.");
                 return false;
             }
+
             BeforePosition = clickObj.transform.position;
+            Vector3 holdPos = HoldPoint != null ? HoldPoint.position : clickObj.transform.position;
 
-            Vector3 holdPos = clickObj.transform.position;
-
-            if (HoldPoint != null)
-            {
-                holdPos = HoldPoint.position;
-            }
             FinishedBread breadInfo = clickObj.GetComponent<FinishedBread>();
-
             if (breadInfo != null)
             {
                 MoveObj = Instantiate(clickObj, holdPos, clickObj.transform.rotation);
                 MoveObj.name = clickObj.name + "_copy";
                 MoveObj.GetComponent<FinishedBread>().MyBreadType = breadInfo.MyBreadType;
-
                 Debug.Log($"진열대의 [{clickObj.name}]을 가져왔습니다.");
             }
             else
@@ -206,10 +183,12 @@ public class DragDrop : MonoBehaviour
                 InitialRotation = MoveObj.transform.rotation;
             }
 
+            /*
             holdZ = Camera.main.WorldToScreenPoint(holdPos).z;
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, holdZ));
 
             Offset = holdPos - mouseWorldPos;
+            */
 
             Collider moveObjCollider = MoveObj.GetComponent<Collider>();
             if (moveObjCollider != null)
@@ -227,21 +206,14 @@ public class DragDrop : MonoBehaviour
         if (MoveObj == null) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit HitInfo;
-
-        if (Physics.Raycast(ray, out HitInfo))
+        if (Physics.Raycast(ray, out RaycastHit HitInfo))
         {
             Debug.Log("hit info : " + HitInfo.collider.gameObject.name);
-
-            if (PlayerTransform != null)
+            if (!IsWithinInteractDistance(HitInfo.collider))
             {
-                Vector3 closestPoint = HitInfo.collider.ClosestPoint(PlayerTransform.position);
-                float distance = Vector3.Distance(PlayerTransform.position, closestPoint);
-                if (distance > MaxInteractDistance)
-                {
-                    Debug.Log("상호작용 할 수 있는 거리보다 멉니다.");
-                    goto FAIL_INTERACT;
-                }
+                Debug.Log("상호작용 할 수 있는 거리보다 멉니다.");
+                CancelDrop();
+                return;
             }
 
             Oven targetOven = HitInfo.collider.GetComponent<Oven>();
@@ -320,8 +292,11 @@ public class DragDrop : MonoBehaviour
             }
         }
 
-    FAIL_INTERACT:
+        CancelDrop();
+    }
 
+    private void CancelDrop()
+    {
         if (MoveObj.CompareTag("FinishedBread"))
         {
             Destroy(MoveObj);
@@ -331,12 +306,8 @@ public class DragDrop : MonoBehaviour
             MoveObj.transform.position = BeforePosition;
         }
 
-        if (MoveObj != null)
-        {
-            Collider moveObjCollider = MoveObj.GetComponent<Collider>();
-
-            if (moveObjCollider != null) moveObjCollider.enabled = true;
-        }
+        Collider moveObjCollider = MoveObj.GetComponent<Collider>();
+        if (moveObjCollider != null) moveObjCollider.enabled = true;
 
         MoveObj = null;
     }
