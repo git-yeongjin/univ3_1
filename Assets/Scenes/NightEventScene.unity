@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9dca565b67a08d40b35dbeea887a6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 10
+  MoveSpeed: 5
   RotationSpeed: 15
   InteractRadius: 5
   CreatureLayer:
@@ -1525,7 +1525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 177448507152885319, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: m_LocalPosition.x
