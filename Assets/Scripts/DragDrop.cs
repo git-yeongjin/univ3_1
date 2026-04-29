@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DragDrop : MonoBehaviour
@@ -17,6 +18,7 @@ public class DragDrop : MonoBehaviour
     public GameObject InteractUI;
 
     private Vector3 BeforePosition;
+    private Quaternion BeforeRotation;
     private float holdZ;
     private Quaternion RotationOffset;
     private Quaternion InitialRotation;
@@ -24,6 +26,9 @@ public class DragDrop : MonoBehaviour
     [Header("사운드")]
     //반죽에 재료를 넣을때 나오는 사운드
     public AudioClip DropDoughSound;
+
+    [Header("반죽에 넣은 재료 모음")]
+    private List<GameObject> BreadMaterials = new List<GameObject>();
 
     void Start()
     {
@@ -158,6 +163,7 @@ public class DragDrop : MonoBehaviour
             }
 
             BeforePosition = clickObj.transform.position;
+            BeforeRotation = clickObj.transform.rotation;
             Vector3 holdPos = HoldPoint != null ? HoldPoint.position : clickObj.transform.position;
 
             FinishedBread breadInfo = clickObj.GetComponent<FinishedBread>();
@@ -264,6 +270,9 @@ public class DragDrop : MonoBehaviour
                 if (breadMaterial != null)
                 {
                     targetDough.AddMaterial(breadMaterial.GetMaterialName());
+                    MoveObj.SetActive(false);
+
+                    BreadMaterials.Add(MoveObj);
                 }
             }
 
@@ -299,6 +308,19 @@ public class DragDrop : MonoBehaviour
         CancelDrop();
     }
 
+    /// <summary>
+    /// 재료를 잘못넣었을 경우 반죽을 섞으면 실행되는 함수
+    /// </summary>
+    public void ActiveBreadMaterials()
+    {
+        foreach (GameObject breadmaterial in BreadMaterials)
+        {
+            breadmaterial.SetActive(true);
+        }
+
+        BreadMaterials.Clear();
+    }
+
     private void CancelDrop()
     {
         if (MoveObj.CompareTag("FinishedBread"))
@@ -308,6 +330,7 @@ public class DragDrop : MonoBehaviour
         else
         {
             MoveObj.transform.position = BeforePosition;
+            MoveObj.transform.rotation = BeforeRotation;
         }
 
         Collider moveObjCollider = MoveObj.GetComponent<Collider>();

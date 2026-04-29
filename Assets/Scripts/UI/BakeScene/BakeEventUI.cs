@@ -116,6 +116,14 @@ public class BakeEventUI : MonoBehaviour
             return;
         }
 
+        if (BakeFinishButton != null && BakeFinishButton.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                BakeFinish();
+            }
+        }
+
         //스페이스바 대사 진행 및 컷신
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -404,7 +412,7 @@ public class BakeEventUI : MonoBehaviour
     /// <summary>
     /// '반죽 완료' 버튼을 눌렀을 때 실행되는 함수. 올바른 레시피인지 검사
     /// </summary>
-    public void OnClickBakeFinish()
+    public void BakeFinish()
     {
         if (SoundManager.Instance != null && UIClickSound != null)
         {
@@ -423,10 +431,19 @@ public class BakeEventUI : MonoBehaviour
                 if (HideBakeFailUICoroutine != null) StopCoroutine(HideBakeFailUICoroutine);
 
                 HideBakeFailUICoroutine = StartCoroutine(HideBakeFailUI());
+
+                DragDrop dragDrop = FindAnyObjectByType<DragDrop>();
+                if (dragDrop != null)
+                {
+                    dragDrop.ActiveBreadMaterials();
+                }
             }
             else
             {
                 Debug.Log($"반죽을 섞었습니다. 현재 레시피 : {currentDough.recipe.BreadName}");
+
+                currentDough.DoughBall.SetActive(true);
+
                 GameManager.Instance.isBakingTime = false;
 
                 if (BakeFinishButton != null) BakeFinishButton.SetActive(false);

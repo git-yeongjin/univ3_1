@@ -5,9 +5,16 @@ public class Dough : MonoBehaviour
 {
     public RecipeData recipe;
 
+    public GameObject DoughBall;
+
     [Header("반죽에 들어간 재료")]
     public List<string> BreadMaterial = new List<string>();
-    
+
+    void Start()
+    {
+        if (DoughBall != null) DoughBall.SetActive(false);
+    }
+
     public void AddMaterial(string BreadMaterialName)
     {
         if (!GameManager.Instance.isBakingTime)
