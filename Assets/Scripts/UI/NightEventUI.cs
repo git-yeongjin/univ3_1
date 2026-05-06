@@ -12,8 +12,19 @@ public class NightEventUI : MonoBehaviour
     [Header("사운드")]
     public AudioClip UIClickSound;
 
+    [Header("잡은 갯수 현황판")]
+    public GameObject CaptureDoll;
+    public GameObject CaptureMush;
+    public GameObject CaptureSlime;
+    public TMP_Text CaptureDollCount;
+    public TMP_Text CaptureMushCount;
+    public TMP_Text CaptureSlimeCount;
+
     [Header("밤 종료 UI")]
     public GameObject NightFinUI;
+    public GameObject FinDollIcon;
+    public GameObject FinMushroomIcon;
+    public GameObject FinSlimeHorseIcon;
     public TMP_Text FinDollCount;
     public TMP_Text FinMushCount;
     public TMP_Text FinHorseCount;
@@ -47,6 +58,10 @@ public class NightEventUI : MonoBehaviour
         {
 
         }
+
+        if (CaptureDollCount != null) CaptureDollCount.text = $"{0}";
+        if (CaptureMushCount != null) CaptureMushCount.text = $"{0}";
+        if (CaptureSlimeCount != null) CaptureSlimeCount.text = $"{0}";
 
         NightFinUI.SetActive(false);
         if (NightCutSceneUI != null) NightCutSceneUI.SetActive(false);
@@ -94,15 +109,39 @@ public class NightEventUI : MonoBehaviour
         }
     }
 
+    public void UpdateCaptureCount()
+    {
+        int dollCount = GameManager.Instance.DollCakeCount;
+        int mushCount = GameManager.Instance.MushroomMuffinCount;
+        int horseCount = GameManager.Instance.SlimePuddingCount;
+
+        if (CaptureDollCount != null) CaptureDollCount.text = $"{dollCount}";
+        if (CaptureMushCount != null) CaptureMushCount.text = $"{mushCount}";
+        if (CaptureSlimeCount != null) CaptureSlimeCount.text = $"{horseCount}";
+    }
+
     public void ShowNightResult()
     {
         NightEventPlayer nightEventPlayer = FindFirstObjectByType<NightEventPlayer>();
         if (nightEventPlayer != null)
             nightEventPlayer.SetCameraControl(false);
 
-        FinDollCount.text = $"{GameManager.Instance.DollCakeCount}";
-        FinMushCount.text = $"{GameManager.Instance.MushroomMuffinCount}";
-        FinHorseCount.text = $"{GameManager.Instance.SlimePuddingCount}";
+        int dollCount = GameManager.Instance.DollCakeCount;
+        int mushCount = GameManager.Instance.MushroomMuffinCount;
+        int horseCount = GameManager.Instance.SlimePuddingCount;
+
+        if (FinDollCount != null) FinDollCount.text = $"{dollCount}";
+        if (FinMushCount != null) FinMushCount.text = $"{mushCount}";
+        if (FinHorseCount != null) FinHorseCount.text = $"{horseCount}";
+
+        if (FinDollIcon != null) FinDollIcon.SetActive(dollCount > 0);
+        if (FinMushroomIcon != null) FinMushroomIcon.SetActive(mushCount > 0);
+        if (FinSlimeHorseIcon != null) FinSlimeHorseIcon.SetActive(horseCount > 0);
+
+        if (FinDollCount != null) FinDollCount.gameObject.SetActive(dollCount > 0);
+        if (FinMushCount != null) FinMushCount.gameObject.SetActive(mushCount > 0);
+        if (FinHorseCount != null) FinHorseCount.gameObject.SetActive(horseCount > 0);
+
         if (NightFinUI != null)
         {
             NightFinUI.SetActive(true);

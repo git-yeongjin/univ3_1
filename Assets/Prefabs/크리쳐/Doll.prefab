@@ -284,8 +284,8 @@ MonoBehaviour:
   SpeechBubble: {fileID: 942524932370000619}
   SpeechBubbleSprites:
   - {fileID: 21300000, guid: 8bbcdc25479fa3a428581c34417a4e7c, type: 3}
-  - {fileID: 21300000, guid: b56d82ad814ccc747b40ea233deae0df, type: 3}
-  - {fileID: 21300000, guid: 1019c065a6124ed4ab9eec652b1852b2, type: 3}
+  - {fileID: 21300000, guid: 3d9563d8cb682df4494c521ee9859f14, type: 3}
+  - {fileID: 21300000, guid: 091490d3f79952048b9e5f70f6990b3e, type: 3}
   DeliverItemSound: {fileID: 8300000, guid: 78e6c265dfa3d884d96397a3e6ead047, type: 3}
   DeliverCompletedSound: {fileID: 8300000, guid: 2a7fb62302654c144ad53faaf10ebb5e, type: 3}
   HintArrowPrefab: {fileID: 1874147113252058452, guid: d77f4a608f9e3e7488ee5c8b40059993, type: 3}
