@@ -52,6 +52,10 @@ public class DayEventUI : MonoBehaviour
 
     [Header("낮 종료 UI")]
     public GameObject DayFinUI;
+    public GameObject FinCakeImage;
+    public GameObject FinMuffinImage;
+    public GameObject FinPuddingImage;
+
     public TMP_Text FinCustomerCount;
 
     [Header("엔딩 연출 설정")]
@@ -85,30 +89,31 @@ public class DayEventUI : MonoBehaviour
         "기회는 언젠가 다시 오기 마련이니까"
     };
 
-    [Header("손님 대사 데이터")]
+    [HideInInspector]
     public string[] HallDialogues = {
         "매장이 너무 예뻐요!",
         "먹고 가려고요",
         "여기서 먹고 가도 되죠?"
     };
 
+    [HideInInspector]
     public string[] PackagingDialogues = {
         "포장도 가능한가요?",
         "집에 가져가서 먹으려고요!",
         "ㅁㅁ 포장해주세요"
     };
-
+    [HideInInspector]
     public string[] CommonDialogues = {
-        "지금 영업 하나요? ㅁㅁ 하나 주세요",
-        "좋은 냄새 난다! ㅁㅁ하나 주시겠어요?",
-        "ㅁㅁ 주세요",
-        "**...아니 ㅁㅁ이요. 아 아닌가? **? 그냥 ㅁㅁ으로 주세요",
-        "ㅁㅁ 주세요. 어 자기야 주문하느라 응"
+        "지금 영업 하나요? \n ㅁㅁ 하나 주세요",
+        "좋은 냄새 난다! \n ㅁㅁ하나 주시겠어요?",
+        "ㅁㅁ 줘",
+        "**...아니 ㅁㅁ이요. \n 아 아닌가? **? 그냥 ㅁㅁ으로 주세요",
+        "ㅁㅁ 주세요. \n 어 자기야 주문하느라 응"
     };
-
+    [HideInInspector]
     public string[] LateCommonDialogues = {
-        "요즘 길에 사람이 적어진 것 같아요. ㅁㅁ 주세요",
-        "동네가 좀 한산해진 느낌이에요. 장사는 잘 되나요?"
+        "요즘 길에 사람이 적어진 것 같아요. \n ㅁㅁ 주세요",
+        "동네가 좀 한산해진 느낌이에요. \n 장사는 잘 되나요?"
     };
 
     private Coroutine HideTextCoroutine;
@@ -169,6 +174,13 @@ public class DayEventUI : MonoBehaviour
             DayTensImage.sprite = DayCountSprites[tens];
             DayOnesImage.sprite = DayCountSprites[ones];
         }
+    }
+
+    public void UpdateDayFinImages()
+    {
+        if (FinCakeImage != null) FinCakeImage.SetActive(GM.DollCake);
+        if (FinMuffinImage != null) FinMuffinImage.SetActive(GM.MushroomMuffin);
+        if (FinPuddingImage != null) FinPuddingImage.SetActive(GM.SlimePudding);
     }
 
     public void OrderedBread(BreadType order, bool isPackaging)
@@ -346,6 +358,7 @@ public class DayEventUI : MonoBehaviour
     {
         List<string> dialoguePool = new List<string>();
 
+
         if (isPackaging)
         {
             dialoguePool.AddRange(PackagingDialogues);
@@ -354,6 +367,7 @@ public class DayEventUI : MonoBehaviour
         {
             dialoguePool.AddRange(HallDialogues);
         }
+
 
         if (GameManager.Instance.DayCount >= 7)
         {

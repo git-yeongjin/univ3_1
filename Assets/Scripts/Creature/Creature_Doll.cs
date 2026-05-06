@@ -186,6 +186,11 @@ public class Creature_Doll : MonoBehaviour
         }
 
         SpawnHiddenItems();
+
+        if (GameManager.Instance.DayCount <= 3)
+        {
+            ShowItemHints();
+        }
     }
 
     private void PlayMiniGameTimer()
@@ -193,7 +198,7 @@ public class Creature_Doll : MonoBehaviour
         CurrentTime -= Time.deltaTime;
         CurrentAnxiety = Mathf.Lerp(MaxAnxiety, 0, CurrentTime / TimeLimit);
 
-        if (CurrentTime <= 30f && !isHintShown)
+        if (CurrentTime <= 40f && !isHintShown)
         {
             ShowItemHints();
         }

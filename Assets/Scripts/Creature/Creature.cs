@@ -50,6 +50,8 @@ public class Creature : MonoBehaviour
 
     public void Capture()
     {
+        NightEventUI nightEventUI = FindAnyObjectByType<NightEventUI>();
+
         if (SoundManager.Instance != null && CaptureSound != null)
         {
             SoundManager.Instance.PlaySFX(CaptureSound);
@@ -62,11 +64,7 @@ public class Creature : MonoBehaviour
                 case CreatureType.Doll:
                     if (gameObject.name == "TutorialCreature")
                     {
-                        NightEventUI nightEventUI = FindAnyObjectByType<NightEventUI>();
-                        if (nightEventUI != null)
-                        {
-                            nightEventUI.StartNightEndingCutScene();
-                        }
+                        if (nightEventUI != null) nightEventUI.StartNightEndingCutScene();
                     }
                     else
                     {
@@ -84,6 +82,7 @@ public class Creature : MonoBehaviour
                     break;
             }
 
+            nightEventUI.UpdateCaptureCount();
             GameManager.Instance.IncreaseCustomer();
         }
 
