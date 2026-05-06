@@ -79,6 +79,11 @@ public class NightEventPlayer : MonoBehaviour
 
     void LateUpdate()
     {
+
+    }
+
+    void FixedUpdate()
+    {
         if (MoveDirection != Vector3.zero)
         {
             rb.MovePosition(rb.position + MoveDirection * MoveSpeed * Time.fixedDeltaTime);
@@ -86,11 +91,6 @@ public class NightEventPlayer : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(MoveDirection);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, RotationSpeed * Time.fixedDeltaTime));
         }
-    }
-
-    void FixedUpdate()
-    {
-
     }
 
     private void CalculateMovemenetDirection()
