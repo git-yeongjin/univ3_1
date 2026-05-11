@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NightSceneName: NightEventScene
-  MaxNightTime: 300
+  MaxNightTime: 120
   CurrentNightTime: 0
   CurrentDayCount: 0
   NightEventFin: 0

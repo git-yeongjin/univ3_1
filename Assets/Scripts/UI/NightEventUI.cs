@@ -12,6 +12,9 @@ public class NightEventUI : MonoBehaviour
     [Header("사운드")]
     public AudioClip UIClickSound;
 
+    [Header("상호작용 키UI")]
+    public GameObject FKeyUI;
+
     [Header("잡은 갯수 현황판")]
     public GameObject CaptureDoll;
     public GameObject CaptureMush;
@@ -58,6 +61,8 @@ public class NightEventUI : MonoBehaviour
         {
 
         }
+
+        if (FKeyUI != null) FKeyUI.SetActive(false);
 
         if (CaptureDollCount != null) CaptureDollCount.text = $"{0}";
         if (CaptureMushCount != null) CaptureMushCount.text = $"{0}";
@@ -107,6 +112,11 @@ public class NightEventUI : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ShowFKeyUI(bool isShow)
+    {
+        FKeyUI.SetActive(isShow);
     }
 
     public void UpdateCaptureCount()

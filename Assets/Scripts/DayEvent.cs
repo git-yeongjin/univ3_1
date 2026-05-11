@@ -313,6 +313,9 @@ public class DayEvent : MonoBehaviour
                 dayEventUI.UpdateDayFinImages();
                 dayEventUI.FinCustomerCount.text = $"{CurrentCustomerScore}";
                 dayEventUI.DayFinUI.SetActive(true);
+
+                Player dayPlayer = FindAnyObjectByType<Player>();
+                if (dayPlayer != null) dayPlayer.SetCameraControl(false);
             }
         }
     }

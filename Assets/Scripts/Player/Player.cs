@@ -1,4 +1,6 @@
 using UnityEngine;
+using Unity.Cinemachine;
+using NUnit.Framework;
 
 public class Player : MonoBehaviour
 {
@@ -22,6 +24,12 @@ public class Player : MonoBehaviour
     private float FootstepTimer = 0f;
 
     private bool isCursorLocked = true;
+    public Transform playerPositionSave;
+
+    [Header("카메라 설정")]
+    public Transform virtualCameraViewPoint;
+    private CinemachineCamera virtualCamera;
+    private CinemachineInputAxisController inputController;
 
     void Start()
     {
@@ -49,6 +57,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
             LockCursor(!isCursorLocked); // 현재 상태의 반대로 전환
+        }
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+        {
+            gameObject.transform.position = playerPositionSave.position;
         }
 
         if (isCursorLocked)
@@ -89,6 +101,31 @@ public class Player : MonoBehaviour
             MainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
         }
         transform.rotation = Quaternion.Euler(0, yRotation, 0);
+    }
+
+    /// <summary>
+    /// 다른 UI 스크립트에서 호출하면 카메라 조작을 끄고 마우스를 보이게 하는 함수
+    /// </summary>
+    /// <param name="isEnable"></param>
+    public void SetCameraControl(bool isEnable)
+    {
+        if (inputController != null)
+        {
+            inputController.enabled = isEnable;
+        }
+
+        if (isEnable)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            // 메뉴 조작을 위해 커서 제한을 풀고 보이게 함
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            isCursorLocked = false;
+        }
     }
 
     public void LockCursor(bool isLocked)

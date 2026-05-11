@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Oven : MonoBehaviour
 {
+    private BakeEventUI bakeEventUI;
+
     [Header("오븐 상태")]
     //빵 굽는거 확인
     private bool isBaking = false;
@@ -12,14 +14,12 @@ public class Oven : MonoBehaviour
     [Header("UI")]
     //public GameObject OvenUI;
     //public TMP_Text CurrentBakeText;
-    public GameObject OpenSceneBT;
 
     public AudioClip OvenSound;
 
     void Start()
     {
-        //if (OvenUI != null) OvenUI.SetActive(false);
-        if (OpenSceneBT != null) OpenSceneBT.SetActive(false);
+        bakeEventUI = FindAnyObjectByType<BakeEventUI>();
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class Oven : MonoBehaviour
             if (CurrentBakeTime >= CurrentRecipe.PerfectBakeTime)
             {
                 //if (CurrentBakeText != null) CurrentBakeText.text = $"굽기 완료";
-                if (OpenSceneBT != null) OpenSceneBT.SetActive(true);
+                bakeEventUI.ShowOpenUI(true);
 
                 if (SoundManager.Instance != null && OvenSound != null)
                 {
@@ -52,7 +52,7 @@ public class Oven : MonoBehaviour
         isBaking = true;
 
         //if (OvenUI != null) OvenUI.SetActive(true);
-        if (OpenSceneBT != null) OpenSceneBT.SetActive(false);
+        bakeEventUI.ShowOpenUI(false);
         Debug.Log($"[Oven] {CurrentRecipe.BreadName} 굽기 시작");
 
         switch (CurrentRecipe.Result)

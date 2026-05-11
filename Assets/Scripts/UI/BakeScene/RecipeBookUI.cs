@@ -69,11 +69,6 @@ public class RecipeBookUI : MonoBehaviour
 
             RecipeBookPanel.SetActive(true);
             isOpenRecipeBook = true;
-
-            if (bakeEventUI != null)
-            {
-                bakeEventUI.CheckTutorialMission(4);
-            }
         }
     }
 
@@ -86,6 +81,12 @@ public class RecipeBookUI : MonoBehaviour
 
             RecipeBookPanel.SetActive(false);
             isOpenRecipeBook = false;
+
+
+            if (bakeEventUI != null)
+            {
+                bakeEventUI.CheckTutorialMission(4);
+            }
         }
     }
 
