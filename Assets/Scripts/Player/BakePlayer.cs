@@ -1,9 +1,11 @@
+using System.Linq;
 using UnityEngine;
 
 public class BakePlayer : MonoBehaviour
 {
     private Rigidbody rb;
     private Camera MainCamera;
+    private BakeEventUI bakeUI;
 
     [Header("플레이어 회전")]
     public float MouseSpeed;
@@ -22,9 +24,13 @@ public class BakePlayer : MonoBehaviour
     private float FootstepTimer = 0f;
 
     private bool isCursorLocked = true;
+    public Transform playerPositionSave;
+
 
     void Start()
     {
+        bakeUI = FindAnyObjectByType<BakeEventUI>();
+
         if (GameManager.Instance != null)
         {
             GameManager.Instance.isBakingTime = true;
@@ -50,11 +56,19 @@ public class BakePlayer : MonoBehaviour
         {
             LockCursor(!isCursorLocked); // 현재 상태의 반대로 전환
         }
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+        {
+            gameObject.transform.position = playerPositionSave.position;
+        }
 
         if (isCursorLocked)
         {
-            Rotate();
+            if (CanRotateCamera())
+            {
+                Rotate();
+            }
         }
+
         if (GameManager.Instance != null && !GameManager.Instance.isBakingTime)
         {
             float h = Input.GetAxisRaw("Horizontal");
@@ -132,5 +146,29 @@ public class BakePlayer : MonoBehaviour
             // 가만히 멈춰있을 때는 타이머를 리셋해서, 다음에 움직일 때 즉시 소리가 나도록 함
             FootstepTimer = 0f;
         }
+    }
+
+    private bool CanRotateCamera()
+    {
+        //0일차가 아니면 카메라 회전 허용
+        if (GameManager.Instance == null || GameManager.Instance.DayCount != 0)
+            return true;
+
+        if (bakeUI == null || bakeUI.BakeTutorialText == null || bakeUI.TutorialDialogues == null)
+            return true;
+
+        if (!bakeUI.BakeTutorialUI.activeSelf)
+            return true;
+
+        string currentText = bakeUI.BakeTutorialText.text;
+        for (int i = 0; i < bakeUI.TutorialDialogues.Length; i++)
+        {
+            if (bakeUI.TutorialDialogues[i] == currentText)
+            {
+                return i >= 6;
+            }
+        }
+
+        return false;
     }
 }

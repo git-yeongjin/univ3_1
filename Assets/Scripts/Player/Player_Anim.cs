@@ -24,9 +24,10 @@ public class Player_Anim : MonoBehaviour
 
     void Update()
     {
-        float moveDistance = Vector3.Distance(transform.position, LastPosition);
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
 
-        bool isWalking = moveDistance > 0.001f;
+        bool isWalking = (h != 0 || v != 0);
 
         bool isHoldingOcarina = false;
         if (nightTools != null && nightTools.Tools == NightEventTools.NightTools.Ocarina)

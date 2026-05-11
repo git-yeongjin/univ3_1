@@ -25,8 +25,15 @@ public class NightEventPlayer : MonoBehaviour
     private CinemachineCamera virtualCamera;
     private CinemachineInputAxisController inputController;
 
+    private NightEventUI nightEventUI;
+    private bool isPlayerMove = true;
+
+    public Transform playerPositionSave;
+
     void Start()
     {
+        nightEventUI = FindAnyObjectByType<NightEventUI>();
+
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -71,9 +78,16 @@ public class NightEventPlayer : MonoBehaviour
         CalculateMovemenetDirection();
         HandleFootsteps();
 
+        CheckInteractableUI();
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             TryInteractWithCreature();
+        }
+
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+        {
+            gameObject.transform.position = playerPositionSave.position;
         }
     }
 
@@ -84,13 +98,27 @@ public class NightEventPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (MoveDirection != Vector3.zero)
+        if (isPlayerMove)
         {
-            rb.MovePosition(rb.position + MoveDirection * MoveSpeed * Time.fixedDeltaTime);
+            if (MoveDirection != Vector3.zero)
+            {
+                rb.MovePosition(rb.position + MoveDirection * MoveSpeed * Time.fixedDeltaTime);
 
-            Quaternion targetRotation = Quaternion.LookRotation(MoveDirection);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, RotationSpeed * Time.fixedDeltaTime));
+                Quaternion targetRotation = Quaternion.LookRotation(MoveDirection);
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, RotationSpeed * Time.fixedDeltaTime));
+            }
         }
+    }
+
+    private void CheckInteractableUI()
+    {
+        if (nightEventUI == null) return;
+
+        // CheckSphere는 범위 안에 CreatureLayer를 가진 오브젝트가 하나라도 있으면 true, 없으면 false를 반환합니다.
+        bool isCreatureNearby = Physics.CheckSphere(transform.position, InteractRadius, CreatureLayer);
+
+        // 반환된 true/false 상태에 맞춰 UI를 켜거나 끕니다.
+        nightEventUI.ShowFKeyUI(isCreatureNearby);
     }
 
     private void CalculateMovemenetDirection()
@@ -134,6 +162,7 @@ public class NightEventPlayer : MonoBehaviour
             // 메뉴 조작을 위해 커서 제한을 풀고 보이게 함
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            isPlayerMove = false;
         }
     }
 

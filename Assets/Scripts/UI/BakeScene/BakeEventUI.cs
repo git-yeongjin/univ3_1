@@ -12,6 +12,8 @@ public class BakeEventUI : MonoBehaviour
     public TMP_Text BakeTutorialText;
     public GameObject BakeFailUI;
 
+    public GameObject OpenUI;
+
     [Header("조작법 UI")]
     public GameObject ControlsTutorialUI;
     private bool isShowingControls = false;
@@ -53,6 +55,8 @@ public class BakeEventUI : MonoBehaviour
     private bool isDoughMixed = false;
     private bool isOvenBaked = false;
 
+    private bool isOpenCutScene = true;
+
     [TextArea]
     public string[] TutorialDialogues =
     {
@@ -74,12 +78,15 @@ public class BakeEventUI : MonoBehaviour
 
     void Start()
     {
+        if (OpenUI != null) OpenUI.SetActive(false);
         //반죽 섞기 실패시 UI끄기
         if (BakeFailUI != null) BakeFailUI.SetActive(false);
 
         //조작법UI && 반죽완료 버튼 끄기
         if (ControlsTutorialUI != null) ControlsTutorialUI.SetActive(false);
         if (BakeFinishButton != null) BakeFinishButton.SetActive(false);
+
+        isOpenCutScene = true;
 
         //0일차 튜토리얼 시작
         if (GameManager.Instance.DayCount == 0)
@@ -124,6 +131,14 @@ public class BakeEventUI : MonoBehaviour
             }
         }
 
+        if (OpenUI != null && OpenUI.activeSelf && GameManager.Instance.DayCount >= 1 && isOpenCutScene)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                OpenDayEventScene();
+            }
+        }
+
         //스페이스바 대사 진행 및 컷신
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -154,10 +169,13 @@ public class BakeEventUI : MonoBehaviour
                 //다음 대사 출력
                 if (CurrentDialogueIndex < TutorialDialogues.Length)
                 {
+                    /*
                     Debug.Log($"[BakeEventUI] 대사 출력중 {CurrentDialogueIndex} / {TutorialDialogues.Length}");
 
                     BakeTutorialText.text = TutorialDialogues[CurrentDialogueIndex];
                     CurrentDialogueIndex++;
+                    */
+                    AdvanceTutorialDialogue();
                 }
                 else
                 {
@@ -443,14 +461,20 @@ public class BakeEventUI : MonoBehaviour
                 Debug.Log($"반죽을 섞었습니다. 현재 레시피 : {currentDough.recipe.BreadName}");
 
                 currentDough.DoughBall.SetActive(true);
-
-                GameManager.Instance.isBakingTime = false;
+                BakeFinishButton.SetActive(false);
 
                 if (BakeFinishButton != null) BakeFinishButton.SetActive(false);
 
                 //반죽 섞기 확인
-                if (GameManager.Instance.DayCount == 0 && (CurrentDialogueIndex - 1) == 6)
+                if (GameManager.Instance.DayCount == 0 && (CurrentDialogueIndex - 1) >= 6)
+                {
                     AdvanceTutorialDialogue();
+                }
+
+                if (GameManager.Instance.DayCount >= 1)
+                {
+                    GameManager.Instance.isBakingTime = false;
+                }
             }
         }
     }
@@ -473,10 +497,20 @@ public class BakeEventUI : MonoBehaviour
     }
 
     /// <summary>
+    /// Oven스크립트에서 호출할 함수
+    /// </summary>
+    public void ShowOpenUI(bool isShow)
+    {
+        OpenUI.SetActive(isShow);
+    }
+
+    /// <summary>
     /// 낮 씬(매장 장사)으로 넘어가는 버튼용 함수
     /// </summary>
     public void OpenDayEventScene()
     {
+        isOpenCutScene = false;
+
         if (SoundManager.Instance != null && UIClickSound != null)
         {
             SoundManager.Instance.PlaySFX(UIClickSound);
@@ -491,6 +525,12 @@ public class BakeEventUI : MonoBehaviour
     {
         if (BakeTutorialUI != null && CurrentDialogueIndex < TutorialDialogues.Length)
         {
+            if (CurrentDialogueIndex == MISSION_OVEN_BAKE)
+            {
+                GameManager.Instance.isBakingTime = false;
+                Debug.Log("[튜토리얼] 이동 제한 해제! 오븐으로 이동 가능해집니다.");
+            }
+
             BakeTutorialText.text = TutorialDialogues[CurrentDialogueIndex];
             CurrentDialogueIndex++;
             Debug.Log($"[튜토리얼 진행] 미션 성공! 다음 대사로 넘어갑니다.");
