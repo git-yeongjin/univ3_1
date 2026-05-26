@@ -14,6 +14,9 @@ public class Creature_Doll : MonoBehaviour
     private GameManager GM;
     private Camera MainCamera;
 
+    private Transform PlayerTransform;
+    private UnityEngine.AI.NavMeshAgent navAgent;
+
     [Header("인형")]
     //현재 호감도
     public float CurrentAffection;
@@ -79,6 +82,13 @@ public class Creature_Doll : MonoBehaviour
         BaseCreature = GetComponent<Creature>();
         GM = FindAnyObjectByType<GameManager>();
 
+        navAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            PlayerTransform = playerObj.transform;
+        }
+
         MainCamera = Camera.main;
 
         if (ExclamationMark != null) ExclamationMark.SetActive(false);
@@ -109,6 +119,8 @@ public class Creature_Doll : MonoBehaviour
         if (isGameStarted)
         {
             PlayMiniGameTimer();
+
+            FollowPlayerDuringMiniGame();
         }
 
         if (SpeechBubble != null && SpeechBubble.activeSelf)
@@ -128,6 +140,33 @@ public class Creature_Doll : MonoBehaviour
         if (isHintShown)
         {
             UpdateOffScreenUI();
+        }
+    }
+
+    private void FollowPlayerDuringMiniGame()
+    {
+        if (PlayerTransform == null || navAgent == null || BaseCreature == null) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, PlayerTransform.position);
+
+        // 플레이어와의 거리가 5.0f 보다 멀어지면 쫓아감
+        if (distanceToPlayer > 5.0f)
+        {
+            navAgent.isStopped = false;
+            navAgent.SetDestination(PlayerTransform.position);
+        }
+        else
+        {
+            // 플레이어를 바라보게 만듬
+            Vector3 lookDir = PlayerTransform.position - transform.position;
+            lookDir.y = 0; // 위아래로 기울지 않게
+            if (lookDir != Vector3.zero)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), Time.deltaTime * 5f);
+            }
+
+            // 제자리에 멈춤
+            navAgent.isStopped = true;
         }
     }
 
@@ -207,6 +246,7 @@ public class Creature_Doll : MonoBehaviour
         {
             Debug.Log("[인형 패턴] 제한 시간 초과로 크리쳐가 도망갔습니다.");
             isGameStarted = false;
+            if (navAgent != null) navAgent.isStopped = false;
 
             CleanSpawnedItem();
             BaseCreature.Escape();
@@ -257,6 +297,7 @@ public class Creature_Doll : MonoBehaviour
     {
         isGameStarted = false;
         isCapturable = true;
+        if (navAgent != null) navAgent.isStopped = true;
 
         CleanSpawnedItem();
 

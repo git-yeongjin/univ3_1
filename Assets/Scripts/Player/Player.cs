@@ -1,6 +1,5 @@
 using UnityEngine;
 using Unity.Cinemachine;
-using NUnit.Framework;
 
 public class Player : MonoBehaviour
 {

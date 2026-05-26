@@ -647,7 +647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 177448507152885319, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1048538798648355773, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -695,7 +695,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: DayCount
-      value: 9
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: DollCake
@@ -711,7 +711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: MushroomMuffin
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: SlimePuddingCount
@@ -2588,6 +2588,37 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 2011567586630774314, guid: d885de4ce1377014581493ece1c72348, type: 3}
   m_PrefabInstance: {fileID: 1106396781}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1138872411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1138872412}
+  m_Layer: 0
+  m_Name: DineInPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1138872412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138872411}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.784, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1147472030
 GameObject:
   m_ObjectHideFlags: 0
@@ -3895,7 +3926,7 @@ Transform:
   m_GameObject: {fileID: 1634753887}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 0, z: 1}
+  m_LocalPosition: {x: 5.2, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5996,6 +6027,7 @@ SceneRoots:
   - {fileID: 2014847312478316077}
   - {fileID: 335588517}
   - {fileID: 1634753889}
+  - {fileID: 1138872412}
   - {fileID: 2059733836}
   - {fileID: 667298013}
   - {fileID: 903788822}

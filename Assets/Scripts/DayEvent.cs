@@ -22,6 +22,7 @@ public class DayEvent : MonoBehaviour
     //손님 스폰 위치
     public Transform CustomerSpawnPoint;
     public Transform PickupPoint;
+    public Transform DineInPoint;
 
     [Header("손님 등장 타이머")]
     public float MinSpawnDelay = 3.0f;
@@ -113,6 +114,11 @@ public class DayEvent : MonoBehaviour
             GameObject pickupObj = GameObject.Find("PickupPoint");
             if (pickupObj != null) PickupPoint = pickupObj.transform;
             else Debug.LogError("[DayEvent] 씬에서 'PickupPoint' 오브젝트를 찾을 수 없습니다.");
+
+            // 씬에 만든 매장 오브젝트 이름
+            GameObject dineInObj = GameObject.Find("DineInPoint");
+            if (pickupObj != null) DineInPoint = dineInObj.transform;
+            else Debug.LogError("[DayEvent] 씬에서 'DineInPoint' 오브젝트를 찾을 수 없습니다.");
 
             ResetDayEvent();
         }
@@ -257,7 +263,16 @@ public class DayEvent : MonoBehaviour
         Customer customer = newCustomer.GetComponent<Customer>();
         PackagingStation station = FindAnyObjectByType<PackagingStation>();
 
-        Vector3 targetPosition = PickupPoint != null ? PickupPoint.position : CustomerSpawnPoint.position;
+        Vector3 targetPosition = CustomerSpawnPoint.position;
+
+        if (isPackaging)
+        {
+            targetPosition = PickupPoint.position;
+        }
+        else if (!isPackaging)
+        {
+            targetPosition = DineInPoint.position;
+        }
 
         if (station != null && customer != null)
         {
