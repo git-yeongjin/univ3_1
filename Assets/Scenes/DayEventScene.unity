@@ -695,7 +695,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: DayCount
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: DollCake
@@ -703,7 +703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: SlimePudding
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: DollCakeCount
@@ -711,15 +711,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: MushroomMuffin
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: SlimePuddingCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5981569960034205014, guid: b3f389f7cf60216458c95e328fe7ca8e, type: 3}
       propertyPath: MushroomMuffinCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
