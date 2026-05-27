@@ -1170,6 +1170,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1b12bfe32cceaff4281ca16da0e97182, type: 3}
   - {fileID: 8300000, guid: b1aa000a629d39d46bd226b07b60c31d, type: 3}
   FootstepInterval: 0.4
+  playerPositionSave: {fileID: 0}
+  virtualCameraViewPoint: {fileID: 0}
 --- !u!1 &1112207414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,7 +1457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8642729764804131609, guid: 1f5d339d01e9f1e44bd102c5c9e7e94a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 269
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 8642729764804131609, guid: 1f5d339d01e9f1e44bd102c5c9e7e94a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
