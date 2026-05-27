@@ -205,28 +205,26 @@ public class DayEventUI : MonoBehaviour
                     BillImage.sprite = isPackaging ? BillCakeSprites_2nd[1] : BillCakeSprites_2nd[0];
                 }
                 //케이크만
-                else if (GM.DollCake)
+                else
                 {
                     BillImage.sprite = isPackaging ? BillCakeSprites_1st[1] : BillCakeSprites_1st[0];
                 }
                 break;
+
             //머핀 주문 시
             case BreadType.MushroomMuffin:
                 if (GM.DollCake && GM.MushroomMuffin && GM.SlimePudding)
                 {
                     BillImage.sprite = isPackaging ? BillMuffinSprites_2nd[1] : BillMuffinSprites_2nd[0];
                 }
-                else if (GM.DollCake && GM.MushroomMuffin)
+                else
                 {
                     BillImage.sprite = isPackaging ? BillMuffinSprites_1st[1] : BillMuffinSprites_1st[0];
                 }
                 break;
             //푸딩 주문 시
             case BreadType.SlimePudding:
-                if (GM.DollCake && GM.MushroomMuffin && GM.SlimePudding)
-                {
-                    BillImage.sprite = isPackaging ? BillPuddingSprites_1st[1] : BillPuddingSprites_1st[0];
-                }
+                BillImage.sprite = isPackaging ? BillPuddingSprites_1st[1] : BillPuddingSprites_1st[0];
                 break;
         }
     }
