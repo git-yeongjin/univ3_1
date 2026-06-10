@@ -103,11 +103,13 @@ public class NightEventUI : MonoBehaviour
                         Debug.Log($"[NightEventUI] 밤 엔딩 컷신 종료, 낮 씬으로 이동합니다.");
 
                         isPlayingEndingCutScene = false;
-                        //NightCutSceneUI.SetActive(false);
                         CurrentCutScenePhase = 1;
                         CurrentCutSceneIndex = 0;
 
-                        OpenDayEventScene();
+                        LoadingUIManager.Instance.LoadScene("NightEventScene");
+                        GM.DayCount++;
+                        GM.Day = false;
+                        GM.Night = true;
                     }
                 }
             }

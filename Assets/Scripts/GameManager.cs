@@ -115,6 +115,8 @@ public class GameManager : MonoBehaviour
             Day = false;
             Night = true;
 
+            DayCount++;
+
             SoundManager.Instance.PlayNightBGM();
 
             Cursor.visible = true;
@@ -133,8 +135,6 @@ public class GameManager : MonoBehaviour
             Night = false;
 
             SoundManager.Instance.PlayDayBGM();
-
-            DayCount++;
 
             if (DE != null) DE.ResetDayEvent();
         }

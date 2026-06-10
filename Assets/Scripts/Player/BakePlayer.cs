@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class BakePlayer : MonoBehaviour
@@ -31,15 +30,6 @@ public class BakePlayer : MonoBehaviour
     {
         bakeUI = FindAnyObjectByType<BakeEventUI>();
 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.isBakingTime = true;
-        }
-        else
-        {
-            Debug.LogError($"[BakePlayer] GameManager.Instance를 찾을 수 없습니다.");
-        }
-
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -59,17 +49,21 @@ public class BakePlayer : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
         {
             gameObject.transform.position = playerPositionSave.position;
+            rb.linearVelocity = Vector3.zero; // 순간이동 시 미끄러짐 방지
         }
 
-        if (isCursorLocked)
+        bool canMoveAndLook = true;
+        if (bakeUI != null && bakeUI.isVideoPlaying)
         {
-            if (CanRotateCamera())
-            {
-                Rotate();
-            }
+            canMoveAndLook = false; // 영상 재생 중이면 조작 불가
         }
 
-        if (GameManager.Instance != null && !GameManager.Instance.isBakingTime)
+        if (isCursorLocked && canMoveAndLook)
+        {
+            Rotate();
+        }
+
+        if (canMoveAndLook)
         {
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
@@ -146,29 +140,5 @@ public class BakePlayer : MonoBehaviour
             // 가만히 멈춰있을 때는 타이머를 리셋해서, 다음에 움직일 때 즉시 소리가 나도록 함
             FootstepTimer = 0f;
         }
-    }
-
-    private bool CanRotateCamera()
-    {
-        //0일차가 아니면 카메라 회전 허용
-        if (GameManager.Instance == null || GameManager.Instance.DayCount != 0)
-            return true;
-
-        if (bakeUI == null || bakeUI.BakeTutorialText == null || bakeUI.TutorialDialogues == null)
-            return true;
-
-        if (!bakeUI.BakeTutorialUI.activeSelf)
-            return true;
-
-        string currentText = bakeUI.BakeTutorialText.text;
-        for (int i = 0; i < bakeUI.TutorialDialogues.Length; i++)
-        {
-            if (bakeUI.TutorialDialogues[i] == currentText)
-            {
-                return i >= 6;
-            }
-        }
-
-        return false;
     }
 }
